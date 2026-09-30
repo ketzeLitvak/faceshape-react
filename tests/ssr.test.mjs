@@ -69,13 +69,13 @@ test('B remains the default and each reference preset has distinct geometry',()=
 
 test('pointed shark teeth work independently of the eye preset',()=>{
  for(const faceStyle of ['minimal','soft','cheerful','cartoon','sly','kawaii']){
-  const svg=renderToString(React.createElement(Character,{faceStyle,face:{eyes:'bright',mouth:'shark'}}));
+  const svg=renderToString(React.createElement(Character,{faceStyle,expression:'happy',face:{eyes:'bright',mouth:'shark'}}));
   assert.match(svg,/data-mouth-variant="shark"/);
   assert.match(svg,/data-eye-variant="bright"/);
   assert.match(svg,/data-faceshape-shark-teeth=""/);
   assert.doesNotMatch(svg,/NaN|undefined/);
  }
- const plain=renderToString(React.createElement(Character,{face:{mouth:'toothy'}}));
+ const plain=renderToString(React.createElement(Character,{expression:'happy',face:{mouth:'toothy'}}));
  assert.doesNotMatch(plain,/data-faceshape-shark-teeth/);
 });
 
@@ -90,10 +90,40 @@ test('name controls automatic body shape and color while fixed color wins',()=>{
  assert.deepEqual(getBody(render({seed:'different'})),getBody(render({})));
  assert.doesNotMatch(render({}),/<svg[^>]*\sname=/);
 });
-test('capabilities disable unsupported blink, gaze and talking',async()=>{
+test('capabilities follow eye pose and all mouth styles can talk',async()=>{
  const {getMotionCapabilities}=await import('../dist/index.js');
  for(const eyes of ['closed','happy','joyful'])assert.equal(getMotionCapabilities(eyes,'tongue').blink,false);
- assert.equal(getMotionCapabilities('bright','cat').talking,false);
- assert.equal(getMotionCapabilities('blobatar','shark').talking,true);
- assert.equal(getMotionCapabilities('blobatar','tongue').blink,true);
+ assert.equal(getMotionCapabilities('bright','cat').talking,true);
+ assert.equal(getMotionCapabilities('capsule','shark').talking,true);
+ assert.equal(getMotionCapabilities('capsule','tongue').blink,true);
+});
+
+test('mouth and brows follow whole-eye gaze but stay fixed for pupil-only eyes',()=>{
+ const transform=(svg,part)=>svg.match(new RegExp(`<g transform="([^"]+)" data-faceshape-${part}`))[1];
+ for(const eyes of ['bright','dots','capsule','sly','kawaii']){
+  const svg=renderToString(React.createElement(Character,{face:{eyes,eyebrows:'raised'},motion:{lookAt:{x:1,y:0}}}));
+  const scale=eyes==='sly'?1.8:3;
+  assert.equal(transform(svg,'eyebrows'),`translate(${scale} ${-scale})`);
+  assert.equal(transform(svg,'mouth'),`translate(${scale*.4} ${-scale*.4})`);
+ }
+ for(const eyes of ['cartoon','closed','joyful']){
+  const svg=renderToString(React.createElement(Character,{face:{eyes,eyebrows:'raised'},motion:{lookAt:{x:1,y:0}}}));
+  assert.equal(transform(svg,'eyebrows'),'translate(0 0)');
+  assert.equal(transform(svg,'mouth'),'translate(0 0)');
+ }
+ const reduced=renderToString(React.createElement(Character,{face:{eyes:'bright',eyebrows:'raised'},motion:{lookAt:{x:1,y:0}},reducedMotion:true}));
+ assert.equal(transform(reduced,'mouth'),'translate(0 0)');
+});
+
+test('every eye and mouth style adapts to every expression',()=>{
+ const eyeVariants=['round','oval','cute','happy','closed','dots','bright','joyful','cartoon','sly','kawaii','capsule'];
+ const mouthVariants=['smile','frown','neutral','open','grin','small','gentle','tongue','joyful','toothy','shark','smirk','cat'];
+ for(const eyes of eyeVariants){
+  const faces=Object.keys(EXPRESSIONS).map(expression=>renderToString(React.createElement(Character,{expression,face:{eyes}})).match(/<g data-faceshape-eyes[\s\S]*?<\/g>/)[0]);
+  assert.equal(new Set(faces).size,6,`Every expression must change eyes: ${eyes}`);
+ }
+ for(const mouth of mouthVariants){
+  const paths=Object.keys(EXPRESSIONS).map(expression=>renderToString(React.createElement(Character,{expression,face:{mouth}})).match(/data-faceshape-mouth[\s\S]*?<path d="([^"]+)"/)[1]);
+  assert.equal(new Set(paths).size,6,`Every expression must change mouth: ${mouth}`);
+ }
 });

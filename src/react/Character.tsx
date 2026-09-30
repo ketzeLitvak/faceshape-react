@@ -16,7 +16,6 @@ export const Character = forwardRef<SVGSVGElement, CharacterProps>(function Char
   const color = fixedColor ?? (identity === undefined ? '#388697' : colorFromName(identity));
   const definition = shape === 'blob' ? generatedBlob : typeof shape === 'string' ? SHAPES[shape] : shape;
   const eyeVariant = face.eyes ?? FACE_PRESETS[faceStyle].eyes;
-  const capabilities = getMotionCapabilities(eyeVariant, face.mouth);
   if (!definition)
     throw new Error(`Unknown shape: ${shape}`);
   if (!definition.path && !('render' in definition && definition.render))
@@ -33,10 +32,11 @@ export const Character = forwardRef<SVGSVGElement, CharacterProps>(function Char
     if (expression.pupilSize !== undefined)
       target.pupilSize = resolveExpression(expression).pupilSize;
   }
-  const frame = useAnimatedFace(target, { duration: Number.isFinite(transition.duration) ? Math.max(0, transition.duration!) : 300, easing: transition.easing ?? 'ease-out', blink: !!motion.blink && capabilities.blink, talking: !!motion.talking && capabilities.talking, reduced, seedPhase: traits.eyeSpacing * 93, glance: capabilities.lookAt && (motion.glance ?? (eyeVariant === 'blobatar' && !!motion.idle)) });
+  const capabilities = getMotionCapabilities(eyeVariant, face.mouth, target);
+  const frame = useAnimatedFace(target, { duration: Number.isFinite(transition.duration) ? Math.max(0, transition.duration!) : 300, easing: transition.easing ?? 'ease-out', blink: !!motion.blink && capabilities.blink, talking: !!motion.talking && capabilities.talking, reduced, seedPhase: traits.eyeSpacing * 93, glance: capabilities.lookAt && (motion.glance ?? (eyeVariant === 'capsule' && !!motion.idle)) });
   const directLook = useLookAt(svgRef, capabilities.lookAt ? motion.lookAt : undefined, reduced);
   const look = { x: clamp(directLook.x + frame.gaze.x, -1, 1), y: clamp(directLook.y + frame.gaze.y, -1, 1) };
-  const state = { ...frame, look, color: faceColor, faceStyle };
+  const state = { ...frame, look, color: faceColor, faceStyle, eyeVariant };
   const named = !!(label || svgProps['aria-label'] || svgProps['aria-labelledby']);
   return <svg width={size} height={size} viewBox={`${vx - vw * .06} ${vy - vh * .06} ${vw * 1.12} ${vh * 1.12}`} role={named ? 'img' : undefined} aria-hidden={named ? undefined : true} aria-label={label} {...svgProps} style={{ overflow: 'visible', ...style }} ref={node => {
     svgRef.current = node; if (typeof forwardedRef === 'function')

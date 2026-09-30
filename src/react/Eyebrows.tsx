@@ -1,9 +1,11 @@
+import { getFaceGaze } from './utils/faceGaze';
 import { useFace } from './FaceContext';
 import type { EyebrowVariant } from './types';
 export function Eyebrows({ variant }: {
   variant?: EyebrowVariant;
 }) {
-  const { geometry: g, color } = useFace();
+  const { geometry: g, color, eyeVariant, faceStyle, look } = useFace();
+  const gaze = getFaceGaze(eyeVariant, faceStyle, look, g.eyeOpen);
   let angle = g.browAngle, lift = g.browLift, opacity = g.browOpacity;
   if (variant === 'none')
     opacity = 0;
@@ -24,6 +26,6 @@ export function Eyebrows({ variant }: {
     opacity = 1;
     angle = 0;
   }
-  return <g data-faceshape-eyebrows="" opacity={opacity} fill="none" stroke={color} strokeWidth={3} strokeLinecap="round">{[-1, 1].map(side => { const x = 50 + side * g.eyeSpacing, y = 16 + lift; return <path key={side} d={`M${x - 8} ${y} Q${x} ${y - 3} ${x + 8} ${y}`} transform={`rotate(${-side * angle} ${x} ${y})`} />; })}
+  return <g transform={gaze.eyebrows} data-faceshape-eyebrows="" opacity={opacity} fill="none" stroke={color} strokeWidth={3} strokeLinecap="round">{[-1, 1].map(side => { const x = 50 + side * g.eyeSpacing, y = (eyeVariant === 'sly' ? 28 : 16) + lift; return <path key={side} d={`M${x - 8} ${y} Q${x} ${y - 3} ${x + 8} ${y}`} transform={`rotate(${-side * angle} ${x} ${y})`} />; })}
   </g>;
 }

@@ -23,7 +23,6 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
       <div className="options" aria-label="Opciones de ojos">
         {EYE_OPTIONS.map(({ value, label }) => <button key={value} aria-pressed={eyes === value} onClick={() => setEyes(value)}>{label}
         </button>)}
-        <button aria-pressed={eyes === ''} onClick={() => setEyes('')}>Según expresión</button>
       </div>
     </fieldset>
     <fieldset>
@@ -31,7 +30,6 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
       <div className="options" aria-label="Opciones de boca">
         {MOUTH_OPTIONS.map(({ value, label }) => <button key={value} aria-pressed={mouth === value} onClick={() => setMouth(value)}>{label}
         </button>)}
-        <button aria-pressed={mouth === ''} onClick={() => setMouth('')}>Según expresión</button>
       </div>
     </fieldset>
     <fieldset>

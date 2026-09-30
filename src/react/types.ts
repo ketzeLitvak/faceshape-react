@@ -1,7 +1,7 @@
 import type { ReactNode, SVGProps } from 'react';
 import type { FaceGeometry, Easing, ExpressionDefinition, ExpressionName, FaceBox, ShapeDefinition, ShapeName } from '../core/index';
 export type FaceStyle = 'minimal' | 'soft' | 'cheerful' | 'cartoon' | 'sly' | 'kawaii';
-export type EyeVariant = 'round' | 'oval' | 'cute' | 'happy' | 'closed' | 'dots' | 'bright' | 'joyful' | 'cartoon' | 'sly' | 'kawaii' | 'blobatar';
+export type EyeVariant = 'round' | 'oval' | 'cute' | 'happy' | 'closed' | 'dots' | 'bright' | 'joyful' | 'cartoon' | 'sly' | 'kawaii' | 'capsule';
 export type MouthVariant = 'smile' | 'frown' | 'neutral' | 'open' | 'grin' | 'small' | 'gentle' | 'tongue' | 'joyful' | 'toothy' | 'shark' | 'smirk' | 'cat';
 export type EyebrowVariant = 'soft' | 'raised' | 'angry' | 'sad' | 'none';
 export type LookTarget = 'cursor' | {
@@ -64,6 +64,7 @@ export interface FaceState {
   };
   color: string;
   faceStyle: FaceStyle;
+  eyeVariant: EyeVariant;
 }
 
 export interface AnimatedFaceOptions { duration: number; easing: Easing; blink: boolean; talking: boolean; reduced: boolean; seedPhase: number; glance: boolean; }

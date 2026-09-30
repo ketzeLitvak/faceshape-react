@@ -7,7 +7,7 @@ export const EYE_OPTIONS: { value: EyeVariant; label: string }[] = [
   { value: 'cartoon', label: 'Blancos con pupilas' },
   { value: 'sly', label: 'Entrecerrados' },
   { value: 'kawaii', label: 'Puntos redondos' },
-  { value: 'blobatar', label: 'Blobatar · Animados' },
+  { value: 'capsule', label: 'Cápsulas animadas' },
   { value: 'closed', label: 'Cerrados' },
 ];
 export const MOUTH_OPTIONS: { value: MouthVariant; label: string }[] = [

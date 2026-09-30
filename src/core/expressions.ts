@@ -6,8 +6,8 @@ export const DEFAULT_FACE: Readonly<FaceGeometry> = Object.freeze({
 });
 export const EXPRESSIONS: Readonly<Record<ExpressionName, Readonly<FaceGeometry>>> = Object.freeze({
   neutral: Object.freeze({ ...DEFAULT_FACE }),
-  happy: Object.freeze({ ...DEFAULT_FACE, eyeOpen: .95, mouthCurve: .8, mouthOpen: .85, mouthWidth: 36 }),
-  sad: Object.freeze({ ...DEFAULT_FACE, eyeOpen: .75, mouthCurve: -.85, browAngle: -15, browLift: 2, browOpacity: 1 }),
+  happy: Object.freeze({ ...DEFAULT_FACE, eyeOpen: .95, eyeCurve: 1, mouthCurve: .8, mouthOpen: .85, mouthWidth: 36 }),
+  sad: Object.freeze({ ...DEFAULT_FACE, eyeOpen: .75, eyeCurve: -.7, mouthCurve: -.85, browAngle: -15, browLift: 2, browOpacity: 1 }),
   angry: Object.freeze({ ...DEFAULT_FACE, eyeOpen: .65, eyeAngle: 9, mouthCurve: -.25, mouthWidth: 26, browAngle: 20, browOpacity: 1 }),
   surprised: Object.freeze({ ...DEFAULT_FACE, eyeOpen: 1.2, mouthWidth: 20, mouthOpen: 1, browLift: -5, browOpacity: 1 }),
   sleepy: Object.freeze({ ...DEFAULT_FACE, eyeOpen: .12, mouthWidth: 18, mouthOpen: .12, browLift: 2 }),

@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { colorFromName, getMotionCapabilities, type ShapeName, type EyeVariant, type MouthVariant, type ExpressionName, type MotionConfig } from '../../src';
+import { colorFromName, getMotionCapabilities, resolveExpression, type ShapeName, type EyeVariant, type MouthVariant, type ExpressionName, type MotionConfig } from '../../src';
 import { useReducedMotion } from '../../src/react/hooks/useReducedMotion';
 import { heart, shark } from '../shapes';
 
 export function usePlayground() {
   const [shape, setShape] = useState<ShapeName | 'heart' | 'shark'>('shark');
-  const [eyes, setEyes] = useState<EyeVariant | ''>('bright');
-  const [mouth, setMouth] = useState<MouthVariant | ''>('tongue');
-  const face = { eyes: eyes || undefined, mouth: mouth || undefined };
+  const [eyes, setEyes] = useState<EyeVariant>('bright');
+  const [mouth, setMouth] = useState<MouthVariant>('tongue');
+  const face = { eyes, mouth };
   const [expression, setExpression] = useState<ExpressionName>('happy');
   const [name, setName] = useState('Tiburoncito');
   const [fixedColor, setFixedColor] = useState<string | undefined>();
@@ -15,7 +15,7 @@ export function usePlayground() {
   const [reduced, setReduced] = useState(false);
   const motionDisabled = useReducedMotion(reduced);
   const [requestedMotion, setMotion] = useState<MotionConfig>({ idle: true, blink: true, lookAt: 'cursor' });
-  const capabilities = getMotionCapabilities(eyes || 'bright', mouth || undefined);
+  const capabilities = getMotionCapabilities(eyes, mouth, resolveExpression(expression));
   const motion: MotionConfig = {
     idle: !motionDisabled && requestedMotion.idle,
     bounce: !motionDisabled && requestedMotion.bounce,

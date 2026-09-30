@@ -166,7 +166,7 @@ Los archivos `index.ts` conservan los puntos de entrada públicos del paquete.
 | E | `sly` | `sly` | `smirk` |
 | F | `kawaii` | `kawaii` | `cat` |
 
-Los presets conservan las emociones. Elegir una variante explícita fija la geometría de esa parte, igual que las variantes originales; los parpadeos, la mirada y el movimiento de hablar siguen aplicándose. F agrega mejillas rosadas y E cejas elevadas. Los presets siguen disponibles en la librería por compatibilidad; la demo combina directamente los ojos y bocas.
+Los presets conservan las emociones. Todas las variantes de ojos y boca conservan la expresión; la variante define sus proporciones y decoraciones. Los parpadeos, la mirada y el movimiento de hablar siguen aplicándose. F agrega mejillas rosadas y E cejas elevadas. Los presets siguen disponibles en la librería por compatibilidad; la demo combina directamente los ojos y bocas.
 
 ```tsx
 <Character
@@ -191,7 +191,7 @@ En la demo aparece como **D · Dientes de tiburón** en el selector BOCA.
 ## Nombre, silueta y color
 
 ```tsx
-<Character name="Ezequiel" shape="blob" face={{ eyes: 'blobatar', mouth: 'shark' }} motion={{ idle: true, blink: true }} />
+<Character name="Ezequiel" shape="blob" face={{ eyes: 'capsule', mouth: 'shark' }} motion={{ idle: true, blink: true }} />
 <Character name="Ezequiel" color="#388697" /> // color fijo; mantiene su silueta
 ```
 
@@ -199,6 +199,12 @@ En la demo aparece como **D · Dientes de tiburón** en el selector BOCA.
 
 La demo combina ojos y bocas mediante chips, sin selector de estilo visual. Comienza con los ojos y boca B. **Por nombre** activa el color automático; elegir **Color fijo**, una muestra o el selector de color lo reemplaza. Editar el nombre conserva ese color fijo.
 
-Los ojos `blobatar` son cápsulas con mirada suave autónoma cuando `idle` está activo; `motion.glance` permite controlar esa mirada explícitamente. Cursor, brillo y parpadeo usan transformaciones compartidas. La animación de boca ahora cambia también cuando la boca ya estaba abierta.
+Los ojos `capsule` son cápsulas con mirada suave autónoma cuando `idle` está activo; `motion.glance` permite controlar esa mirada explícitamente. Cursor, brillo y parpadeo usan transformaciones compartidas. La animación de boca ahora cambia también cuando la boca ya estaba abierta.
 
-`getMotionCapabilities(eyes, mouth)` devuelve `blink`, `lookAt` y `talking`: los ojos cerrados/arcos no admiten parpadeo ni seguimiento del cursor; las bocas de trazo o gatito no admiten hablar. La demo desactiva esos controles y el componente evita ejecutar esas animaciones. La preferencia de movimiento reducido desactiva todos los controles de movimiento.
+`getMotionCapabilities(eyes, mouth, geometry)` devuelve `blink`, `lookAt` y `talking`: los ojos cerrados/arcos no admiten parpadeo ni seguimiento mientras están cerrados, pero sí cuando la expresión los abre (por ejemplo, sorpresa). Todas las bocas admiten hablar. La demo desactiva esos controles y el componente evita ejecutar esas animaciones. La preferencia de movimiento reducido desactiva todos los controles de movimiento.
+
+### Mirada coordinada
+
+Cuando se desplaza el ojo completo, las cejas acompañan ese desplazamiento y la boca se mueve el 40% de esa distancia, también durante la mirada autónoma de las cápsulas. En los ojos blancos, donde solo se desplazan las pupilas, la boca y cejas quedan quietas. El parpadeo y la apertura de la boca no alteran su posición. La preferencia de movimiento reducido detiene la mirada de toda la cara.
+
+Todas las variantes responden a `expression`, incluso las de gatito, sonrisa de costado y dientes. Se eliminó el chip «Según expresión»: ahora es el comportamiento común. La variante de ojos animados se llama `capsule`, sin referencias a otras librerías en los tipos.
