@@ -1,0 +1,132 @@
+# FaceShape React
+
+Primera versión funcional de una librería React para convertir formas SVG en personajes animados. React 18/19 + TypeScript. Sin dependencias de animación ni audio.
+
+## Probar el proyecto
+
+Node.js 22.12+ (o Node 24).
+
+```bash
+npm ci
+npm run dev
+```
+
+Abrí la dirección que muestra Vite (normalmente http://localhost:5173). La demo permite cambiar forma, emoción, color, seed, movimientos y reduced motion.
+
+```bash
+npm run typecheck
+npm test
+npm run demo:build
+npm pack
+```
+
+`npm pack` genera `faceshape-react-0.1.0.tgz`. Instalalo desde otro proyecto con `npm install /ruta/faceshape-react-0.1.0.tgz`. El nombre npm es provisional: no se publicó ni se comprobó su disponibilidad. La licencia está pendiente (`UNLICENSED`).
+
+## Uso
+
+```tsx
+import { Character } from 'faceshape-react';
+
+<Character
+  shape="blob"
+  expression="happy"
+  color="#388697"
+  size={200}
+  seed="ezequiel"
+  motion={{ idle: true, blink: true, lookAt: 'cursor' }}
+/>
+```
+
+| Prop | Valores / comportamiento |
+| --- | --- |
+| `shape` | `circle`, `blob`, `square`, `star` o definición propia. Default: `blob`. |
+| `expression` | `neutral`, `happy`, `sad`, `angry`, `surprised`, `sleepy` o parámetros propios. Default: `neutral`. |
+| `face` | `{ eyes, mouth, eyebrows }`: variantes que reemplazan partes del preset. |
+| `motion` | Opciones independientes: `idle`, `blink`, `bounce`, `shake`, `talking`, `lookAt`. Sin movimiento por defecto. |
+| `transition` | `{ duration: 300, easing: 'ease-out' }`. Milisegundos. Easing: `linear`, `ease-out`, `ease-in-out`. |
+| `seed` | String o número. Determina separación de ojos, tamaño de pupila y fase de parpadeo. |
+| `faceBox` | Reemplaza la región de cara de la forma. Coordenadas normalizadas 0..1. |
+| `size` | Número o tamaño CSS, default `160`. `width` / `height` SVG pueden reemplazarlo. |
+| `color`, `faceColor` | Color de la silueta y de los rasgos. |
+| `label` | Nombre accesible. Sin label/aria-label/aria-labelledby, el SVG es decorativo. |
+| `reducedMotion` | `true` desactiva todo movimiento. Siempre respeta también la preferencia del sistema. |
+
+También acepta `className`, `style`, `ref` y atributos/eventos de SVG.
+
+### Expresión dinámica
+
+```tsx
+<Character
+  expression={isError ? 'sad' : 'happy'}
+  transition={{ duration: 300, easing: 'ease-in-out' }}
+  motion={{ idle: true, blink: true, talking: isTalking }}
+/>
+```
+
+`talking` anima la apertura de la boca. No usa micrófono, audio ni sincronización labial. `bounce` y `shake` se repiten mientras sean `true`; para una acción acotada, activalas/desactivalas desde tu estado. No hay API imperativa de acciones puntuales en esta versión.
+
+### Mirada
+
+`lookAt: 'cursor'` sigue eventos pointer del navegador (mouse, lápiz o desplazamiento táctil). `lookAt: { x: 0.5, y: 0.5 }` mira al centro; los extremos están entre 0 y 1 y se limitan a ese rango. Con reduced motion, la mirada se queda centrada.
+
+### Una forma propia
+
+```tsx
+import { Character, defineShape } from 'faceshape-react';
+
+const heart = defineShape({
+  path: 'M50 88 C40 79 7 57 7 31 C7 9 37 5 50 24 C63 5 93 9 93 31 C93 57 60 79 50 88Z',
+  viewBox: '0 0 100 100',
+  faceBox: { x: 0.23, y: 0.27, width: 0.54, height: 0.4 },
+});
+
+<Character shape={heart} expression="happy" />
+```
+
+Una forma también puede usar `render: ({ color }) => <g>...</g>` en lugar de `path` para varios nodos SVG. No devuelvas otro `<svg>` con coordenadas distintas. La región faceBox se ajusta manualmente: no se detecta automáticamente. Las coordenadas de la cara se mapean al viewBox de la forma, incluso si su origen no es 0,0.
+
+### Partes independientes
+
+```tsx
+import { Character, Face, Eyes, Mouth, Eyebrows } from 'faceshape-react';
+
+<Character shape="circle" motion={{ idle: true }}>
+  <Face>
+    <Eyebrows variant="raised" />
+    <Eyes variant="cute" />
+    <Mouth variant="grin" />
+  </Face>
+</Character>
+```
+
+Si pasás `children`, reemplazan la cara automática completa: incluí todas las partes que quieras dibujar. También podés pasar Eyes/Mouth/Eyebrows directamente como hijos. Los componentes de cara deben estar dentro de Character.
+
+- Ojos: `round`, `oval`, `cute`, `happy`, `closed`.
+- Boca: `smile`, `frown`, `neutral`, `open`, `grin`, `small`.
+- Cejas: `soft`, `raised`, `angry`, `sad`, `none`.
+
+Las variantes explícitas reemplazan la geometría de su parte, por lo que no se interpolan al cambiar de variante. Las transiciones suaves corresponden a cambios de `expression` usando la geometría por defecto. Los ojos `happy` y `closed` ya son curvas cerradas y no necesitan el parpadeo habitual.
+
+### Expresiones propias y core
+
+```tsx
+import { defineExpression } from 'faceshape-react/core';
+const curious = defineExpression({ eyeOpen: 1.1, mouthCurve: 0.4,
+  browOpacity: 1, browLift: -4, browAngle: -8 });
+<Character expression={curious} />
+```
+
+El core no importa React ni usa APIs de navegador. Exporta presets, interpolación, validación, generador de seed y geometría de boca. Las expresiones son objetos numéricos; se validan y limitan a rangos seguros. Los parámetros de ojo explícitos de una expresión propia prevalecen sobre seed. No se mutan registros globales: reutilizá definiciones como constantes.
+
+## Arquitectura
+
+- `src/core`: geometría, presets, seed e interpolación independientes de React.
+- `src/react`: componentes, contexto de cara, animación y seguimiento pointer.
+- `demo`: playground con todas las funciones principales.
+- `tests`: validación del core y render del paquete en servidor.
+
+Los movimientos corporales usan grupos SVG anidados con animaciones CSS. Expresiones, parpadeo y boca usan requestAnimationFrame. Las transiciones interrumpidas parten del estado visible actual. Los efectos cancelan frames y eliminan listeners al desmontar. SSR no toca window; el paquete React lleva `use client` para frameworks compatibles. No requiere importar CSS externo.
+
+## Estado y siguientes mejoras
+
+Versión 0.1.0: API inicial, preparada para pruebas e instalación local. Todavía no está publicada en npm. Pendientes para una versión estable: API de acciones puntuales, escala de muchos personajes con reloj compartido, animaciones personalizadas y pruebas en una matriz más amplia de navegadores. Sin audio por decisión de alcance.
