@@ -46,3 +46,23 @@ test('face styles differ and mouth variants remain independent',()=>{
  const neutralMouth=renderToString(React.createElement(Character,{expression:'happy',faceStyle:'soft',face:{mouth:'neutral'}}));
  assert.match(neutralMouth,/data-faceshape-mouth/);assert.notEqual(soft,neutralMouth);
 });
+
+test('all reference eyes and mouths can be mixed independently in every style',()=>{
+ const styles=['minimal','soft','cheerful','cartoon','sly','kawaii'];
+ const eyes=['dots','bright','joyful','cartoon','sly','kawaii'];
+ const mouths=['gentle','tongue','joyful','toothy','smirk','cat'];
+ for(const faceStyle of styles)for(const eye of eyes)for(const mouth of mouths){
+  const svg=renderToString(React.createElement(Character,{faceStyle,expression:'happy',face:{eyes:eye,mouth}}));
+  assert.match(svg,new RegExp(`data-eye-variant="${eye}"`));
+  assert.match(svg,new RegExp(`data-mouth-variant="${mouth}"`));
+  assert.doesNotMatch(svg,/NaN|undefined/);
+  if(mouth==='toothy')assert.match(svg,/fill="white"/);
+ }
+});
+test('B remains the default and each reference preset has distinct geometry',()=>{
+ const svg=renderToString(React.createElement(Character,{expression:'happy'}));
+ assert.match(svg,/data-eye-variant="bright"/);
+ assert.match(svg,/data-mouth-variant="tongue"/);
+ const rendered=['minimal','soft','cheerful','cartoon','sly','kawaii'].map(faceStyle=>renderToString(React.createElement(Character,{expression:'happy',faceStyle})).replace(/fs-(eye|mouth)-[^" ]+/g,'clip'));
+ assert.equal(new Set(rendered).size,6);
+});

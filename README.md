@@ -141,3 +141,41 @@ Versión 0.1.0: API inicial, preparada para pruebas e instalación local. Todav�
 ```
 
 La demo permite alternar B/D y configurar ojos y boca por separado. El preset happy incluye una sonrisa abierta con lengua. Los estilos visuales no cambian los parámetros de la emoción, las animaciones ni la forma.
+
+## Organización del código
+
+- `src/core/types.ts`: contratos del motor, sin React.
+- `src/core/expressions.ts` y `shapes.ts`: presets y validación de definiciones.
+- `src/core/geometry.ts`, `math.ts`, `interpolation.ts`, `random.ts`: funciones puras.
+- `src/react/types.ts`: props, configuración y estado de React.
+- `src/react/Character.tsx`, `Face.tsx`, `Eyes.tsx`, `Mouth.tsx`, `Eyebrows.tsx`: componentes separados.
+- `src/react/hooks/`: animación, preferencia de movimiento y seguimiento del cursor.
+- `src/react/utils/`: cálculo de geometría para ojos y bocas.
+- `demo/components/`, `demo/hooks/`, `demo/options.ts`, `demo/shapes.tsx`, `demo/snippet.ts`: secciones de la demo, estado, opciones, SVG propios y generación del ejemplo.
+
+Los archivos `index.ts` conservan los puntos de entrada públicos del paquete.
+
+## Estilos de la lámina A–F
+
+| Referencia | `faceStyle` | Ojos | Boca |
+| --- | --- | --- | --- |
+| A | `minimal` | `dots` | `gentle` |
+| B (predeterminado) | `soft` | `bright` | `tongue` |
+| C | `cheerful` | `joyful` | `joyful` |
+| D | `cartoon` | `cartoon` | `toothy` |
+| E | `sly` | `sly` | `smirk` |
+| F | `kawaii` | `kawaii` | `cat` |
+
+Los presets conservan las emociones. Elegir una variante explícita fija la geometría de esa parte, igual que las variantes originales; los parpadeos, la mirada y el movimiento de hablar siguen aplicándose. F agrega mejillas rosadas y E cejas elevadas. Cambiar de preset en la demo restablece los selectores de partes para mostrar el ejemplo completo; después podés mezclarlas.
+
+```tsx
+<Character
+  shape={shark}
+  expression="happy"
+  faceStyle="soft"
+  face={{ eyes: 'cartoon', mouth: 'tongue' }}
+  motion={{ blink: true, lookAt: 'cursor' }}
+/>
+```
+
+El tiburón de la demo usa una silueta SVG basada en la lámina: cuerpo redondeado, aleta dorsal, aletas laterales, patas y panza clara. Las partes de la cara se dibujan por separado.
