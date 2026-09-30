@@ -18,7 +18,7 @@ test('SVG is decorative by default and can be labeled',()=>{
  assert.doesNotMatch(named,/aria-hidden="true"/);
 });
 test('multiple characters have unique pupil clip IDs',()=>{
- const svg=renderToString(React.createElement('div',null,...Array.from({length:8},()=>React.createElement(Character))));
+ const svg=renderToString(React.createElement('div',null,...Array.from({length:8},()=>React.createElement(Character,{faceStyle:'cartoon'}))));
  const ids=[...svg.matchAll(/id="(fs-eye-[^"]+)"/g)].map(m=>m[1]);
  assert.equal(ids.length,16);assert.equal(new Set(ids).size,16);
 });
@@ -36,4 +36,13 @@ test('CommonJS build exposes the public API', async()=>{
  const {createRequire}=await import('node:module');const require=createRequire(import.meta.url);
  const library=require('../dist/index.cjs');assert.equal(typeof library.defineShape,'function');
  assert.equal(typeof library.Character.render,'function');
+});
+
+test('face styles differ and mouth variants remain independent',()=>{
+ const soft=renderToString(React.createElement(Character,{expression:'happy',faceStyle:'soft'}));
+ const cartoon=renderToString(React.createElement(Character,{expression:'happy',faceStyle:'cartoon'}));
+ assert.match(soft,/data-face-style="soft"/);assert.match(cartoon,/data-face-style="cartoon"/);
+ assert.notEqual(soft,cartoon);
+ const neutralMouth=renderToString(React.createElement(Character,{expression:'happy',faceStyle:'soft',face:{mouth:'neutral'}}));
+ assert.match(neutralMouth,/data-faceshape-mouth/);assert.notEqual(soft,neutralMouth);
 });

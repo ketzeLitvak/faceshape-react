@@ -14,7 +14,7 @@ const css=`
 @media (prefers-reduced-motion:reduce){.fs-idle,.fs-bounce,.fs-shake{animation:none!important}}
 `;
 export const Character=forwardRef<SVGSVGElement,CharacterProps>(function Character({
- shape='blob',faceBox,expression='neutral',face={},motion={},transition={},seed,
+ shape='blob',faceBox,expression='neutral',face={},faceStyle='soft',motion={},transition={},seed,
  color='#388697',faceColor='#182b35',size=160,label,reducedMotion=false,children,style,...svgProps
 }, forwardedRef){
  const svgRef=useRef<SVGSVGElement|null>(null);
@@ -46,7 +46,7 @@ export const Character=forwardRef<SVGSVGElement,CharacterProps>(function Charact
  },[cursorMode,reduced]);
  let look={x:0,y:0};
  if(!reduced){if(cursorMode)look=cursor;else if(typeof motion.lookAt==='object')look={x:clamp(motion.lookAt.x,0,1)*2-1,y:clamp(motion.lookAt.y,0,1)*2-1};}
- const state={...frame,look,color:faceColor};
+ const state={...frame,look,color:faceColor,faceStyle};
  const named=!!(label||svgProps['aria-label']||svgProps['aria-labelledby']);
  return <svg width={size} height={size} viewBox={`${vx-vw*.06} ${vy-vh*.06} ${vw*1.12} ${vh*1.12}`} role={named?'img':undefined} aria-hidden={named?undefined:true} aria-label={label} {...svgProps} style={{overflow:'visible',...style}} ref={node=>{svgRef.current=node;if(typeof forwardedRef==='function')forwardedRef(node);else if(forwardedRef)forwardedRef.current=node;}}>
   <style>{css}</style>

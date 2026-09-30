@@ -15,7 +15,7 @@ export const DEFAULT_FACE: Readonly<FaceGeometry> = Object.freeze({
 });
 export const EXPRESSIONS: Readonly<Record<ExpressionName, Readonly<FaceGeometry>>> = Object.freeze({
  neutral: Object.freeze({ ...DEFAULT_FACE }),
- happy: Object.freeze({ ...DEFAULT_FACE, eyeOpen: .88, mouthCurve: 1, mouthWidth: 36 }),
+ happy: Object.freeze({ ...DEFAULT_FACE, eyeOpen: .95, mouthCurve: .8, mouthOpen: .85, mouthWidth: 36 }),
  sad: Object.freeze({ ...DEFAULT_FACE, eyeOpen: .75, mouthCurve: -.85, browAngle: -15, browLift: 2, browOpacity: 1 }),
  angry: Object.freeze({ ...DEFAULT_FACE, eyeOpen: .65, eyeAngle: 9, mouthCurve: -.25, mouthWidth: 26, browAngle: 20, browOpacity: 1 }),
  surprised: Object.freeze({ ...DEFAULT_FACE, eyeOpen: 1.2, mouthWidth: 20, mouthOpen: 1, browLift: -5, browOpacity: 1 }),
@@ -47,6 +47,8 @@ export function resolveExpression(expression: ExpressionName | ExpressionDefinit
 }
 export function interpolateFace(from: FaceGeometry, to: FaceGeometry, progress: number): FaceGeometry {
  const t=clamp(progress,0,1), result={...from};
+ if(t===0)return {...from};
+ if(t===1)return {...to};
  for (const key of Object.keys(result) as (keyof FaceGeometry)[]) result[key]=from[key]+(to[key]-from[key])*t;
  return result;
 }

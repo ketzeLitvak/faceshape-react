@@ -1,5 +1,6 @@
 import type { ReactNode, SVGProps } from 'react';
 import type { Easing, ExpressionDefinition, ExpressionName, FaceBox, ShapeDefinition, ShapeName } from '../core/index';
+export type FaceStyle = 'soft' | 'cartoon';
 export type EyeVariant = 'round' | 'oval' | 'cute' | 'happy' | 'closed';
 export type MouthVariant = 'smile' | 'frown' | 'neutral' | 'open' | 'grin' | 'small';
 export type EyebrowVariant = 'soft' | 'raised' | 'angry' | 'sad' | 'none';
@@ -16,6 +17,8 @@ export type CharacterProps = Omit<SVGProps<SVGSVGElement>,'children'|'color'> & 
  faceBox?: FaceBox;
  expression?: ExpressionName | ExpressionDefinition;
  face?: FaceConfig;
+ /** soft: black pill eyes (B); cartoon: eye whites and teeth (D). */
+ faceStyle?: FaceStyle;
  motion?: MotionConfig;
  transition?: { duration?: number; easing?: Easing };
  seed?: string | number;

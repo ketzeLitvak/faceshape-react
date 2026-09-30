@@ -41,6 +41,7 @@ import { Character } from 'faceshape-react';
 | --- | --- |
 | `shape` | `circle`, `blob`, `square`, `star` o definición propia. Default: `blob`. |
 | `expression` | `neutral`, `happy`, `sad`, `angry`, `surprised`, `sleepy` o parámetros propios. Default: `neutral`. |
+| `faceStyle` | `soft` (estilo B: ojos negros ovalados) o `cartoon` (estilo D: ojos blancos con pupilas y dientes). Default: `soft`. |
 | `face` | `{ eyes, mouth, eyebrows }`: variantes que reemplazan partes del preset. |
 | `motion` | Opciones independientes: `idle`, `blink`, `bounce`, `shake`, `talking`, `lookAt`. Sin movimiento por defecto. |
 | `transition` | `{ duration: 300, easing: 'ease-out' }`. Milisegundos. Easing: `linear`, `ease-out`, `ease-in-out`. |
@@ -130,3 +131,13 @@ Los movimientos corporales usan grupos SVG anidados con animaciones CSS. Expresi
 ## Estado y siguientes mejoras
 
 Versión 0.1.0: API inicial, preparada para pruebas e instalación local. Todavía no está publicada en npm. Pendientes para una versión estable: API de acciones puntuales, escala de muchos personajes con reloj compartido, animaciones personalizadas y pruebas en una matriz más amplia de navegadores. Sin audio por decisión de alcance.
+
+### Cambiar de estilo sin cambiar de expresión
+
+```tsx
+<Character expression="happy" faceStyle="soft" />    // B
+<Character expression="happy" faceStyle="cartoon" /> // D
+<Character faceStyle="soft" face={{ mouth: 'grin' }} />
+```
+
+La demo permite alternar B/D y configurar ojos y boca por separado. El preset happy incluye una sonrisa abierta con lengua. Los estilos visuales no cambian los parámetros de la emoción, las animaciones ni la forma.
