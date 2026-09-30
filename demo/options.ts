@@ -22,6 +22,7 @@ export const MOUTH_OPTIONS: { value: MouthVariant; label: string }[] = [
   { value: 'tongue', label: 'B · Abierta con lengua' },
   { value: 'joyful', label: 'C · Sonrisa amplia' },
   { value: 'toothy', label: 'D · Dientes y lengua' },
+  { value: 'shark', label: 'D · Dientes de tiburón' },
   { value: 'smirk', label: 'E · Sonrisa de costado' },
   { value: 'cat', label: 'F · Boca de gatito' },
   ...(['smile', 'frown', 'neutral', 'open', 'grin', 'small'] as const).map(value => ({ value, label: value })),

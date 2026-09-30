@@ -2,7 +2,7 @@ import type { ReactNode, SVGProps } from 'react';
 import type { FaceGeometry, Easing, ExpressionDefinition, ExpressionName, FaceBox, ShapeDefinition, ShapeName } from '../core/index';
 export type FaceStyle = 'minimal' | 'soft' | 'cheerful' | 'cartoon' | 'sly' | 'kawaii';
 export type EyeVariant = 'round' | 'oval' | 'cute' | 'happy' | 'closed' | 'dots' | 'bright' | 'joyful' | 'cartoon' | 'sly' | 'kawaii';
-export type MouthVariant = 'smile' | 'frown' | 'neutral' | 'open' | 'grin' | 'small' | 'gentle' | 'tongue' | 'joyful' | 'toothy' | 'smirk' | 'cat';
+export type MouthVariant = 'smile' | 'frown' | 'neutral' | 'open' | 'grin' | 'small' | 'gentle' | 'tongue' | 'joyful' | 'toothy' | 'shark' | 'smirk' | 'cat';
 export type EyebrowVariant = 'soft' | 'raised' | 'angry' | 'sad' | 'none';
 export type LookTarget = 'cursor' | {
   x: number;
@@ -64,3 +64,5 @@ export interface FaceState {
 
 export interface AnimatedFaceOptions { duration: number; easing: Easing; blink: boolean; talking: boolean; reduced: boolean; seedPhase: number; }
 export type FaceProps = FaceConfig & { children?: ReactNode };
+
+export interface SharkTeethProps { width: number; openness: number; }

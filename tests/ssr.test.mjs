@@ -66,3 +66,15 @@ test('B remains the default and each reference preset has distinct geometry',()=
  const rendered=['minimal','soft','cheerful','cartoon','sly','kawaii'].map(faceStyle=>renderToString(React.createElement(Character,{expression:'happy',faceStyle})).replace(/fs-(eye|mouth)-[^" ]+/g,'clip'));
  assert.equal(new Set(rendered).size,6);
 });
+
+test('pointed shark teeth work independently of the eye preset',()=>{
+ for(const faceStyle of ['minimal','soft','cheerful','cartoon','sly','kawaii']){
+  const svg=renderToString(React.createElement(Character,{faceStyle,face:{eyes:'bright',mouth:'shark'}}));
+  assert.match(svg,/data-mouth-variant="shark"/);
+  assert.match(svg,/data-eye-variant="bright"/);
+  assert.match(svg,/data-faceshape-shark-teeth=""/);
+  assert.doesNotMatch(svg,/NaN|undefined/);
+ }
+ const plain=renderToString(React.createElement(Character,{face:{mouth:'toothy'}}));
+ assert.doesNotMatch(plain,/data-faceshape-shark-teeth/);
+});

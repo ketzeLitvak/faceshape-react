@@ -179,3 +179,11 @@ Los presets conservan las emociones. Elegir una variante explícita fija la geom
 ```
 
 El tiburón de la demo usa una silueta SVG basada en la lámina: cuerpo redondeado, aleta dorsal, aletas laterales, patas y panza clara. Las partes de la cara se dibujan por separado.
+
+La boca `shark` agrega tres dientes superiores triangulares, como el tiburón D de la referencia. Es independiente del preset y los ojos:
+
+```tsx
+<Character faceStyle="soft" face={{ eyes: 'bright', mouth: 'shark' }} />
+```
+
+En la demo aparece como **D · Dientes de tiburón** en el selector BOCA.

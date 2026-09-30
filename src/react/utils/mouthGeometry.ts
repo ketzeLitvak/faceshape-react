@@ -11,6 +11,7 @@ const MOUTH_OVERRIDES: Partial<Record<MouthVariant, Partial<FaceGeometry>>> = {
   gentle: { mouthCurve: .8, mouthOpen: 0, mouthWidth: 20 },
   tongue: { mouthCurve: .5, mouthOpen: 1, mouthWidth: 30 },
   joyful: { mouthCurve: 1, mouthOpen: 0, mouthWidth: 38 },
+  shark: { mouthCurve: .5, mouthOpen: 1, mouthWidth: 40 },
   toothy: { mouthCurve: .5, mouthOpen: 1, mouthWidth: 40 },
   smirk: { mouthCurve: .5, mouthOpen: 0, mouthWidth: 22 },
   cat: { mouthCurve: .5, mouthOpen: 0, mouthWidth: 22 },
