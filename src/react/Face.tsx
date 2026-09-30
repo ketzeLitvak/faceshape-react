@@ -8,11 +8,11 @@ export { Eyes, Mouth, Eyebrows };
 export function Face({ eyes, mouth, eyebrows, children }: FaceProps) {
   const { faceStyle } = useFace();
   return <g data-faceshape-face="">{children ?? <>
-    {FACE_PRESETS[faceStyle].cheeks && <g data-faceshape-cheeks="" fill="#f69bad">
+    {(FACE_PRESETS[faceStyle].cheeks || eyes === 'kawaii') && <g data-faceshape-cheeks="" fill="#f69bad">
       <ellipse cx={18} cy={52} rx={8} ry={5.5} />
       <ellipse cx={82} cy={52} rx={8} ry={5.5} />
     </g>}
-    <Eyebrows variant={eyebrows ?? (faceStyle === 'sly' ? 'raised' : undefined)} />
+    <Eyebrows variant={eyebrows ?? (faceStyle === 'sly' || eyes === 'sly' ? 'raised' : undefined)} />
     <Eyes variant={eyes} />
     <Mouth variant={mouth} />
   </>}

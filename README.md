@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Abrí la dirección que muestra Vite (normalmente http://localhost:5173). La demo permite cambiar forma, emoción, color, seed, movimientos y reduced motion.
+Abrí la dirección que muestra Vite (normalmente http://localhost:5173). La demo permite cambiar forma, ojos, boca, emoción, nombre, color y movimientos.
 
 ```bash
 npm run typecheck
@@ -32,7 +32,7 @@ import { Character } from 'faceshape-react';
   expression="happy"
   color="#388697"
   size={200}
-  seed="ezequiel"
+  name="Ezequiel"
   motion={{ idle: true, blink: true, lookAt: 'cursor' }}
 />
 ```
@@ -45,7 +45,7 @@ import { Character } from 'faceshape-react';
 | `face` | `{ eyes, mouth, eyebrows }`: variantes que reemplazan partes del preset. |
 | `motion` | Opciones independientes: `idle`, `blink`, `bounce`, `shake`, `talking`, `lookAt`. Sin movimiento por defecto. |
 | `transition` | `{ duration: 300, easing: 'ease-out' }`. Milisegundos. Easing: `linear`, `ease-out`, `ease-in-out`. |
-| `seed` | String o número. Determina separación de ojos, tamaño de pupila y fase de parpadeo. |
+| `name` | String o número. Determina separación de ojos, tamaño de pupila y fase de parpadeo. |
 | `faceBox` | Reemplaza la región de cara de la forma. Coordenadas normalizadas 0..1. |
 | `size` | Número o tamaño CSS, default `160`. `width` / `height` SVG pueden reemplazarlo. |
 | `color`, `faceColor` | Color de la silueta y de los rasgos. |
@@ -117,11 +117,11 @@ const curious = defineExpression({ eyeOpen: 1.1, mouthCurve: 0.4,
 <Character expression={curious} />
 ```
 
-El core no importa React ni usa APIs de navegador. Exporta presets, interpolación, validación, generador de seed y geometría de boca. Las expresiones son objetos numéricos; se validan y limitan a rangos seguros. Los parámetros de ojo explícitos de una expresión propia prevalecen sobre seed. No se mutan registros globales: reutilizá definiciones como constantes.
+El core no importa React ni usa APIs de navegador. Exporta presets, interpolación, validación, generación por nombre y geometría de boca. Las expresiones son objetos numéricos; se validan y limitan a rangos seguros. Los parámetros de ojo explícitos de una expresión propia prevalecen sobre los rasgos del nombre. No se mutan registros globales: reutilizá definiciones como constantes.
 
 ## Arquitectura
 
-- `src/core`: geometría, presets, seed e interpolación independientes de React.
+- `src/core`: geometría, presets, nombres e interpolación independientes de React.
 - `src/react`: componentes, contexto de cara, animación y seguimiento pointer.
 - `demo`: playground con todas las funciones principales.
 - `tests`: validación del core y render del paquete en servidor.
@@ -140,7 +140,7 @@ Versión 0.1.0: API inicial, preparada para pruebas e instalación local. Todav�
 <Character faceStyle="soft" face={{ mouth: 'grin' }} />
 ```
 
-La demo permite alternar B/D y configurar ojos y boca por separado. El preset happy incluye una sonrisa abierta con lengua. Los estilos visuales no cambian los parámetros de la emoción, las animaciones ni la forma.
+La demo permite configurar ojos y boca por separado con chips. El preset happy incluye una sonrisa abierta con lengua. Los estilos visuales no cambian los parámetros de la emoción, las animaciones ni la forma.
 
 ## Organización del código
 
@@ -166,7 +166,7 @@ Los archivos `index.ts` conservan los puntos de entrada públicos del paquete.
 | E | `sly` | `sly` | `smirk` |
 | F | `kawaii` | `kawaii` | `cat` |
 
-Los presets conservan las emociones. Elegir una variante explícita fija la geometría de esa parte, igual que las variantes originales; los parpadeos, la mirada y el movimiento de hablar siguen aplicándose. F agrega mejillas rosadas y E cejas elevadas. Cambiar de preset en la demo restablece los selectores de partes para mostrar el ejemplo completo; después podés mezclarlas.
+Los presets conservan las emociones. Elegir una variante explícita fija la geometría de esa parte, igual que las variantes originales; los parpadeos, la mirada y el movimiento de hablar siguen aplicándose. F agrega mejillas rosadas y E cejas elevadas. Los presets siguen disponibles en la librería por compatibilidad; la demo combina directamente los ojos y bocas.
 
 ```tsx
 <Character
@@ -187,3 +187,18 @@ La boca `shark` agrega tres dientes superiores triangulares, como el tiburón D 
 ```
 
 En la demo aparece como **D · Dientes de tiburón** en el selector BOCA.
+
+## Nombre, silueta y color
+
+```tsx
+<Character name="Ezequiel" shape="blob" face={{ eyes: 'blobatar', mouth: 'shark' }} motion={{ idle: true, blink: true }} />
+<Character name="Ezequiel" color="#388697" /> // color fijo; mantiene su silueta
+```
+
+`name` genera rasgos de la cara, contorno del blob y color por canales determinísticos independientes: el mismo nombre produce el mismo personaje en servidor y navegador. Las otras formas conservan su silueta pero también reciben color por nombre. Sin nombre se conserva el comportamiento anterior. `seed` queda como alias obsoleto para compatibilidad; si se pasan ambos, `name` tiene prioridad.
+
+La demo combina ojos y bocas mediante chips, sin selector de estilo visual. Comienza con los ojos y boca B. **Por nombre** activa el color automático; elegir **Color fijo**, una muestra o el selector de color lo reemplaza. Editar el nombre conserva ese color fijo.
+
+Los ojos `blobatar` son cápsulas con mirada suave autónoma cuando `idle` está activo; `motion.glance` permite controlar esa mirada explícitamente. Cursor, brillo y parpadeo usan transformaciones compartidas. La animación de boca ahora cambia también cuando la boca ya estaba abierta.
+
+`getMotionCapabilities(eyes, mouth)` devuelve `blink`, `lookAt` y `talking`: los ojos cerrados/arcos no admiten parpadeo ni seguimiento del cursor; las bocas de trazo o gatito no admiten hablar. La demo desactiva esos controles y el componente evita ejecutar esas animaciones. La preferencia de movimiento reducido desactiva todos los controles de movimiento.

@@ -1,18 +1,30 @@
 import { useState } from 'react';
-import type { ShapeName, FaceStyle, EyeVariant, MouthVariant, ExpressionName, MotionConfig } from '../../src';
+import { colorFromName, getMotionCapabilities, type ShapeName, type EyeVariant, type MouthVariant, type ExpressionName, type MotionConfig } from '../../src';
+import { useReducedMotion } from '../../src/react/hooks/useReducedMotion';
 import { heart, shark } from '../shapes';
+
 export function usePlayground() {
   const [shape, setShape] = useState<ShapeName | 'heart' | 'shark'>('shark');
-  const [faceStyle, setFaceStyle] = useState<FaceStyle>('soft');
-  const [eyes, setEyes] = useState<EyeVariant | ''>('');
-  const [mouth, setMouth] = useState<MouthVariant | ''>('');
+  const [eyes, setEyes] = useState<EyeVariant | ''>('bright');
+  const [mouth, setMouth] = useState<MouthVariant | ''>('tongue');
   const face = { eyes: eyes || undefined, mouth: mouth || undefined };
   const [expression, setExpression] = useState<ExpressionName>('happy');
-  const [color, setColor] = useState('#329cb0');
-  const [seed, setSeed] = useState('hello');
+  const [name, setName] = useState('Tiburoncito');
+  const [fixedColor, setFixedColor] = useState<string | undefined>();
+  const color = fixedColor ?? colorFromName(name);
   const [reduced, setReduced] = useState(false);
-  const [motion, setMotion] = useState<MotionConfig>({ idle: true, blink: true, lookAt: 'cursor' });
-  const toggle = (key: 'idle' | 'blink' | 'bounce' | 'shake' | 'talking') => setMotion(m => ({ ...m, [key]: !m[key] }));
+  const motionDisabled = useReducedMotion(reduced);
+  const [requestedMotion, setMotion] = useState<MotionConfig>({ idle: true, blink: true, lookAt: 'cursor' });
+  const capabilities = getMotionCapabilities(eyes || 'bright', mouth || undefined);
+  const motion: MotionConfig = {
+    idle: !motionDisabled && requestedMotion.idle,
+    bounce: !motionDisabled && requestedMotion.bounce,
+    shake: !motionDisabled && requestedMotion.shake,
+    blink: !motionDisabled && capabilities.blink && requestedMotion.blink,
+    talking: !motionDisabled && capabilities.talking && requestedMotion.talking,
+    lookAt: !motionDisabled && capabilities.lookAt ? requestedMotion.lookAt : undefined,
+  };
+  const toggle = (key: 'idle' | 'blink' | 'bounce' | 'shake' | 'talking') => setMotion(value => ({ ...value, [key]: !value[key] }));
   const selectedShape = shape === 'heart' ? heart : shape === 'shark' ? shark : shape;
-  return { shape, setShape, faceStyle, setFaceStyle, eyes, setEyes, mouth, setMouth, face, expression, setExpression, color, setColor, seed, setSeed, reduced, setReduced, motion, setMotion, toggle, selectedShape };
+  return { shape, setShape, eyes, setEyes, mouth, setMouth, face, expression, setExpression, color, fixedColor, setFixedColor, name, setName, reduced, setReduced, motionDisabled, capabilities, motion, setMotion, toggle, selectedShape };
 }

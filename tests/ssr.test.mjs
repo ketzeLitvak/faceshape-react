@@ -78,3 +78,22 @@ test('pointed shark teeth work independently of the eye preset',()=>{
  const plain=renderToString(React.createElement(Character,{face:{mouth:'toothy'}}));
  assert.doesNotMatch(plain,/data-faceshape-shark-teeth/);
 });
+
+test('name controls automatic body shape and color while fixed color wins',()=>{
+ const render=props=>renderToString(React.createElement(Character,{name:'Ana',shape:'blob',...props}));
+ const getBody=svg=>svg.match(/data-faceshape-shape="" d="([^"]+)" fill="([^"]+)"/).slice(1);
+ assert.deepEqual(getBody(render({})),getBody(render({})));
+ assert.notDeepEqual(getBody(render({})),getBody(render({name:'Bruno'})));
+ assert.equal(getBody(render({color:'#123456'}))[1],'#123456');
+ assert.equal(getBody(render({name:'Bruno',color:'#123456'}))[1],'#123456');
+ assert.notEqual(getBody(render({color:'#123456'}))[0],getBody(render({name:'Bruno',color:'#123456'}))[0]);
+ assert.deepEqual(getBody(render({seed:'different'})),getBody(render({})));
+ assert.doesNotMatch(render({}),/<svg[^>]*\sname=/);
+});
+test('capabilities disable unsupported blink, gaze and talking',async()=>{
+ const {getMotionCapabilities}=await import('../dist/index.js');
+ for(const eyes of ['closed','happy','joyful'])assert.equal(getMotionCapabilities(eyes,'tongue').blink,false);
+ assert.equal(getMotionCapabilities('bright','cat').talking,false);
+ assert.equal(getMotionCapabilities('blobatar','shark').talking,true);
+ assert.equal(getMotionCapabilities('blobatar','tongue').blink,true);
+});

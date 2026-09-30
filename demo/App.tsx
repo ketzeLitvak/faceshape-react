@@ -6,8 +6,8 @@ import { ExpressionGallery } from './components/ExpressionGallery';
 import { buildSnippet } from './snippet';
 export function App() {
   const playground = usePlayground();
-  const { shape, expression, faceStyle, face, color, seed, motion, reduced, selectedShape } = playground;
-  const snippet = buildSnippet({ shape, expression, faceStyle, face, color, seed, motion });
+  const { shape, expression, face, fixedColor, name, motion, reduced, selectedShape } = playground;
+  const snippet = buildSnippet({ shape, expression, face, color: fixedColor, name, motion });
   return <main>
     <header>
       <a href="#" className="brand">
@@ -23,7 +23,7 @@ export function App() {
       <p>Elegí su cara, combiná movimientos y mirá cómo reacciona. Un pequeño personaje, completamente tuyo.</p>
     </section>
     <section className="playground" aria-label="Playground">
-      <CharacterStage selectedShape={selectedShape} expression={expression} faceStyle={faceStyle} face={face} color={color} seed={seed} motion={motion} reduced={reduced} shape={shape} />
+      <CharacterStage selectedShape={selectedShape} expression={expression} face={face} color={fixedColor} name={name} motion={motion} reduced={reduced} shape={shape} />
       <PlaygroundControls {...playground} />
     </section>
     <section className="code-panel">
@@ -37,7 +37,7 @@ export function App() {
         </code>
       </pre>
     </section>
-    <ExpressionGallery faceStyle={faceStyle} reduced={reduced} />
+    <ExpressionGallery faceStyle="soft" reduced={reduced} />
     <CustomShapeExample reduced={reduced} />
     <footer>
       <span>faceshape · Primera versión funcional</span>

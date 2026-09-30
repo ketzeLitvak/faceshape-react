@@ -1,7 +1,7 @@
 import type { ReactNode, SVGProps } from 'react';
 import type { FaceGeometry, Easing, ExpressionDefinition, ExpressionName, FaceBox, ShapeDefinition, ShapeName } from '../core/index';
 export type FaceStyle = 'minimal' | 'soft' | 'cheerful' | 'cartoon' | 'sly' | 'kawaii';
-export type EyeVariant = 'round' | 'oval' | 'cute' | 'happy' | 'closed' | 'dots' | 'bright' | 'joyful' | 'cartoon' | 'sly' | 'kawaii';
+export type EyeVariant = 'round' | 'oval' | 'cute' | 'happy' | 'closed' | 'dots' | 'bright' | 'joyful' | 'cartoon' | 'sly' | 'kawaii' | 'blobatar';
 export type MouthVariant = 'smile' | 'frown' | 'neutral' | 'open' | 'grin' | 'small' | 'gentle' | 'tongue' | 'joyful' | 'toothy' | 'shark' | 'smirk' | 'cat';
 export type EyebrowVariant = 'soft' | 'raised' | 'angry' | 'sad' | 'none';
 export type LookTarget = 'cursor' | {
@@ -15,6 +15,7 @@ export interface MotionConfig {
   shake?: boolean;
   talking?: boolean;
   lookAt?: LookTarget;
+  glance?: boolean;
 }
 export interface FaceConfig {
   eyes?: EyeVariant;
@@ -41,6 +42,9 @@ export type CharacterProps = Omit<SVGProps<SVGSVGElement>, 'children' | 'color'>
     duration?: number;
     easing?: Easing;
   };
+  /** Identity used for deterministic silhouette, face traits and automatic color. */
+  name?: string;
+  /** @deprecated Use name. Retained for existing consumers. */
   seed?: string | number;
   color?: string;
   faceColor?: string;
@@ -62,7 +66,9 @@ export interface FaceState {
   faceStyle: FaceStyle;
 }
 
-export interface AnimatedFaceOptions { duration: number; easing: Easing; blink: boolean; talking: boolean; reduced: boolean; seedPhase: number; }
+export interface AnimatedFaceOptions { duration: number; easing: Easing; blink: boolean; talking: boolean; reduced: boolean; seedPhase: number; glance: boolean; }
 export type FaceProps = FaceConfig & { children?: ReactNode };
 
 export interface SharkTeethProps { width: number; openness: number; }
+
+export interface MotionCapabilities { blink: boolean; talking: boolean; lookAt: boolean; }

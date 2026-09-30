@@ -23,9 +23,11 @@ export function Eyes({ variant }: {
       <path d={`M${x - 10} 34 Q${x} 28 ${x + 8} 34`} fill='none' stroke={color} strokeWidth={2.5} strokeLinecap='round' />
     </g>;
     if (!eye.whites)
-      return <g key={side} transform={`translate(${look.x * 1.8} ${look.y * 1.8}) rotate(${angle} ${x} 36)`}>
-        <ellipse cx={x} cy={36} rx={rx} ry={ry * open} />
-        {eye.highlight && <ellipse cx={x - 1.4} cy={36 - ry * open * .42} rx={1.65} ry={1.65 * Math.min(1, open)} fill="white" opacity={Math.min(1, open * 3)} />}
+      return <g key={side} data-eye-gaze="" transform={`translate(${look.x * 3} ${look.y * 3}) rotate(${angle} ${x} 36)`}>
+        <g data-eye-lid="" transform={`translate(${x} 36) scale(1 ${open})`}>
+          <ellipse cx={0} cy={0} rx={rx} ry={ry} />
+          {eye.highlight && <ellipse data-eye-highlight="" cx={-1.4} cy={-ry * .42} rx={1.65} ry={1.65} fill="white" opacity={Math.min(1, open * 3)} />}
+        </g>
       </g>;
     const clip = `fs-eye-${id}-${index}`;
     return <g key={side} transform={`rotate(${angle} ${x} 36)`}>

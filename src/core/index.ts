@@ -5,3 +5,4 @@ export * from './math';
 export * from './interpolation';
 export * from './random';
 export * from './geometry';
+export * from './identity';

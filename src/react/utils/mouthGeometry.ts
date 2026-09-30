@@ -19,6 +19,6 @@ const MOUTH_OVERRIDES: Partial<Record<MouthVariant, Partial<FaceGeometry>>> = {
 
 export function resolveMouthGeometry(geometry: FaceGeometry, variant: MouthVariant | undefined, talk: number) {
   const result = { ...geometry, ...(variant ? MOUTH_OVERRIDES[variant] : undefined) };
-  result.mouthOpen = Math.max(result.mouthOpen, talk);
+  if (talk > 0) result.mouthOpen = result.mouthOpen > 0 ? result.mouthOpen * (1 - talk * .8) : talk;
   return result;
 }

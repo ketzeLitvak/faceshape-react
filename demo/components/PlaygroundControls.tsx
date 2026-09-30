@@ -1,69 +1,80 @@
-import { STYLE_OPTIONS, EYE_OPTIONS, MOUTH_OPTIONS } from '../options';
-import { SHAPES, EXPRESSIONS, type ShapeName, type ExpressionName, type EyeVariant, type MouthVariant } from '../../src';
+import { EYE_OPTIONS, MOUTH_OPTIONS } from '../options';
+import { SHAPES, EXPRESSIONS, type ShapeName, type ExpressionName } from '../../src';
 import type { usePlayground } from '../hooks/usePlayground';
+
 export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
-  const { shape, setShape, faceStyle, setFaceStyle, eyes, setEyes, mouth, setMouth, expression, setExpression, color, setColor, seed, setSeed, reduced, setReduced, motion, setMotion, toggle } = props;
-  return (<aside className="controls">
+  const { shape, setShape, eyes, setEyes, mouth, setMouth, expression, setExpression, color, fixedColor, setFixedColor, name, setName, reduced, setReduced, motionDisabled, capabilities, motion, setMotion, toggle } = props;
+  return <aside className="controls">
     <div className="control-head">
       <h2>Tu personaje</h2>
-      <span>01 / CUSTOMIZE</span>
     </div>
+    <label className="name-field">NOMBRE
+      <input aria-label="Nombre del personaje" value={name} onChange={event => setName(event.target.value)} placeholder="Elegí un nombre" />
+    </label>
     <fieldset>
       <legend>FORMA</legend>
-      <div className="options">{([...Object.keys(SHAPES), 'heart', 'shark'] as (ShapeName | 'heart' | 'shark')[]).map(s => <button key={s} aria-pressed={shape === s} onClick={() => setShape(s)}>{({ circle: 'Círculo', blob: 'Blob', square: 'Cuadrado', star: 'Estrella', heart: 'Corazón', shark: 'Tiburón' })[s]}
-      </button>)}
+      <div className="options">
+        {([...Object.keys(SHAPES), 'heart', 'shark'] as (ShapeName | 'heart' | 'shark')[]).map(value => <button key={value} aria-pressed={shape === value} onClick={() => setShape(value)}>{({ circle: 'Círculo', blob: 'Blob', square: 'Cuadrado', star: 'Estrella', heart: 'Corazón', shark: 'Tiburón' })[value]}
+        </button>)}
       </div>
     </fieldset>
     <fieldset>
-      <legend>ESTILO VISUAL</legend>
-      <div className="options">
-        {STYLE_OPTIONS.map(option =>
-          <button key={option.value} aria-pressed={faceStyle === option.value} onClick={() => { setFaceStyle(option.value); setEyes(''); setMouth(''); }}>{option.label}
-          </button>)}
+      <legend>OJOS</legend>
+      <div className="options" aria-label="Opciones de ojos">
+        {EYE_OPTIONS.map(({ value, label }) => <button key={value} aria-pressed={eyes === value} onClick={() => setEyes(value)}>{label}
+        </button>)}
+        <button aria-pressed={eyes === ''} onClick={() => setEyes('')}>Según expresión</button>
       </div>
     </fieldset>
-    <div className="face-parts">
-      <label>OJOS<select aria-label="Variante de ojos" value={eyes} onChange={e => setEyes(e.target.value as EyeVariant | '')}>
-        <option value="">Según estilo / expresión</option>{EYE_OPTIONS.map(({ value, label }) => <option key={value} value={value}>{label}
-        </option>)}
-      </select>
-      </label>
-      <label>BOCA<select aria-label="Variante de boca" value={mouth} onChange={e => setMouth(e.target.value as MouthVariant | '')}>
-        <option value="">Según estilo / expresión</option>{MOUTH_OPTIONS.map(({ value, label }) => <option key={value} value={value}>{label}
-        </option>)}
-      </select>
-      </label>
-    </div>
+    <fieldset>
+      <legend>BOCA</legend>
+      <div className="options" aria-label="Opciones de boca">
+        {MOUTH_OPTIONS.map(({ value, label }) => <button key={value} aria-pressed={mouth === value} onClick={() => setMouth(value)}>{label}
+        </button>)}
+        <button aria-pressed={mouth === ''} onClick={() => setMouth('')}>Según expresión</button>
+      </div>
+    </fieldset>
     <fieldset>
       <legend>EXPRESIÓN</legend>
-      <div className="options">{(Object.keys(EXPRESSIONS) as ExpressionName[]).map(e => <button key={e} aria-pressed={expression === e} onClick={() => setExpression(e)}>{e}
-      </button>)}
+      <div className="options">
+        {(Object.keys(EXPRESSIONS) as ExpressionName[]).map(value => <button key={value} aria-pressed={expression === value} onClick={() => setExpression(value)}>{value}
+        </button>)}
       </div>
     </fieldset>
     <fieldset>
       <legend>MOVIMIENTO</legend>
-      <div className="motions">{(['idle', 'blink', 'bounce', 'shake', 'talking'] as const).map(k => <label key={k}>
-        <input type="checkbox" checked={!!motion[k]} onChange={() => toggle(k)} />
-        <span>{k}
-        </span>
-      </label>)}
+      <div className="motions">
+        {(['idle', 'blink', 'bounce', 'shake', 'talking'] as const).map(key => {
+          const unsupported = key === 'blink' ? !capabilities.blink : key === 'talking' ? !capabilities.talking : false;
+          const disabled = motionDisabled || unsupported;
+          return <label key={key} className={disabled ? 'motion-unavailable' : undefined} title={motionDisabled ? 'Movimiento reducido activo' : unsupported ? 'Esta variante no admite este movimiento' : undefined}>
+            <input aria-label={key} type="checkbox" checked={!!motion[key]} disabled={disabled} onChange={() => toggle(key)} />
+            <span>{key}
+            </span>
+          </label>;
+        })}
       </div>
-      <label className="switch-row">
+      <label className={`switch-row ${!capabilities.lookAt || motionDisabled ? 'motion-unavailable' : ''}`}>
         <span>Seguir el cursor</span>
-        <input type="checkbox" checked={motion.lookAt === 'cursor'} onChange={e => setMotion(m => ({ ...m, lookAt: e.target.checked ? 'cursor' : undefined }))} />
+        <input aria-label="Seguir el cursor" type="checkbox" checked={motion.lookAt === 'cursor'} disabled={!capabilities.lookAt || motionDisabled} onChange={event => setMotion(value => ({ ...value, lookAt: event.target.checked ? 'cursor' : undefined }))} />
       </label>
     </fieldset>
-    <div className="color-row">
-      <label htmlFor="color">COLOR</label>
-      <div className="swatches">{['#89d9c3', '#b9a1ef', '#ffbe8a', '#f18da3', '#8ac8ef'].map(c => <button key={c} aria-label={`Color ${c}`} onClick={() => setColor(c)} style={{ background: c }} aria-pressed={color === c} />)}
-        <input id="color" type="color" value={color} onChange={e => setColor(e.target.value)} />
+    <fieldset>
+      <legend>COLOR</legend>
+      <div className="options color-mode">
+        <button aria-pressed={fixedColor === undefined} onClick={() => setFixedColor(undefined)}>Por nombre</button>
+        <button aria-pressed={fixedColor !== undefined} onClick={() => setFixedColor(color)}>Color fijo</button>
       </div>
-    </div>
-    <label className="seed">SEED <input value={seed} onChange={e => setSeed(e.target.value)} placeholder="Una identidad reproducible" />
-    </label>
+      <div className="swatches">
+        {['#89d9c3', '#b9a1ef', '#ffbe8a', '#f18da3', '#8ac8ef'].map(value => <button key={value} aria-label={`Color ${value}`} aria-pressed={fixedColor === value} style={{ background: value }} onClick={() => setFixedColor(value)} />)}
+        <input aria-label="Color fijo" type="color" value={color} onChange={event => setFixedColor(event.target.value)} />
+        <span className="color-value">{color}
+        </span>
+      </div>
+    </fieldset>
     <label className="switch-row">
       <span>Reducir movimiento</span>
-      <input type="checkbox" checked={reduced} onChange={e => setReduced(e.target.checked)} />
+      <input aria-label="Reducir movimiento" type="checkbox" checked={reduced} onChange={event => setReduced(event.target.checked)} />
     </label>
-  </aside>);
+  </aside>;
 }

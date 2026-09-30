@@ -4,3 +4,4 @@ export type * from './react/types';
 export * from './core/index';
 
 export { FACE_PRESETS } from './react/facePresets';
+export { getMotionCapabilities } from './react/capabilities';

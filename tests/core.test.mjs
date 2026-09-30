@@ -28,3 +28,19 @@ test('faceBox respects arbitrary viewBox origins and dimensions',()=>{
  assert.throws(()=>parseViewBox('0 0 0 10'),/viewBox/);
  assert.throws(()=>parseViewBox('0 0 10'),/viewBox/);
 });
+
+test('names produce reproducible colors and distinct bounded blob contours', async()=>{
+ const {colorFromName,blobFromName}=await import('../dist/core/index.js');
+ const paths=new Set(),colors=new Set();
+ for(const name of ['', 'Ana', 'Ezequiel', 'Tiburoncito', '猫', '🌙', ...Array.from({length:100},(_,i)=>`friend-${i}`)]){
+  const blob=blobFromName(name);
+  assert.deepEqual(blob,blobFromName(name));
+  assert.equal(colorFromName(name),colorFromName(name));
+  assert.match(colorFromName(name),/^#[a-f0-9]{6}$/);
+  assert.doesNotThrow(()=>defineShape(blob));
+  const coordinates=blob.path.match(/[-\d.]+/g).map(Number);
+  assert.ok(coordinates.every(value=>Number.isFinite(value)&&value>=0&&value<=100));
+  paths.add(blob.path);colors.add(colorFromName(name));
+ }
+ assert.equal(paths.size,106);assert.ok(colors.size>100);
+});
