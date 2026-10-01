@@ -14,6 +14,7 @@ npm run dev
 Abrí la dirección que muestra Vite (normalmente http://localhost:5173). La demo permite cambiar forma, ojos, boca, emoción, nombre, color y movimientos.
 
 ```bash
+npm run lint
 npm run typecheck
 npm test
 npm run demo:build
@@ -21,6 +22,14 @@ npm pack
 ```
 
 `npm pack` genera `faceshape-react-0.1.0.tgz`. Instalalo desde otro proyecto con `npm install /ruta/faceshape-react-0.1.0.tgz`. El nombre npm es provisional: no se publicó ni se comprobó su disponibilidad. La licencia está pendiente (`UNLICENSED`).
+
+## Organización y formato
+
+Biome aplica formato e imports ordenados y revisa el código con `npm run lint`. Usá `npm run lint:fix` para corregir los problemas automáticos o `npm run format` para formatear. El CI verifica el lint, incluyendo el formato. Las reglas exigen bloques con llaves y una declaración por variable.
+
+Las variantes viven en `src/react/eyes/`, `src/react/mouths/` y `src/react/eyebrows/`, con un archivo por estilo. Cada carpeta tiene sus tipos y un `registry.ts` tipado que selecciona la estrategia. `Eyes`, `Mouth` y `Eyebrows` coordinan el estado y delegan el comportamiento; no contienen ramas por variante. Las rutinas geométricas compartidas permanecen separadas para evitar duplicarlas. La boca de tiburón y sus dientes viven en `mouths/shark.tsx` y `mouths/SharkTeeth.tsx`.
+
+Las siluetas base están en `src/core/shapes/`; las formas personalizadas de la demo, en `demo/shapes/`, también con un archivo por forma. Para agregar una variante, implementá su contrato y registrala en el mapa de su categoría.
 
 ## Uso
 

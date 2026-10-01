@@ -6,6 +6,6 @@ export const FACE_PRESETS: Readonly<Record<FaceStyle, FacePreset>> = {
   soft: { eyes: 'bright', mouth: 'tongue', eyebrows: 'none' },
   cheerful: { eyes: 'joyful', mouth: 'joyful', eyebrows: 'none' },
   cartoon: { eyes: 'cartoon', mouth: 'toothy', eyebrows: 'none' },
-  sly: { eyes: 'sly', mouth: 'smirk', eyebrows: 'raised' },
+  sly: { eyes: 'sly', mouth: 'smirk', eyebrows: 'raised', restingBrows: 'soft' },
   kawaii: { eyes: 'kawaii', mouth: 'cat', eyebrows: 'none', cheeks: true },
 };

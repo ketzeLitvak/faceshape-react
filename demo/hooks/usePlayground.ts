@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { colorFromName, getMotionCapabilities, resolveExpression, type ShapeName, type EyeVariant, type MouthVariant, type ExpressionName, type MotionConfig } from '../../src';
+import {
+  colorFromName,
+  type ExpressionName,
+  type EyeVariant,
+  getMotionCapabilities,
+  type MotionConfig,
+  type MouthVariant,
+  resolveExpression,
+  type ShapeName,
+} from '../../src';
 import { useReducedMotion } from '../../src/react/hooks/useReducedMotion';
 import { heart, shark } from '../shapes';
 
@@ -14,7 +23,11 @@ export function usePlayground() {
   const color = fixedColor ?? colorFromName(name);
   const [reduced, setReduced] = useState(false);
   const motionDisabled = useReducedMotion(reduced);
-  const [requestedMotion, setMotion] = useState<MotionConfig>({ idle: true, blink: true, lookAt: 'cursor' });
+  const [requestedMotion, setMotion] = useState<MotionConfig>({
+    idle: true,
+    blink: true,
+    lookAt: 'cursor',
+  });
   const capabilities = getMotionCapabilities(eyes, mouth, resolveExpression(expression));
   const motion: MotionConfig = {
     idle: !motionDisabled && requestedMotion.idle,
@@ -24,7 +37,31 @@ export function usePlayground() {
     talking: !motionDisabled && capabilities.talking && requestedMotion.talking,
     lookAt: !motionDisabled && capabilities.lookAt ? requestedMotion.lookAt : undefined,
   };
-  const toggle = (key: 'idle' | 'blink' | 'bounce' | 'shake' | 'talking') => setMotion(value => ({ ...value, [key]: !value[key] }));
+  const toggle = (key: 'idle' | 'blink' | 'bounce' | 'shake' | 'talking') =>
+    setMotion((value) => ({ ...value, [key]: !value[key] }));
   const selectedShape = shape === 'heart' ? heart : shape === 'shark' ? shark : shape;
-  return { shape, setShape, eyes, setEyes, mouth, setMouth, face, expression, setExpression, color, fixedColor, setFixedColor, name, setName, reduced, setReduced, motionDisabled, capabilities, motion, setMotion, toggle, selectedShape };
+  return {
+    shape,
+    setShape,
+    eyes,
+    setEyes,
+    mouth,
+    setMouth,
+    face,
+    expression,
+    setExpression,
+    color,
+    fixedColor,
+    setFixedColor,
+    name,
+    setName,
+    reduced,
+    setReduced,
+    motionDisabled,
+    capabilities,
+    motion,
+    setMotion,
+    toggle,
+    selectedShape,
+  };
 }

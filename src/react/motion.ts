@@ -1,2 +1,2 @@
-export { useReducedMotion } from './hooks/useReducedMotion';
 export { useAnimatedFace } from './hooks/useAnimatedFace';
+export { useReducedMotion } from './hooks/useReducedMotion';

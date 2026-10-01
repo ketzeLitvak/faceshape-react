@@ -10,6 +10,7 @@ export const EYE_OPTIONS: { value: EyeVariant; label: string }[] = [
   { value: 'capsule', label: 'Cápsulas animadas' },
   { value: 'closed', label: 'Cerrados' },
 ];
+
 export const MOUTH_OPTIONS: { value: MouthVariant; label: string }[] = [
   { value: 'gentle', label: 'Sonrisa pequeña' },
   { value: 'tongue', label: 'Abierta con lengua' },
