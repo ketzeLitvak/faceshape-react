@@ -1,0 +1,37 @@
+import {
+  blobFromName,
+  colorFromName,
+  faceTransform,
+  parseViewBox,
+  SHAPES,
+} from '../../core/index';
+import type { AppearanceOptions } from './types';
+
+export function resolveCharacterAppearance({
+  shape,
+  faceBox,
+  identity,
+  color,
+}: AppearanceOptions) {
+  const definition =
+    typeof shape === 'string'
+      ? shape === 'blob' && identity !== undefined
+        ? blobFromName(identity)
+        : SHAPES[shape]
+      : shape;
+  if (!definition) {
+    throw new Error(`Unknown shape: ${shape}`);
+  }
+  if (!definition.path && !('render' in definition && definition.render)) {
+    throw new Error('Custom shape needs path or render');
+  }
+
+  const viewBox = definition.viewBox ?? '0 0 100 100';
+  const [x, y, width, height] = parseViewBox(viewBox);
+  return {
+    definition,
+    color: color ?? (identity === undefined ? '#388697' : colorFromName(identity)),
+    viewBox: `${x - width * 0.06} ${y - height * 0.06} ${width * 1.12} ${height * 1.12}`,
+    transform: faceTransform(faceBox ?? definition.faceBox, viewBox),
+  };
+}

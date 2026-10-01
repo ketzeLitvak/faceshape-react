@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import type { FaceState, FaceStyle } from '../types';
+import type { FaceState } from '../types';
 
 export interface EyeDimensions {
   rx: number;
@@ -20,11 +20,10 @@ export interface EyeRenderProps {
 
 export interface EyeStrategy {
   render: ComponentType<EyeRenderProps>;
-  dimensions: (style: FaceStyle) => EyeDimensions;
+  dimensions: EyeDimensions;
   isClosed: (openness: number) => boolean;
   gazeDistance: number;
   browBaseline: number;
   cheeks: boolean;
   idleGlance: boolean;
-  restingBrows?: 'soft';
 }

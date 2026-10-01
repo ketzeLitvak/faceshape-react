@@ -68,7 +68,7 @@ export function App() {
           <code>{snippet}</code>
         </pre>
       </section>
-      <ExpressionGallery faceStyle="soft" reduced={reduced} />
+      <ExpressionGallery face={face} reduced={reduced} />
       <CustomShapeExample reduced={reduced} />
       <footer>
         <span>faceshape · Primera versión funcional</span>

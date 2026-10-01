@@ -1,16 +1,13 @@
-import { expressionBrows } from './eyebrows/expression';
 import { BROW_STRATEGIES } from './eyebrows/registry';
 import { EYE_STRATEGIES } from './eyes/registry';
 import { useFace } from './FaceContext';
 import type { EyebrowVariant } from './types';
 import { getFaceGaze } from './utils/faceGaze';
 
-export function Eyebrows({ variant }: { variant?: EyebrowVariant }) {
-  const { geometry, color, eyeVariant, faceStyle, look } = useFace();
-  const gaze = getFaceGaze(eyeVariant, faceStyle, look, geometry.eyeOpen);
-  const { angle, lift, opacity } = (variant ? BROW_STRATEGIES[variant] : expressionBrows)(
-    geometry,
-  );
+export function Eyebrows({ variant }: { variant: EyebrowVariant }) {
+  const { geometry, color, eyeVariant, look } = useFace();
+  const gaze = getFaceGaze(eyeVariant, look, geometry.eyeOpen);
+  const { angle, lift, opacity } = BROW_STRATEGIES[variant](geometry);
 
   return (
     <g

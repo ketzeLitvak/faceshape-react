@@ -1,15 +1,15 @@
 import {
   Character,
   type ExpressionName,
-  type FaceStyle,
+  type FaceConfig,
   type ShapeName,
 } from '../../src';
 
 export function ExpressionGallery({
-  faceStyle,
+  face,
   reduced,
 }: {
-  faceStyle: FaceStyle;
+  face: FaceConfig;
   reduced: boolean;
 }) {
   return (
@@ -34,7 +34,7 @@ export function ExpressionGallery({
                 (['circle', 'blob', 'square', 'star', 'circle', 'blob'] as ShapeName[])[i]
               }
               expression={e}
-              faceStyle={faceStyle}
+              face={face}
               color={
                 ['#b9a1ef', '#89d9c3', '#8ac8ef', '#ffbe8a', '#f18da3', '#b9a1ef'][i]
               }

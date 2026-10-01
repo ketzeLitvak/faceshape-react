@@ -1,4 +1,4 @@
-import type { ReactNode, SVGProps } from 'react';
+import type { ReactNode, RefObject, SVGProps } from 'react';
 import type {
   Easing,
   ExpressionDefinition,
@@ -8,8 +8,6 @@ import type {
   ShapeDefinition,
   ShapeName,
 } from '../core/index';
-
-export type FaceStyle = 'minimal' | 'soft' | 'cheerful' | 'cartoon' | 'sly' | 'kawaii';
 
 export type EyeVariant =
   | 'round'
@@ -26,11 +24,8 @@ export type EyeVariant =
   | 'capsule';
 
 export type MouthVariant =
-  | 'smile'
-  | 'frown'
-  | 'neutral'
-  | 'open'
-  | 'grin'
+  | 'standard'
+  | 'wide'
   | 'small'
   | 'gentle'
   | 'tongue'
@@ -40,7 +35,7 @@ export type MouthVariant =
   | 'smirk'
   | 'cat';
 
-export type EyebrowVariant = 'soft' | 'raised' | 'angry' | 'sad' | 'none';
+export type EyebrowVariant = 'expression' | 'soft' | 'raised' | 'angry' | 'sad' | 'none';
 
 export type LookTarget =
   | 'cursor'
@@ -60,17 +55,9 @@ export interface MotionConfig {
 }
 
 export interface FaceConfig {
-  eyes?: EyeVariant;
-  mouth?: MouthVariant;
-  eyebrows?: EyebrowVariant;
-}
-
-export interface FacePreset {
   eyes: EyeVariant;
   mouth: MouthVariant;
   eyebrows: EyebrowVariant;
-  cheeks?: boolean;
-  restingBrows?: EyebrowVariant;
 }
 
 export interface CustomShape extends Omit<ShapeDefinition, 'path'> {
@@ -83,9 +70,7 @@ export type CharacterProps = Omit<SVGProps<SVGSVGElement>, 'children' | 'color'>
   shape?: ShapeName | CustomShape;
   faceBox?: FaceBox;
   expression?: ExpressionName | ExpressionDefinition;
-  face?: FaceConfig;
-  /** soft: black pill eyes (B); cartoon: eye whites and teeth (D). */
-  faceStyle?: FaceStyle;
+  face: FaceConfig;
   motion?: MotionConfig;
   transition?: {
     duration?: number;
@@ -113,7 +98,6 @@ export interface FaceState {
     y: number;
   };
   color: string;
-  faceStyle: FaceStyle;
   eyeVariant: EyeVariant;
 }
 
@@ -138,4 +122,15 @@ export interface MotionCapabilities {
   blink: boolean;
   talking: boolean;
   lookAt: boolean;
+}
+
+export interface AnimatedFaceProps {
+  geometry: FaceGeometry;
+  face: FaceConfig;
+  motion: MotionConfig;
+  transition: NonNullable<CharacterProps['transition']>;
+  reduced: boolean;
+  svgRef: RefObject<SVGSVGElement | null>;
+  color: string;
+  children?: ReactNode;
 }

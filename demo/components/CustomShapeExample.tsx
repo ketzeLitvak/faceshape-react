@@ -14,6 +14,7 @@ export function CustomShapeExample({ reduced }: { reduced: boolean }) {
       </div>
       <Character
         shape={heart}
+        face={{ eyes: 'cute', mouth: 'wide', eyebrows: 'raised' }}
         color="#f18da3"
         size={160}
         motion={{ idle: true }}
@@ -22,7 +23,7 @@ export function CustomShapeExample({ reduced }: { reduced: boolean }) {
       >
         <Eyebrows variant="raised" />
         <Eyes variant="cute" />
-        <Mouth variant="grin" />
+        <Mouth variant="wide" />
       </Character>
     </section>
   );

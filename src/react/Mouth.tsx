@@ -1,28 +1,22 @@
 import { useId } from 'react';
 import { useFace } from './FaceContext';
-import { FACE_PRESETS } from './facePresets';
 import { MOUTH_STRATEGIES } from './mouths/registry';
 import type { MouthVariant } from './types';
 import { getFaceGaze } from './utils/faceGaze';
 import { resolveMouthGeometry } from './utils/mouthGeometry';
 
-export function Mouth({ variant }: { variant?: MouthVariant }) {
-  const { geometry, talk, color, faceStyle, eyeVariant, look } = useFace();
-  const gaze = getFaceGaze(eyeVariant, faceStyle, look, geometry.eyeOpen);
+export function Mouth({ variant }: { variant: MouthVariant }) {
+  const { geometry, talk, color, eyeVariant, look } = useFace();
+  const gaze = getFaceGaze(eyeVariant, look, geometry.eyeOpen);
   const mouthId = `fs-mouth-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
-  const styleVariant = variant ?? FACE_PRESETS[faceStyle].mouth;
+  const styleVariant = variant;
   const strategy = MOUTH_STRATEGIES[styleVariant];
   const mouthGeometry = resolveMouthGeometry(geometry, strategy.widthScale, talk);
   const { path, bottom, tongueHeight } = strategy.shape(mouthGeometry);
   const opened = mouthGeometry.mouthOpen > 0.015;
 
   return (
-    <g
-      transform={gaze.mouth}
-      data-faceshape-mouth=""
-      data-mouth-variant={styleVariant}
-      data-face-style={faceStyle}
-    >
+    <g transform={gaze.mouth} data-faceshape-mouth="" data-mouth-variant={styleVariant}>
       <defs>
         <clipPath id={mouthId}>
           <path d={path} />
@@ -32,7 +26,7 @@ export function Mouth({ variant }: { variant?: MouthVariant }) {
         d={path}
         fill={opened ? color : 'none'}
         stroke={color}
-        strokeWidth={faceStyle === 'soft' ? 2.8 : 3.4}
+        strokeWidth={2.8}
         strokeLinejoin="round"
         strokeLinecap="round"
       />

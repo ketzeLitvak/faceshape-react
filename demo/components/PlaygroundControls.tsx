@@ -1,6 +1,6 @@
 import { EXPRESSIONS, type ExpressionName, SHAPES, type ShapeName } from '../../src';
 import type { usePlayground } from '../hooks/usePlayground';
-import { EYE_OPTIONS, MOUTH_OPTIONS } from '../options';
+import { BROW_OPTIONS, EYE_OPTIONS, MOUTH_OPTIONS } from '../options';
 
 export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
   const {
@@ -8,6 +8,8 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
     setShape,
     eyes,
     setEyes,
+    eyebrows,
+    setEyebrows,
     mouth,
     setMouth,
     expression,
@@ -93,6 +95,21 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
               key={value}
               aria-pressed={mouth === value}
               onClick={() => setMouth(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>CEJAS</legend>
+        <div className="options">
+          {BROW_OPTIONS.map(({ value, label }) => (
+            <button
+              type="button"
+              key={value}
+              aria-pressed={eyebrows === value}
+              onClick={() => setEyebrows(value)}
             >
               {label}
             </button>

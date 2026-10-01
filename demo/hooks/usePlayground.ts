@@ -2,7 +2,9 @@ import { useState } from 'react';
 import {
   colorFromName,
   type ExpressionName,
+  type EyebrowVariant,
   type EyeVariant,
+  type FaceConfig,
   getMotionCapabilities,
   type MotionConfig,
   type MouthVariant,
@@ -16,7 +18,8 @@ export function usePlayground() {
   const [shape, setShape] = useState<ShapeName | 'heart' | 'shark'>('shark');
   const [eyes, setEyes] = useState<EyeVariant>('bright');
   const [mouth, setMouth] = useState<MouthVariant>('tongue');
-  const face = { eyes, mouth };
+  const [eyebrows, setEyebrows] = useState<EyebrowVariant>('expression');
+  const face: FaceConfig = { eyes, mouth, eyebrows };
   const [expression, setExpression] = useState<ExpressionName>('happy');
   const [name, setName] = useState('Tiburoncito');
   const [fixedColor, setFixedColor] = useState<string | undefined>();
@@ -47,6 +50,8 @@ export function usePlayground() {
     setEyes,
     mouth,
     setMouth,
+    eyebrows,
+    setEyebrows,
     face,
     expression,
     setExpression,

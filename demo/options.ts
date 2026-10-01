@@ -1,4 +1,4 @@
-import type { EyeVariant, MouthVariant } from '../src';
+import type { EyebrowVariant, EyeVariant, MouthVariant } from '../src';
 
 export const EYE_OPTIONS: { value: EyeVariant; label: string }[] = [
   { value: 'dots', label: 'Ovalados simples' },
@@ -19,5 +19,14 @@ export const MOUTH_OPTIONS: { value: MouthVariant; label: string }[] = [
   { value: 'shark', label: 'Dientes de tiburón' },
   { value: 'smirk', label: 'Sonrisa de costado' },
   { value: 'cat', label: 'Boca de gatito' },
-  { value: 'neutral', label: 'Neutral' },
+  { value: 'standard', label: 'Trazo simple' },
+];
+
+export const BROW_OPTIONS: { value: EyebrowVariant; label: string }[] = [
+  { value: 'expression', label: 'Expresivas' },
+  { value: 'none', label: 'Sin cejas' },
+  { value: 'soft', label: 'Suaves' },
+  { value: 'raised', label: 'Elevadas' },
+  { value: 'angry', label: 'Inclinadas hacia dentro' },
+  { value: 'sad', label: 'Inclinadas hacia fuera' },
 ];

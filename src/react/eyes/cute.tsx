@@ -1,10 +1,9 @@
-import { defaultDimensions } from './defaultDimensions';
 import { EllipseEye } from './EllipseEye';
 import type { EyeStrategy } from './types';
 
 export const cuteEyes: EyeStrategy = {
   render: EllipseEye,
-  dimensions: (style) => ({ ...defaultDimensions(style), ry: 14 }),
+  dimensions: { rx: 6.5, ry: 14, whites: false, highlight: true },
   isClosed: () => false,
   gazeDistance: 3,
   cheeks: false,
