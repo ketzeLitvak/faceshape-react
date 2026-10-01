@@ -3,6 +3,7 @@ import { blobShape } from './shapes/blob';
 import { circleShape } from './shapes/circle';
 import { squareShape } from './shapes/square';
 import { starShape } from './shapes/star';
+import { triangleShape } from './shapes/triangle';
 import type { ShapeDefinition, ShapeName } from './types';
 
 export const SHAPES: Readonly<Record<ShapeName, Readonly<ShapeDefinition>>> =
@@ -11,6 +12,7 @@ export const SHAPES: Readonly<Record<ShapeName, Readonly<ShapeDefinition>>> =
     blob: blobShape,
     square: squareShape,
     star: starShape,
+    triangle: triangleShape,
   });
 
 export function defineShape<T extends ShapeDefinition>(shape: T): T {

@@ -69,10 +69,16 @@ export const Character = forwardRef<SVGSVGElement, CharacterProps>(function Char
             {'render' in definition && definition.render ? (
               definition.render({ color })
             ) : (
-              <path data-faceshape-shape="" d={definition.path} fill={color} />
+              <path
+                data-faceshape-shape=""
+                d={definition.path}
+                fill={color}
+                transform={definition.transform}
+              />
             )}
             <g transform={transform}>
               <AnimatedFace
+                fixedMouth={definition.fixedMouth}
                 geometry={geometry}
                 face={face}
                 motion={motion}

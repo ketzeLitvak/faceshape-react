@@ -4,6 +4,7 @@ import {
   faceTransform,
   parseViewBox,
   SHAPES,
+  varyShape,
 } from '../../core/index';
 import type { AppearanceOptions } from './types';
 
@@ -17,7 +18,9 @@ export function resolveCharacterAppearance({
     typeof shape === 'string'
       ? shape === 'blob' && identity !== undefined
         ? blobFromName(identity)
-        : SHAPES[shape]
+        : identity !== undefined && SHAPES[shape]
+          ? varyShape(SHAPES[shape], identity, shape)
+          : SHAPES[shape]
       : shape;
   const definition =
     identity !== undefined &&

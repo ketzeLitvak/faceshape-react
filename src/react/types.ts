@@ -92,6 +92,7 @@ export type CharacterProps = Omit<SVGProps<SVGSVGElement>, 'children' | 'color'>
 };
 
 export interface FaceState {
+  fixedMouth?: boolean;
   geometry: FaceGeometry;
   blink: number;
   talk: number;
@@ -127,6 +128,7 @@ export interface MotionCapabilities {
 }
 
 export interface AnimatedFaceProps {
+  fixedMouth?: boolean;
   geometry: FaceGeometry;
   face: FaceConfig;
   motion: MotionConfig;

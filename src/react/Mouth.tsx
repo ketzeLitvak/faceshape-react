@@ -6,14 +6,22 @@ import { getFaceGaze } from './utils/faceGaze';
 import { resolveMouthGeometry } from './utils/mouthGeometry';
 
 export function Mouth({ variant }: { variant: MouthVariant }) {
-  const { geometry, talk, color, eyeVariant, look } = useFace();
+  const { geometry, talk, color, eyeVariant, look, fixedMouth } = useFace();
   const gaze = getFaceGaze(eyeVariant, look, geometry.eyeOpen);
   const mouthId = `fs-mouth-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const styleVariant = variant;
   const strategy = MOUTH_STRATEGIES[styleVariant];
-  const mouthGeometry = resolveMouthGeometry(geometry, strategy.widthScale, talk);
+  const mouthGeometry = resolveMouthGeometry(
+    geometry,
+    strategy.widthScale,
+    strategy.lineOnly ? 0 : talk,
+  );
   const { path, bottom, tongueHeight } = strategy.shape(mouthGeometry);
-  const opened = mouthGeometry.mouthOpen > 0.015;
+  const opened = !strategy.lineOnly && mouthGeometry.mouthOpen > 0.015;
+
+  if (fixedMouth) {
+    return null;
+  }
 
   return (
     <g transform={gaze.mouth} data-faceshape-mouth="" data-mouth-variant={styleVariant}>

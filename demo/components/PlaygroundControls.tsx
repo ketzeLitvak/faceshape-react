@@ -25,6 +25,7 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
     setReduced,
     motionDisabled,
     capabilities,
+    fixedMouth,
     motion,
     setMotion,
     toggle,
@@ -60,6 +61,7 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
                     blob: 'Blob',
                     square: 'Cuadrado',
                     star: 'Estrella',
+                    triangle: 'Triángulo',
                     heart: 'Corazón',
                     shark: 'Tiburón',
                     penguin: 'Pingüino',
@@ -86,8 +88,11 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
           ))}
         </div>
       </fieldset>
-      <fieldset>
+      <fieldset disabled={fixedMouth}>
         <legend>BOCA</legend>
+        {fixedMouth && (
+          <p>El pico es fijo. La expresión cambia con los ojos y las cejas.</p>
+        )}
         <div className="options">
           {MOUTH_OPTIONS.map(({ value, label }) => (
             <button

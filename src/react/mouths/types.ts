@@ -9,6 +9,7 @@ export interface MouthShape {
 
 export interface MouthStrategy {
   widthScale: number;
+  lineOnly?: boolean;
   shape: (geometry: FaceGeometry) => MouthShape;
   decoration?: (geometry: FaceGeometry) => ReactNode;
 }

@@ -106,3 +106,7 @@ Después de revisar un cambio visual intencional, actualizá las referencias con
 El paquete no fue publicado en npm. Su nombre es provisional y su licencia está pendiente (`UNLICENSED`).
 
 Una forma personalizada puede implementar `fromName: (name) => CustomShape` para resolver sus proporciones y su `faceBox` de forma determinista. Se resuelve junto con la apariencia y no se recalcula por cada frame. `createNameRandom(name, 'canal')` permite variaciones independientes por forma.
+
+El trazo `standard` conserva siempre una sola curva sin relleno: su ancho y curvatura dependen de la expresión. No admite animación de habla y la demo desactiva ese control. Círculo, cuadrado, estrella y corazón varían de tamaño según el nombre. El triángulo es una forma base adicional; tanto éste como el cuadrado varían también su rotación (hasta 15°). La cara mantiene su orientación y su zona se escala junto con la silueta.
+
+Las formas con `fixedMouth: true` incorporan un pico o boca permanente en su dibujo. No se dibuja una boca adicional y no admiten habla. El pingüino usa este contrato: conserva el pico y expresa las emociones con ojos y cejas; sus chips de boca están desactivados en la demo.

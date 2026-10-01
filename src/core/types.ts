@@ -6,7 +6,7 @@ export type ExpressionName =
   | 'surprised'
   | 'sleepy';
 
-export type ShapeName = 'circle' | 'blob' | 'square' | 'star';
+export type ShapeName = 'circle' | 'blob' | 'square' | 'star' | 'triangle';
 
 export interface FaceBox {
   x: number;
@@ -18,6 +18,12 @@ export interface FaceBox {
 export interface ShapeDefinition {
   path: string;
   viewBox?: string;
+  /** Optional transform of the silhouette; the face stays upright. */
+  transform?: string;
+  /** Maximum identity-dependent rotation in degrees. */
+  rotationRange?: number;
+  /** The silhouette includes a permanent mouth or beak. */
+  fixedMouth?: boolean;
   faceBox: FaceBox;
 }
 

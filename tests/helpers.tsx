@@ -54,4 +54,4 @@ export function renderPose(face: FaceConfig, state: FaceState, wink = false) {
   );
 }
 
-export { computer, penguin, shark } from '../demo/shapes';
+export { computer, heart, penguin, shark } from '../demo/shapes';

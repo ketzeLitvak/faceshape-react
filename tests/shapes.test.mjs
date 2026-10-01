@@ -46,3 +46,49 @@ test('custom silhouettes vary reproducibly with identity and preserve fixed colo
     }
   }
 });
+
+test('basic shapes and heart change size reproducibly, square and triangle also rotate', async () => {
+  const { heart, resolveCharacterAppearance } = await import('../.test-dist/helpers.mjs');
+  for (const shape of ['circle', 'square', 'star', 'triangle', heart]) {
+    const options = { shape, identity: 'Ana', color: '#123456' };
+    const first = resolveCharacterAppearance(options);
+    assert.deepEqual(first, resolveCharacterAppearance(options));
+    const other = resolveCharacterAppearance({ ...options, identity: 'Bruno' });
+    assert.notEqual(first.definition.transform, other.definition.transform);
+    assert.notDeepEqual(first.definition.faceBox, other.definition.faceBox);
+    const angle = Number(first.definition.transform.match(/rotate\(([^)]+)\)/)[1]);
+    if (shape === 'square' || shape === 'triangle') {
+      assert.notEqual(angle, 0);
+      assert.ok(Math.abs(angle) <= 15);
+    } else {
+      assert.equal(angle, 0);
+    }
+    assert.equal(first.color, '#123456');
+  }
+});
+
+test('penguin keeps its beak and never renders a separate mouth in any expression', async () => {
+  const { EXPRESSIONS, getMotionCapabilities } = await import('../dist/index.js');
+  let beak;
+  for (const expression of Object.keys(EXPRESSIONS)) {
+    for (const mouth of ['standard', 'tongue', 'shark', 'cat']) {
+      const svg = renderToStaticMarkup(
+        React.createElement(Character, {
+          shape: penguin,
+          name: 'Pingu',
+          face: { ...face, mouth },
+          expression,
+          motion: { talking: true },
+        }),
+      );
+      assert.doesNotMatch(svg, /data-faceshape-mouth|data-faceshape-shark-teeth/);
+      const path = svg.match(/data-faceshape-beak="" d="([^"]+)"/)[1];
+      beak ??= path;
+      assert.equal(path, beak);
+      assert.equal(
+        getMotionCapabilities('bright', mouth, EXPRESSIONS[expression], true).talking,
+        false,
+      );
+    }
+  }
+});

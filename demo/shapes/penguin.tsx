@@ -4,6 +4,7 @@ import { scaledFaceBox, shapeVariation } from './variation';
 function penguinFromName(name: string | number): CustomShape {
   const { width, height, detail } = shapeVariation(name, 'penguin');
   return {
+    fixedMouth: true,
     faceBox: scaledFaceBox(
       { x: 0.29, y: 0.27, width: 0.42, height: 0.37 },
       width,
@@ -30,7 +31,11 @@ function penguinFromName(name: string | number): CustomShape {
           d="M50 30 C39 15 26 27 26 45 C26 59 19 69 26 80 Q50 96 74 80 C81 69 74 59 74 45 C74 27 61 15 50 30Z"
           fill="#fbf8ee"
         />
-        <path d={`M45 44 Q50 ${41 - detail} 55 44 L50 48Z`} fill="#efa64f" />
+        <path
+          data-faceshape-beak=""
+          d={`M45 44 Q50 ${41 - detail} 55 44 L50 48Z`}
+          fill="#efa64f"
+        />
       </g>
     ),
   };

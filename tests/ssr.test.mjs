@@ -207,3 +207,23 @@ test('CommonJS exposes the public API without legacy presets', async () => {
   assert.equal(typeof library.Character.render, 'function');
   assert.equal(library.FACE_PRESETS, undefined);
 });
+
+test('simple line mouth remains a single unfilled curve for every expression', () => {
+  const paths = [];
+  for (const expression of Object.keys(EXPRESSIONS)) {
+    const svg = render({
+      expression,
+      face: { ...completeFace, mouth: 'standard' },
+      motion: { talking: true },
+    });
+    const mouth = svg.slice(svg.indexOf('data-faceshape-mouth'));
+    const path = mouth.match(/<path d="([^"]+)" fill="([^"]+)" stroke=/);
+    assert.equal(path[2], 'none');
+    assert.doesNotMatch(path[1], /[ZzLl]/);
+    assert.equal((path[1].match(/Q/g) || []).length, 1);
+    assert.doesNotMatch(mouth, /<ellipse|data-faceshape-shark-teeth/);
+    paths.push(path[1]);
+  }
+  assert.equal(new Set(paths).size, 6);
+  assert.equal(getMotionCapabilities('bright', 'standard').talking, false);
+});

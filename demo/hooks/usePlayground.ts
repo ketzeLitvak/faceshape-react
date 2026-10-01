@@ -32,7 +32,17 @@ export function usePlayground() {
     blink: true,
     lookAt: 'cursor',
   });
-  const capabilities = getMotionCapabilities(eyes, mouth, resolveExpression(expression));
+  const selectedShape =
+    shape in CUSTOM_SHAPES
+      ? CUSTOM_SHAPES[shape as keyof typeof CUSTOM_SHAPES]
+      : (shape as ShapeName);
+  const fixedMouth = typeof selectedShape !== 'string' && !!selectedShape.fixedMouth;
+  const capabilities = getMotionCapabilities(
+    eyes,
+    mouth,
+    resolveExpression(expression),
+    fixedMouth,
+  );
   const motion: MotionConfig = {
     idle: !motionDisabled && requestedMotion.idle,
     bounce: !motionDisabled && requestedMotion.bounce,
@@ -43,10 +53,7 @@ export function usePlayground() {
   };
   const toggle = (key: 'idle' | 'blink' | 'bounce' | 'shake' | 'talking') =>
     setMotion((value) => ({ ...value, [key]: !value[key] }));
-  const selectedShape =
-    shape in CUSTOM_SHAPES
-      ? CUSTOM_SHAPES[shape as keyof typeof CUSTOM_SHAPES]
-      : (shape as ShapeName);
+
   return {
     shape,
     setShape,
@@ -68,6 +75,7 @@ export function usePlayground() {
     setReduced,
     motionDisabled,
     capabilities,
+    fixedMouth,
     motion,
     setMotion,
     toggle,
