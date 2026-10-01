@@ -1,6 +1,7 @@
 import type { CustomShape } from '../../src';
+import { scaledFaceBox, shapeVariation } from './variation';
 
-export const shark: CustomShape = {
+const baseShark: CustomShape = {
   viewBox: '0 0 100 100',
   faceBox: { x: 0.24, y: 0.265, width: 0.52, height: 0.46 },
   render: ({ color }) => (
@@ -21,3 +22,20 @@ export const shark: CustomShape = {
     </g>
   ),
 };
+
+function sharkFromName(name: string | number): CustomShape {
+  const { width, height, detail } = shapeVariation(name, 'shark');
+  return {
+    faceBox: scaledFaceBox(baseShark.faceBox, width, height),
+    render: ({ color }) => (
+      <g transform={`translate(50 50) scale(${width} ${height}) translate(-50 -50)`}>
+        <path
+          d={`M40 20 Q46 ${7 - detail * 2} 53 ${4 - detail * 3} Q56 ${2 - detail * 2} 57 6 L61 23Z`}
+          fill={color}
+        />
+        {baseShark.render?.({ color })}
+      </g>
+    ),
+  };
+}
+export const shark: CustomShape = { ...baseShark, fromName: sharkFromName };

@@ -1,6 +1,6 @@
 import type { ExpressionName, FaceConfig, MotionConfig, ShapeName } from '../src';
 
-export type DemoShape = ShapeName | 'heart' | 'shark';
+export type DemoShape = ShapeName | 'heart' | 'shark' | 'penguin' | 'computer';
 
 export interface SnippetOptions {
   shape: DemoShape;

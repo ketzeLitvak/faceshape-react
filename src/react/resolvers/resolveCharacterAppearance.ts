@@ -13,12 +13,19 @@ export function resolveCharacterAppearance({
   identity,
   color,
 }: AppearanceOptions) {
-  const definition =
+  const baseDefinition =
     typeof shape === 'string'
       ? shape === 'blob' && identity !== undefined
         ? blobFromName(identity)
         : SHAPES[shape]
       : shape;
+  const definition =
+    identity !== undefined &&
+    baseDefinition &&
+    'fromName' in baseDefinition &&
+    baseDefinition.fromName
+      ? baseDefinition.fromName(identity)
+      : baseDefinition;
   if (!definition) {
     throw new Error(`Unknown shape: ${shape}`);
   }

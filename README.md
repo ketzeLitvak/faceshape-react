@@ -72,7 +72,9 @@ const heart = defineShape({
 />
 ```
 
-`faceBox` es relativo al `viewBox`. Las formas personalizadas también admiten `render: ({ color }) => ReactNode` para dibujar SVG dentro del mismo espacio de coordenadas. Las partes `Eyes`, `Mouth`, `Eyebrows` requieren `variant`. `Face` requiere el conjunto completo. La composición con `children` conserva el requisito de enviar `face` al `Character`.
+`faceBox` es relativo al `viewBox`. La demo incluye corazón, tiburón, pingüino y computadora. El nombre modifica las proporciones de las tres últimas, manteniendo la cara dentro de su zona de dibujo. El color fijo conserva esa variación de geometría.
+
+Las formas personalizadas también admiten `render: ({ color }) => ReactNode` para dibujar SVG dentro del mismo espacio de coordenadas. Las partes `Eyes`, `Mouth`, `Eyebrows` requieren `variant`. `Face` requiere el conjunto completo. La composición con `children` conserva el requisito de enviar `face` al `Character`.
 
 ## Movimiento y accesibilidad
 
@@ -102,3 +104,5 @@ Después de revisar un cambio visual intencional, actualizá las referencias con
 - Los consumidores deben elegir explícitamente si quieren cejas expresivas, de una geometría concreta o `none`.
 
 El paquete no fue publicado en npm. Su nombre es provisional y su licencia está pendiente (`UNLICENSED`).
+
+Una forma personalizada puede implementar `fromName: (name) => CustomShape` para resolver sus proporciones y su `faceBox` de forma determinista. Se resuelve junto con la apariencia y no se recalcula por cada frame. `createNameRandom(name, 'canal')` permite variaciones independientes por forma.

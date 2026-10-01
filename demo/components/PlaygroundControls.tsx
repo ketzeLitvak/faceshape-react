@@ -1,6 +1,8 @@
-import { EXPRESSIONS, type ExpressionName, SHAPES, type ShapeName } from '../../src';
+import { EXPRESSIONS, type ExpressionName, SHAPES } from '../../src';
 import type { usePlayground } from '../hooks/usePlayground';
 import { BROW_OPTIONS, EYE_OPTIONS, MOUTH_OPTIONS } from '../options';
+import { CUSTOM_SHAPES } from '../shapes';
+import type { DemoShape } from '../types';
 
 export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
   const {
@@ -44,31 +46,29 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
       <fieldset>
         <legend>FORMA</legend>
         <div className="options">
-          {(
-            [...Object.keys(SHAPES), 'heart', 'shark'] as (
-              | ShapeName
-              | 'heart'
-              | 'shark'
-            )[]
-          ).map((value) => (
-            <button
-              type="button"
-              key={value}
-              aria-pressed={shape === value}
-              onClick={() => setShape(value)}
-            >
-              {
+          {([...Object.keys(SHAPES), ...Object.keys(CUSTOM_SHAPES)] as DemoShape[]).map(
+            (value) => (
+              <button
+                type="button"
+                key={value}
+                aria-pressed={shape === value}
+                onClick={() => setShape(value)}
+              >
                 {
-                  circle: 'Círculo',
-                  blob: 'Blob',
-                  square: 'Cuadrado',
-                  star: 'Estrella',
-                  heart: 'Corazón',
-                  shark: 'Tiburón',
-                }[value]
-              }
-            </button>
-          ))}
+                  {
+                    circle: 'Círculo',
+                    blob: 'Blob',
+                    square: 'Cuadrado',
+                    star: 'Estrella',
+                    heart: 'Corazón',
+                    shark: 'Tiburón',
+                    penguin: 'Pingüino',
+                    computer: 'Computadora',
+                  }[value]
+                }
+              </button>
+            ),
+          )}
         </div>
       </fieldset>
       <fieldset>

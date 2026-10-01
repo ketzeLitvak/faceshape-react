@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { ShapeName } from '../../src';
 import {
   colorFromName,
   type ExpressionName,
@@ -9,13 +10,13 @@ import {
   type MotionConfig,
   type MouthVariant,
   resolveExpression,
-  type ShapeName,
 } from '../../src';
 import { useReducedMotion } from '../../src/react/hooks/useReducedMotion';
-import { heart, shark } from '../shapes';
+import { CUSTOM_SHAPES } from '../shapes';
+import type { DemoShape } from '../types';
 
 export function usePlayground() {
-  const [shape, setShape] = useState<ShapeName | 'heart' | 'shark'>('shark');
+  const [shape, setShape] = useState<DemoShape>('shark');
   const [eyes, setEyes] = useState<EyeVariant>('bright');
   const [mouth, setMouth] = useState<MouthVariant>('tongue');
   const [eyebrows, setEyebrows] = useState<EyebrowVariant>('expression');
@@ -42,7 +43,10 @@ export function usePlayground() {
   };
   const toggle = (key: 'idle' | 'blink' | 'bounce' | 'shake' | 'talking') =>
     setMotion((value) => ({ ...value, [key]: !value[key] }));
-  const selectedShape = shape === 'heart' ? heart : shape === 'shark' ? shark : shape;
+  const selectedShape =
+    shape in CUSTOM_SHAPES
+      ? CUSTOM_SHAPES[shape as keyof typeof CUSTOM_SHAPES]
+      : (shape as ShapeName);
   return {
     shape,
     setShape,

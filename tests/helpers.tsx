@@ -53,3 +53,5 @@ export function renderPose(face: FaceConfig, state: FaceState, wink = false) {
     id.replace(/_R[^_]+_/g, 'stable'),
   );
 }
+
+export { computer, penguin, shark } from '../demo/shapes';

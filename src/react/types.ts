@@ -62,6 +62,8 @@ export interface FaceConfig {
 
 export interface CustomShape extends Omit<ShapeDefinition, 'path'> {
   path?: string;
+  /** Resolve identity-dependent geometry once, before rendering. */
+  fromName?: (name: string | number) => CustomShape;
   /** SVG nodes only, e.g. paths. Do not return a nested svg with a different coordinate space. */
   render?: (props: { color: string }) => ReactNode;
 }
