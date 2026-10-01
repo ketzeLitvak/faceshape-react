@@ -45,8 +45,8 @@ La demo comienza con ojos `bright`, boca `tongue` y cejas `expression`, enviados
 
 | Parte | Variantes |
 | --- | --- |
-| Ojos | `round`, `oval`, `cute`, `happy`, `closed`, `dots`, `bright`, `joyful`, `cartoon`, `sly`, `kawaii`, `capsule` |
-| Boca | `standard`, `wide`, `small`, `gentle`, `tongue`, `joyful`, `toothy`, `shark`, `smirk`, `cat` |
+| Ojos | `round`, `oval`, `cute`, `happy`, `closed`, `dots`, `bright`, `joyful`, `cartoon`, `sly`, `capsule` |
+| Boca | `beak`, `standard`, `wide`, `small`, `gentle`, `tongue`, `joyful`, `toothy`, `shark`, `smirk`, `cat` |
 | Cejas | `expression`, `none`, `soft`, `raised`, `angry`, `sad` |
 
 Cada ojo define sus dimensiones, blanco, brillo y comportamiento. Ninguna variante depende de un estilo global. Todas las bocas y ojos responden a la expresión. Las cejas `expression` siguen directamente la emoción; las demás variantes son elecciones explícitas de geometría.
@@ -109,4 +109,6 @@ Una forma personalizada puede implementar `fromName: (name) => CustomShape` para
 
 El trazo `standard` conserva siempre una sola curva sin relleno: su ancho y curvatura dependen de la expresión. No admite animación de habla y la demo desactiva ese control. Círculo, cuadrado, estrella y corazón varían de tamaño según el nombre. El triángulo es una forma base adicional; tanto éste como el cuadrado varían también su rotación (hasta 15°). La cara mantiene su orientación y su zona se escala junto con la silueta.
 
-Las formas con `fixedMouth: true` incorporan un pico o boca permanente en su dibujo. No se dibuja una boca adicional y no admiten habla. El pingüino usa este contrato: conserva el pico y expresa las emociones con ojos y cejas; sus chips de boca están desactivados en la demo.
+El pico es la variante de boca `beak`, disponible para cualquier forma. En la demo se selecciona al elegir pingüino, y después se puede reemplazar por cualquier otra boca. La silueta no incluye el pico. Su contorno permanece constante, acompaña suavemente la mirada y no admite habla.
+
+En `happy`, la boca `cat` muestra una curva cerrada de dos lóbulos y cachetes rosados; el habla queda desactivada para esa pose. Los dientes `shark` siguen la curva superior de la boca, también en sorpresa y durante las transiciones.

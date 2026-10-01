@@ -24,6 +24,5 @@ export interface EyeStrategy {
   isClosed: (openness: number) => boolean;
   gazeDistance: number;
   browBaseline: number;
-  cheeks: boolean;
   idleGlance: boolean;
 }

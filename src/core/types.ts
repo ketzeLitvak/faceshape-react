@@ -22,8 +22,6 @@ export interface ShapeDefinition {
   transform?: string;
   /** Maximum identity-dependent rotation in degrees. */
   rotationRange?: number;
-  /** The silhouette includes a permanent mouth or beak. */
-  fixedMouth?: boolean;
   faceBox: FaceBox;
 }
 

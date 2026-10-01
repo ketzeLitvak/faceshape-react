@@ -67,28 +67,24 @@ test('basic shapes and heart change size reproducibly, square and triangle also 
   }
 });
 
-test('penguin keeps its beak and never renders a separate mouth in any expression', async () => {
-  const { EXPRESSIONS, getMotionCapabilities } = await import('../dist/index.js');
-  let beak;
-  for (const expression of Object.keys(EXPRESSIONS)) {
-    for (const mouth of ['standard', 'tongue', 'shark', 'cat']) {
-      const svg = renderToStaticMarkup(
-        React.createElement(Character, {
-          shape: penguin,
-          name: 'Pingu',
-          face: { ...face, mouth },
-          expression,
-          motion: { talking: true },
-        }),
-      );
-      assert.doesNotMatch(svg, /data-faceshape-mouth|data-faceshape-shark-teeth/);
-      const path = svg.match(/data-faceshape-beak="" d="([^"]+)"/)[1];
-      beak ??= path;
-      assert.equal(path, beak);
-      assert.equal(
-        getMotionCapabilities('bright', mouth, EXPRESSIONS[expression], true).talking,
-        false,
-      );
-    }
-  }
+test('penguin mouths are interchangeable and beaks follow whole-eye gaze', () => {
+  const render = (mouth) =>
+    renderToStaticMarkup(
+      React.createElement(Character, {
+        shape: penguin,
+        name: 'Pingu',
+        face: { ...face, mouth },
+        motion: { lookAt: { x: 1, y: 0 } },
+        expression: 'happy',
+      }),
+    );
+  assert.match(render('tongue'), /data-mouth-variant="tongue"/);
+  assert.doesNotMatch(render('tongue'), /data-faceshape-beak/);
+  const beak = render('beak');
+  assert.match(beak, /data-mouth-variant="beak"/);
+  assert.match(beak, /fill="#efa64f"/);
+  assert.match(
+    beak,
+    /transform="translate\(1.2000000000000002 -1.2000000000000002\)" data-faceshape-mouth/,
+  );
 });

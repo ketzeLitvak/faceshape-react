@@ -26,7 +26,6 @@ const eyes = [
   'joyful',
   'cartoon',
   'sly',
-  'kawaii',
   'capsule',
 ];
 const mouths = [
@@ -226,4 +225,19 @@ test('simple line mouth remains a single unfilled curve for every expression', (
   }
   assert.equal(new Set(paths).size, 6);
   assert.equal(getMotionCapabilities('bright', 'standard').talking, false);
+});
+
+test('happy cat mouth is closed with rosy cheeks and cannot talk', () => {
+  const svg = render({ expression: 'happy', face: { ...completeFace, mouth: 'cat' } });
+  assert.match(svg, /data-faceshape-mouth-cheeks/);
+  const mouth = svg.slice(svg.indexOf('data-mouth-variant="cat"'));
+  const path = mouth.match(/<path d="([^"]+)" fill="([^"]+)" stroke=/);
+  assert.equal(path[2], 'none');
+  assert.doesNotMatch(path[1], /Z/);
+  assert.equal((path[1].match(/Q/g) || []).length, 2);
+  assert.equal(getMotionCapabilities('bright', 'cat', EXPRESSIONS.happy).talking, false);
+  assert.equal(
+    getMotionCapabilities('bright', 'cat', EXPRESSIONS.surprised).talking,
+    true,
+  );
 });

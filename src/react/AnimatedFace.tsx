@@ -8,7 +8,6 @@ import { useLookAt } from './hooks/useLookAt';
 import type { AnimatedFaceProps } from './types';
 
 export function AnimatedFace({
-  fixedMouth,
   geometry,
   face,
   motion,
@@ -18,7 +17,7 @@ export function AnimatedFace({
   color,
   children,
 }: AnimatedFaceProps) {
-  const capabilities = getMotionCapabilities(face.eyes, face.mouth, geometry, fixedMouth);
+  const capabilities = getMotionCapabilities(face.eyes, face.mouth, geometry);
   const frame = useAnimatedFace(geometry, {
     duration: Number.isFinite(transition.duration)
       ? Math.max(0, transition.duration ?? 300)
@@ -39,7 +38,6 @@ export function AnimatedFace({
   );
   const state = {
     ...frame,
-    fixedMouth,
     look: {
       x: clamp(directLook.x + frame.gaze.x, -1, 1),
       y: clamp(directLook.y + frame.gaze.y, -1, 1),

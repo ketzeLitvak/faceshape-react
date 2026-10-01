@@ -87,3 +87,34 @@ test('resolvers respect explicit geometry and fixed colors', () => {
     /needs path or render/,
   );
 });
+
+test('shark tooth bases follow the upper mouth curve through surprise and transitions', async () => {
+  const { sharkTeethPaths } = await import('../.test-dist/helpers.mjs');
+  for (const amount of [0, 0.25, 0.5, 0.75, 1]) {
+    const geometry = calculateFrame(
+      EXPRESSIONS.happy,
+      EXPRESSIONS.surprised,
+      amount * 300,
+      { ...options, talking: false },
+    ).geometry;
+    const smiling = geometry.mouthCurve > 0;
+    const baseline = smiling ? 64 : 68;
+    const control = smiling
+      ? 64
+      : 68 + geometry.mouthCurve * 13 - geometry.mouthOpen * 14;
+    for (const path of sharkTeethPaths(geometry)) {
+      const [left, yLeft, center, controlY, right, yRight] = path
+        .match(/-?\d+(?:\.\d+)?/g)
+        .map(Number);
+      const start = (left - (50 - geometry.mouthWidth / 2)) / geometry.mouthWidth;
+      const end = (right - (50 - geometry.mouthWidth / 2)) / geometry.mouthWidth;
+      const edge = (t) => baseline + 2 * t * (1 - t) * (control - baseline);
+      assert.ok(Math.abs(yLeft - edge(start)) < 1e-10);
+      assert.ok(Math.abs(yRight - edge(end)) < 1e-10);
+      assert.ok(
+        Math.abs((yLeft + 2 * controlY + yRight) / 4 - edge((start + end) / 2)) < 1e-10,
+      );
+      assert.ok(Math.abs(center - (left + right) / 2) < 1e-10);
+    }
+  }
+});

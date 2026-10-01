@@ -6,7 +6,6 @@ export const ovalEyes: EyeStrategy = {
   dimensions: { rx: 7.5, ry: 13, whites: false, highlight: true },
   isClosed: () => false,
   gazeDistance: 3,
-  cheeks: false,
   idleGlance: false,
   browBaseline: 16,
 };

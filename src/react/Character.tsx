@@ -78,7 +78,6 @@ export const Character = forwardRef<SVGSVGElement, CharacterProps>(function Char
             )}
             <g transform={transform}>
               <AnimatedFace
-                fixedMouth={definition.fixedMouth}
                 geometry={geometry}
                 face={face}
                 motion={motion}

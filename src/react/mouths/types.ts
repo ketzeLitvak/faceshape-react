@@ -5,11 +5,16 @@ export interface MouthShape {
   path: string;
   bottom: number;
   tongueHeight: number;
+  closed?: boolean;
+  cheeks?: boolean;
 }
 
 export interface MouthStrategy {
   widthScale: number;
   lineOnly?: boolean;
+  solidFill?: string;
+  supportsTalking?: boolean;
+  isClosed?: (geometry: Partial<FaceGeometry>) => boolean;
   shape: (geometry: FaceGeometry) => MouthShape;
   decoration?: (geometry: FaceGeometry) => ReactNode;
 }

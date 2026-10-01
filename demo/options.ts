@@ -6,12 +6,12 @@ export const EYE_OPTIONS: { value: EyeVariant; label: string }[] = [
   { value: 'joyful', label: 'Arcos sonrientes' },
   { value: 'cartoon', label: 'Blancos con pupilas' },
   { value: 'sly', label: 'Entrecerrados' },
-  { value: 'kawaii', label: 'Puntos redondos' },
   { value: 'capsule', label: 'Cápsulas animadas' },
   { value: 'closed', label: 'Cerrados' },
 ];
 
 export const MOUTH_OPTIONS: { value: MouthVariant; label: string }[] = [
+  { value: 'beak', label: 'Pico' },
   { value: 'gentle', label: 'Sonrisa pequeña' },
   { value: 'tongue', label: 'Abierta con lengua' },
   { value: 'joyful', label: 'Sonrisa amplia' },

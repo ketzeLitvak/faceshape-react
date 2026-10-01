@@ -16,9 +16,15 @@ import { CUSTOM_SHAPES } from '../shapes';
 import type { DemoShape } from '../types';
 
 export function usePlayground() {
-  const [shape, setShape] = useState<DemoShape>('shark');
+  const [shape, setShapeState] = useState<DemoShape>('shark');
   const [eyes, setEyes] = useState<EyeVariant>('bright');
   const [mouth, setMouth] = useState<MouthVariant>('tongue');
+  const setShape = (value: DemoShape) => {
+    setShapeState(value);
+    if (value === 'penguin') {
+      setMouth('beak');
+    }
+  };
   const [eyebrows, setEyebrows] = useState<EyebrowVariant>('expression');
   const face: FaceConfig = { eyes, mouth, eyebrows };
   const [expression, setExpression] = useState<ExpressionName>('happy');
@@ -36,13 +42,7 @@ export function usePlayground() {
     shape in CUSTOM_SHAPES
       ? CUSTOM_SHAPES[shape as keyof typeof CUSTOM_SHAPES]
       : (shape as ShapeName);
-  const fixedMouth = typeof selectedShape !== 'string' && !!selectedShape.fixedMouth;
-  const capabilities = getMotionCapabilities(
-    eyes,
-    mouth,
-    resolveExpression(expression),
-    fixedMouth,
-  );
+  const capabilities = getMotionCapabilities(eyes, mouth, resolveExpression(expression));
   const motion: MotionConfig = {
     idle: !motionDisabled && requestedMotion.idle,
     bounce: !motionDisabled && requestedMotion.bounce,
@@ -75,7 +75,6 @@ export function usePlayground() {
     setReduced,
     motionDisabled,
     capabilities,
-    fixedMouth,
     motion,
     setMotion,
     toggle,

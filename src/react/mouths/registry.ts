@@ -1,4 +1,5 @@
 import type { MouthVariant } from '../types';
+import { beakMouth } from './beak';
 import { catMouth } from './cat';
 import { gentleMouth } from './gentle';
 import { joyfulMouth } from './joyful';
@@ -12,6 +13,7 @@ import type { MouthStrategy } from './types';
 import { wideMouth } from './wide';
 
 export const MOUTH_STRATEGIES = {
+  beak: beakMouth,
   standard: standardMouth,
   wide: wideMouth,
   small: smallMouth,

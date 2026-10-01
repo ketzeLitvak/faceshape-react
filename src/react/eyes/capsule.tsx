@@ -6,7 +6,6 @@ export const capsuleEyes: EyeStrategy = {
   dimensions: { rx: 6, ry: 15, whites: false, highlight: false },
   isClosed: () => false,
   gazeDistance: 3,
-  cheeks: false,
   idleGlance: true,
   browBaseline: 16,
 };

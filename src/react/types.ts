@@ -20,10 +20,10 @@ export type EyeVariant =
   | 'joyful'
   | 'cartoon'
   | 'sly'
-  | 'kawaii'
   | 'capsule';
 
 export type MouthVariant =
+  | 'beak'
   | 'standard'
   | 'wide'
   | 'small'
@@ -92,7 +92,6 @@ export type CharacterProps = Omit<SVGProps<SVGSVGElement>, 'children' | 'color'>
 };
 
 export interface FaceState {
-  fixedMouth?: boolean;
   geometry: FaceGeometry;
   blink: number;
   talk: number;
@@ -117,8 +116,7 @@ export interface AnimatedFaceOptions {
 export type FaceProps = FaceConfig & { children?: ReactNode };
 
 export interface SharkTeethProps {
-  width: number;
-  openness: number;
+  geometry: FaceGeometry;
 }
 
 export interface MotionCapabilities {
@@ -128,7 +126,6 @@ export interface MotionCapabilities {
 }
 
 export interface AnimatedFaceProps {
-  fixedMouth?: boolean;
   geometry: FaceGeometry;
   face: FaceConfig;
   motion: MotionConfig;

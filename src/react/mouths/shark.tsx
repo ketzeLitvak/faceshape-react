@@ -5,7 +5,5 @@ import type { MouthStrategy } from './types';
 export const sharkMouth: MouthStrategy = {
   widthScale: 1.1,
   shape: openSmileShape,
-  decoration: (geometry) => (
-    <SharkTeeth width={geometry.mouthWidth} openness={geometry.mouthOpen} />
-  ),
+  decoration: (geometry) => <SharkTeeth geometry={geometry} />,
 };

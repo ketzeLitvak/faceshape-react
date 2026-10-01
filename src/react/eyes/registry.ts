@@ -7,7 +7,6 @@ import { cuteEyes } from './cute';
 import { dotsEyes } from './dots';
 import { happyEyes } from './happy';
 import { joyfulEyes } from './joyful';
-import { kawaiiEyes } from './kawaii';
 import { ovalEyes } from './oval';
 import { roundEyes } from './round';
 import { slyEyes } from './sly';
@@ -24,6 +23,5 @@ export const EYE_STRATEGIES = {
   joyful: joyfulEyes,
   cartoon: cartoonEyes,
   sly: slyEyes,
-  kawaii: kawaiiEyes,
   capsule: capsuleEyes,
 } satisfies Record<EyeVariant, EyeStrategy>;

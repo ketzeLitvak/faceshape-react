@@ -6,7 +6,6 @@ export const joyfulEyes: EyeStrategy = {
   dimensions: { rx: 6.5, ry: 13, whites: false, highlight: true },
   isClosed: (openness) => openness <= 1.05,
   gazeDistance: 3,
-  cheeks: false,
   idleGlance: false,
   browBaseline: 16,
 };

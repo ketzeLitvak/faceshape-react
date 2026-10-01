@@ -7,13 +7,16 @@ import type { EyeVariant, MotionCapabilities, MouthVariant } from './types';
 export function getMotionCapabilities(
   eyes: EyeVariant,
   mouth?: MouthVariant,
-  geometry?: Pick<FaceGeometry, 'eyeOpen'>,
-  fixedMouth = false,
+  geometry?: Partial<FaceGeometry>,
 ): MotionCapabilities {
   const closed = EYE_STRATEGIES[eyes].isClosed(geometry?.eyeOpen ?? 1);
   return {
     blink: !closed,
     lookAt: !closed,
-    talking: !fixedMouth && (mouth === undefined || !MOUTH_STRATEGIES[mouth].lineOnly),
+    talking:
+      mouth === undefined ||
+      (!MOUTH_STRATEGIES[mouth].lineOnly &&
+        MOUTH_STRATEGIES[mouth].supportsTalking !== false &&
+        !MOUTH_STRATEGIES[mouth].isClosed?.(geometry ?? {})),
   };
 }

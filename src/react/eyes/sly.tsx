@@ -6,7 +6,6 @@ export const slyEyes: EyeStrategy = {
   dimensions: { rx: 6.5, ry: 13, whites: false, highlight: true },
   isClosed: () => false,
   gazeDistance: 1.8,
-  cheeks: false,
   idleGlance: false,
   browBaseline: 28,
 };

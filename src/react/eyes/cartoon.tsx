@@ -6,7 +6,6 @@ export const cartoonEyes: EyeStrategy = {
   dimensions: { rx: 12, ry: 15, whites: true, highlight: true },
   isClosed: () => false,
   gazeDistance: 3,
-  cheeks: false,
   idleGlance: false,
   browBaseline: 16,
 };

@@ -1,21 +1,12 @@
 import type { SharkTeethProps } from '../types';
+import { sharkTeethPaths } from '../utils/sharkTeethGeometry';
 
-/** Three pointed upper teeth, clipped by the surrounding mouth. */
-export function SharkTeeth({ width, openness }: SharkTeethProps) {
-  const halfWidth = width * 0.09;
-  const depth = 8 * openness;
-
+export function SharkTeeth({ geometry }: SharkTeethProps) {
   return (
     <g data-faceshape-shark-teeth="" fill="white">
-      {[-1, 0, 1].map((position) => {
-        const center = 50 + position * width * 0.24;
-        return (
-          <path
-            key={position}
-            d={`M${center - halfWidth} 64 L${center + halfWidth} 64 L${center} ${64 + depth}Z`}
-          />
-        );
-      })}
+      {sharkTeethPaths(geometry).map((path) => (
+        <path key={path} d={path} />
+      ))}
     </g>
   );
 }
