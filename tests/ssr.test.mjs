@@ -242,6 +242,19 @@ test('happy cat mouth is closed with rosy cheeks and cannot talk', () => {
   );
 });
 
+test('surprised cat mouth has one rounded opening with no central notch', () => {
+  const svg = render({
+    expression: 'surprised',
+    face: { ...completeFace, mouth: 'cat' },
+  });
+  const mouth = svg.slice(svg.indexOf('data-mouth-variant="cat"'));
+  const path = mouth.match(/<path d="([^"]+)" fill="([^"]+)" stroke=/);
+  assert.equal(path[1], 'M42 68 Q42 52 50 52 Q58 52 58 68 Q58 84 50 84 Q42 84 42 68Z');
+  assert.notEqual(path[2], 'none');
+  assert.doesNotMatch(mouth, /data-faceshape-mouth-cheeks/);
+  assert.match(mouth, /cy="83"/);
+});
+
 test('eyes, mouths and brows can be hidden independently in every expression', () => {
   for (const expression of Object.keys(EXPRESSIONS)) {
     for (const noEyes of [true, false]) {
@@ -282,4 +295,38 @@ test('eyes, mouths and brows can be hidden independently in every expression', (
       }
     }
   }
+});
+
+test('sleepy mouths retain their style and closed resting mouths disable talking', () => {
+  const variants = ['cat', 'smirk', 'shark', 'toothy', 'joyful', 'gentle', 'tongue'];
+  const paths = [];
+  for (const variant of variants) {
+    const svg = render({
+      expression: 'sleepy',
+      face: { ...completeFace, mouth: variant },
+    });
+    const mouth = svg.slice(svg.indexOf(`data-mouth-variant="${variant}"`));
+    const path = mouth.match(/<path d="([^"]+)" fill="([^"]+)" stroke=/);
+    paths.push(path[1]);
+    const closed = ['cat', 'smirk', 'gentle'].includes(variant);
+    assert.equal(path[2] === 'none', closed, variant);
+    assert.equal(
+      getMotionCapabilities('bright', variant, EXPRESSIONS.sleepy).talking,
+      !closed,
+      variant,
+    );
+    if (variant === 'cat') {
+      assert.doesNotMatch(mouth, /data-faceshape-mouth-cheeks/);
+    }
+    if (variant === 'shark') {
+      assert.match(mouth, /data-faceshape-shark-teeth/);
+    }
+    if (variant === 'toothy') {
+      assert.match(mouth, /fill="white"/);
+    }
+    if (variant === 'tongue') {
+      assert.match(path[1], /C/);
+    }
+  }
+  assert.equal(new Set(paths).size, variants.length);
 });

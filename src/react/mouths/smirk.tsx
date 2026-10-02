@@ -1,8 +1,11 @@
+import { relaxation, relaxedMouth } from './relaxed';
 import { standardShape } from './shared';
 import type { MouthStrategy } from './types';
 
 export const smirkMouth: MouthStrategy = {
+  resolveGeometry: relaxedMouth({ mouthOpen: 0, mouthCurve: 0.4, widthScale: 1 }),
   widthScale: 0.8,
+  isClosed: (geometry) => relaxation(geometry) > 0.99,
   shape: (geometry) => {
     const left = 50 - geometry.mouthWidth / 2;
     const right = 50 + geometry.mouthWidth / 2;

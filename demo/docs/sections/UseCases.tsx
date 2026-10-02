@@ -1,4 +1,7 @@
 import { Character } from '../../../src';
+import { ChatPreview } from '../ChatPreview';
+import { CodeBlock } from '../CodeBlock';
+import { chatExample, chatStylesExample } from '../examples';
 
 export function UseCases() {
   return (
@@ -48,6 +51,21 @@ export function UseCases() {
           </p>
         </div>
       </div>
+      <h3>Chat con avatares</h3>
+      <p>
+        Usá una identidad estable para que los mensajes de una misma persona compartan
+        color y forma. La expresión puede cambiar por mensaje sin cambiar su identidad. En
+        producción podés usar el ID de usuario como name y mostrar su nombre en el texto.
+      </p>
+      <ChatPreview />
+      <p>
+        Los nombres escritos junto a cada mensaje identifican al autor, por eso los
+        avatares son decorativos. El ejemplo usa reducedMotion para una conversación
+        tranquila; podés habilitar parpadeo cuando corresponda. Usá expresiones que el
+        usuario elija o que representen estados explícitos del chat.
+      </p>
+      <CodeBlock code={chatExample} label="Chat con React" />
+      <CodeBlock code={chatStylesExample} label="CSS del chat" />
     </section>
   );
 }

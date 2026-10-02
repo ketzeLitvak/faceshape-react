@@ -16,7 +16,8 @@ export function Variation() {
         <code>varyShape</code> está pensado para contornos en coordenadas 0–100, centrados
         en (50, 50). Escala el contorno y su faceBox, y mantiene la cara derecha.{' '}
         <code>rotationRange</code> limita la rotación en grados. Para otros espacios de
-        coordenadas, calculá tus propias proporciones.
+        coordenadas, calculá tus propias proporciones. El cuadrado y el triángulo
+        incluidos usan 180° de rango: pueden tomar cualquier orientación según el nombre.
       </p>
       <h3>Contorno y proporciones propios</h3>
       <CodeBlock code={randomExample} />

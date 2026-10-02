@@ -1,7 +1,9 @@
+import { relaxedMouth } from './relaxed';
 import { standardShape } from './shared';
 import type { MouthStrategy } from './types';
 
 export const joyfulMouth: MouthStrategy = {
+  resolveGeometry: relaxedMouth({ mouthOpen: 0.28, mouthCurve: 0.35, widthScale: 1.15 }),
   widthScale: 1.15,
   shape: (geometry) => ({
     ...standardShape(geometry),

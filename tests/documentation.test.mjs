@@ -10,7 +10,7 @@ test('documentation provides every navigation target, examples, and the complete
     assert.match(html, new RegExp(`id="${id}"`));
     assert.match(html, new RegExp(`href="#${id}"`));
   }
-  assert.equal((html.match(/>Copiar<\/button>/g) || []).length, 10);
+  assert.equal((html.match(/>Copiar<\/button>/g) || []).length, 12);
   for (const topic of [
     'faceBox',
     'fromName',
@@ -26,4 +26,17 @@ test('documentation provides every navigation target, examples, and the complete
   assert.match(html, /todavía no está publicado/);
   assert.match(html, /faceStyle/);
   assert.doesNotMatch(html, /NaN|undefined/);
+});
+
+test('chat use case shows a conversation with consistent author identities', () => {
+  const html = renderToStaticMarkup(React.createElement(Documentation));
+  const preview = html.slice(
+    html.indexOf('aria-label="Ejemplo de conversación con avatares"'),
+    html.indexOf('Chat con React'),
+  );
+  assert.equal((preview.match(/class="chat-message"/g) || []).length, 3);
+  assert.equal((preview.match(/data-mouth-variant="cat"/g) || []).length, 3);
+  assert.equal((preview.match(/<strong>Eze<\/strong>/g) || []).length, 2);
+  assert.match(preview, /<strong>Sofi<\/strong>/);
+  assert.match(html, /ID de usuario/);
 });

@@ -12,6 +12,7 @@ export interface MouthShape {
 export interface MouthStrategy {
   hidden?: boolean;
   widthScale: number;
+  resolveGeometry?: (geometry: FaceGeometry) => FaceGeometry;
   lineOnly?: boolean;
   solidFill?: string;
   supportsTalking?: boolean;

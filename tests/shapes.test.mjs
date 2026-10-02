@@ -59,7 +59,7 @@ test('basic shapes and heart change size reproducibly, square and triangle also 
     const angle = Number(first.definition.transform.match(/rotate\(([^)]+)\)/)[1]);
     if (shape === 'square' || shape === 'triangle') {
       assert.notEqual(angle, 0);
-      assert.ok(Math.abs(angle) <= 15);
+      assert.ok(Math.abs(angle) <= 180);
     } else {
       assert.equal(angle, 0);
     }
@@ -87,4 +87,20 @@ test('penguin mouths are interchangeable and beaks follow whole-eye gaze', () =>
     beak,
     /transform="translate\(1.2000000000000002 -1.2000000000000002\)" data-faceshape-mouth/,
   );
+});
+
+test('square and triangle names cover a full turn reproducibly', async () => {
+  const { resolveCharacterAppearance } = await import('../.test-dist/helpers.mjs');
+  for (const shape of ['square', 'triangle']) {
+    const quadrants = new Set();
+    for (let i = 0; i < 100; i++) {
+      const options = { shape, identity: `Rotation ${i}` };
+      const definition = resolveCharacterAppearance(options).definition;
+      assert.deepEqual(definition, resolveCharacterAppearance(options).definition);
+      const angle = Number(definition.transform.match(/rotate\(([^)]+)\)/)[1]);
+      assert.ok(angle >= -180 && angle <= 180);
+      quadrants.add(Math.floor((angle + 180) / 90));
+    }
+    assert.equal(quadrants.size, 4);
+  }
 });

@@ -152,3 +152,63 @@ const curious = defineExpression({
   expression={curious}
   transition={{ duration: 400, easing: 'ease-out' }}
 />`;
+
+export const chatExample = `import { Character, type ExpressionName } from 'faceshape-react';
+
+const messages: {
+  id: string;
+  name: string;
+  text: string;
+  expression: ExpressionName;
+}[] = [
+  { id: '1', name: 'Eze', text: '¡Hola! ¿Podemos usar estos personajes en el chat?', expression: 'happy' },
+  { id: '2', name: 'Sofi', text: 'Sí, cada persona conserva su avatar por nombre.', expression: 'neutral' },
+  { id: '3', name: 'Eze', text: '¡Qué bueno! El mío también puede cambiar de expresión.', expression: 'surprised' },
+];
+
+export function ChatMessages() {
+  return (
+    <ol className="chat-messages">
+      {messages.map((message) => (
+        <li className="chat-message" key={message.id}>
+          <Character
+            name={message.name}
+            face={{ eyes: 'bright', mouth: 'cat', eyebrows: 'expression' }}
+            expression={message.expression}
+            size={56}
+            reducedMotion
+          />
+          <div className="chat-bubble">
+            <strong>{message.name}</strong>
+            <p>{message.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}`;
+
+export const chatStylesExample = `.chat-messages {
+  display: grid;
+  gap: 20px;
+  padding: 24px;
+  margin: 0;
+  list-style: none;
+}
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+.chat-message > svg { flex: 0 0 56px; }
+.chat-bubble {
+  min-width: 0;
+  padding: 14px 18px;
+  border-radius: 4px 16px 16px;
+  background: #262832;
+  color: #f4f4f5;
+  overflow-wrap: anywhere;
+}
+.chat-bubble strong { color: #a7e8cc; }
+.chat-bubble p { margin: 6px 0 0; }`;

@@ -12,7 +12,7 @@ export function Mouth({ variant }: { variant: MouthVariant }) {
   const styleVariant = variant;
   const strategy = MOUTH_STRATEGIES[styleVariant];
   const mouthGeometry = resolveMouthGeometry(
-    geometry,
+    strategy.resolveGeometry?.(geometry) ?? geometry,
     strategy.widthScale,
     strategy.lineOnly || strategy.supportsTalking === false ? 0 : talk,
   );
