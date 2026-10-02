@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Eyebrows } from '../src/react/Eyebrows';
+import { eyeAnchors } from '../src/react/eyes/anchors';
 import { EYE_STRATEGIES } from '../src/react/eyes/registry';
 import { Face } from '../src/react/Face';
 import { FaceContext } from '../src/react/FaceContext';
@@ -30,18 +31,20 @@ export function renderPose(face: FaceConfig, state: FaceState, wink = false) {
           <Face {...face}>
             <Eyebrows variant={face.eyebrows} />
             <Mouth variant={face.mouth} />
-            {[-1, 1].map((side, index) => (
-              <Eye
-                key={side}
-                face={{ ...state, blink: index === 0 ? 0 : 1 }}
-                x={50 + side * state.geometry.eyeSpacing}
-                angle={0}
-                index={index}
-                id="wink"
-                dimensions={EYE_STRATEGIES[face.eyes].dimensions}
-                gaze="translate(0 0)"
-              />
-            ))}
+            {eyeAnchors(EYE_STRATEGIES[face.eyes], state.geometry).map(
+              (anchor, index) => (
+                <Eye
+                  key={anchor.side}
+                  face={{ ...state, blink: index === 0 ? 0 : 1 }}
+                  x={anchor.x}
+                  angle={0}
+                  index={index}
+                  id="wink"
+                  dimensions={EYE_STRATEGIES[face.eyes].dimensions}
+                  gaze="translate(0 0)"
+                />
+              ),
+            )}
           </Face>
         ) : (
           <Face {...face} />
@@ -56,7 +59,6 @@ export function renderPose(face: FaceConfig, state: FaceState, wink = false) {
 
 export { Documentation } from '../demo/docs/Documentation';
 export { DOC_SECTIONS } from '../demo/docs/navigation';
-export { computer, heart, penguin, shark } from '../demo/shapes';
+export { CUSTOM_SHAPES, computer, heart, penguin, shark } from '../demo/shapes';
 export { sharkTeethPaths } from '../src/react/utils/sharkTeethGeometry';
-
 export { toothyTeethPath } from '../src/react/utils/toothyTeethGeometry';

@@ -15,6 +15,13 @@ const options = {
   glance: false,
 };
 const configs = [
+  { eyes: 'eyelashes', mouth: 'cat', eyebrows: 'soft' },
+  { eyes: 'heart', mouth: 'cat', eyebrows: 'soft' },
+  { eyes: 'star', mouth: 'cat', eyebrows: 'soft' },
+  { eyes: 'softLids', mouth: 'cat', eyebrows: 'soft' },
+  { eyes: 'cyclops', mouth: 'cat', eyebrows: 'soft' },
+  { eyes: 'spiral', mouth: 'cat', eyebrows: 'soft' },
+
   { eyes: 'bright', mouth: 'tongue', eyebrows: 'expression' },
   { eyes: 'sly', mouth: 'smirk', eyebrows: 'soft' },
   { eyes: 'cartoon', mouth: 'shark', eyebrows: 'expression' },

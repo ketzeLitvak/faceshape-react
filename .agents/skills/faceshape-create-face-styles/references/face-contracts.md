@@ -23,6 +23,7 @@ interface EyeRenderProps {
   gaze: string;
 }
 interface EyeStrategy {
+  anchors?: (geometry: FaceGeometry) => { x: number; angle: number; side: -1 | 0 | 1 }[];
   hidden?: boolean;
   render: React.ComponentType<EyeRenderProps>;
   dimensions: EyeDimensions;
@@ -33,7 +34,7 @@ interface EyeStrategy {
 }
 ```
 
-Eyes actual usa x=50±eyeSpacing, y≈36 y dos instancias. El renderer recibe index para distinguirlas. Leer el fixture de guiño; no suponer que FaceState incluye wink. `isClosed` describe capacidad por apertura de expresión, no el frame de blink. whites también participa en la política de mirada.
+Eyes actual usa eyeAnchors: por defecto x=50±eyeSpacing y dos instancias, o anchors definido por la estrategia (cyclops usa x=50 y una instancia). La coordenada vertical habitual es y≈36. El renderer recibe index para distinguirlas. Leer el fixture de guiño; no suponer que FaceState incluye wink. `isClosed` describe capacidad por apertura de expresión, no el frame de blink. whites también participa en la política de mirada.
 
 ## MouthStrategy
 
@@ -69,7 +70,7 @@ interface BrowGeometry { hidden?: boolean; angle: number; lift: number; opacity:
 type BrowStrategy = (geometry: FaceGeometry) => BrowGeometry;
 ```
 
-El renderer común actualmente usa dos arcos, x de ojos y browBaseline+lift. Otra forma de ceja requiere una extensión tipada de la estrategia; no añadir ifs por variante al wrapper.
+El renderer común usa los mismos anchors de la estrategia ocular y browBaseline+lift: un arco central para cyclops, dos para el resto. Otra forma de ceja requiere una extensión tipada de la estrategia; no añadir ifs por variante al wrapper.
 
 ## Composición pública
 

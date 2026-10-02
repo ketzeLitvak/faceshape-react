@@ -65,6 +65,14 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
                     shark: 'Tiburón',
                     penguin: 'Pingüino',
                     computer: 'Computadora',
+                    cloud: 'Nube',
+                    ghost: 'Fantasma',
+                    cat: 'Gato',
+                    robot: 'Robot',
+                    planet: 'Planeta',
+                    flower: 'Flor',
+                    drop: 'Gota',
+                    toast: 'Tostada',
                   }[value]
                 }
               </button>

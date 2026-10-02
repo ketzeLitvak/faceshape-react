@@ -9,6 +9,12 @@ export const EYE_OPTIONS: { value: EyeVariant; label: string }[] = [
   { value: 'sly', label: 'Entrecerrados' },
   { value: 'capsule', label: 'Cápsulas animadas' },
   { value: 'closed', label: 'Cerrados' },
+  { value: 'eyelashes', label: 'Con pestañas' },
+  { value: 'heart', label: 'Pupilas corazón' },
+  { value: 'star', label: 'Pupilas estrella' },
+  { value: 'softLids', label: 'Párpados suaves' },
+  { value: 'cyclops', label: 'Cíclope' },
+  { value: 'spiral', label: 'Espirales' },
 ];
 
 export const MOUTH_OPTIONS: { value: MouthVariant; label: string }[] = [

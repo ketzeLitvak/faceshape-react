@@ -45,7 +45,7 @@ La demo comienza con ojos `bright`, boca `tongue` y cejas `expression`, enviados
 
 | Parte | Variantes |
 | --- | --- |
-| Ojos | `none`, `round`, `oval`, `cute`, `happy`, `closed`, `dots`, `bright`, `joyful`, `cartoon`, `sly`, `capsule` |
+| Ojos | `none`, `round`, `oval`, `cute`, `happy`, `closed`, `dots`, `bright`, `joyful`, `cartoon`, `sly`, `capsule`, `eyelashes`, `heart`, `star`, `softLids`, `cyclops`, `spiral` |
 | Boca | `none`, `beak`, `standard`, `wide`, `small`, `gentle`, `tongue`, `joyful`, `toothy`, `shark`, `smirk`, `cat` |
 | Cejas | `expression`, `none`, `soft`, `raised`, `angry`, `sad` |
 
@@ -116,3 +116,9 @@ En `happy`, la boca `cat` muestra una curva cerrada de dos lóbulos y cachetes r
 La demo incluye una página de documentación en `#docs`, con índice y enlaces directos a secciones como `#docs-custom` y `#docs-variation`. Sus ejemplos cubren instalación local, contratos, variantes, expresiones, movimientos, accesibilidad, SVG propios, generación por nombre y composición. El contenido vive en `demo/docs/sections/`, con una sección por archivo; los ejemplos y la navegación se mantienen por separado.
 
 Para dibujar solamente la silueta, enviá `face={{ eyes: 'none', mouth: 'none', eyebrows: 'none' }}`. Sin ojos se desactivan blink, glance y mirada; sin boca se desactiva habla. Los movimientos del cuerpo siguen disponibles.
+
+### Nuevas formas y ojos de la demo
+
+La demo incluye `cloud`, `ghost`, `cat`, `robot`, `planet`, `flower`, `drop` y `toast` como `CustomShape`, con un archivo por forma en `demo/shapes`. Son ejemplos personalizados, no nombres adicionales de `ShapeName`: importá/copiate su definición para usarlos. `name` varía proporciones y detalles propios (orejas, pétalos, anillos, antena, lóbulos) de forma determinista; `color` conserva prioridad.
+
+Los ojos públicos `eyelashes`, `heart`, `star`, `softLids`, `cyclops` y `spiral` se combinan con cualquier boca y cejas. Cíclope usa un único ojo y una ceja central; las otras variantes mantienen dos. Todos admiten parpadeo y mirada, respetan la expresión y pueden combinarse con partes `none`.

@@ -16,6 +16,12 @@ const completeFace = { eyes: 'bright', mouth: 'tongue', eyebrows: 'expression' }
 const render = (props = {}) =>
   renderToString(React.createElement(Character, { face: completeFace, ...props }));
 const eyes = [
+  'eyelashes',
+  'heart',
+  'star',
+  'softLids',
+  'cyclops',
+  'spiral',
   'round',
   'oval',
   'cute',

@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import type { FaceGeometry } from '../../core/types';
 import type { FaceState } from '../types';
 
 export interface EyeDimensions {
@@ -18,7 +19,14 @@ export interface EyeRenderProps {
   gaze: string;
 }
 
+export interface EyeAnchor {
+  x: number;
+  angle: number;
+  side: -1 | 0 | 1;
+}
+
 export interface EyeStrategy {
+  anchors?: (geometry: FaceGeometry) => EyeAnchor[];
   hidden?: boolean;
   render: ComponentType<EyeRenderProps>;
   dimensions: EyeDimensions;

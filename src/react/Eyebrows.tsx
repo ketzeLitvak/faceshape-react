@@ -1,4 +1,5 @@
 import { BROW_STRATEGIES } from './eyebrows/registry';
+import { eyeAnchors } from './eyes/anchors';
 import { EYE_STRATEGIES } from './eyes/registry';
 import { useFace } from './FaceContext';
 import type { EyebrowVariant } from './types';
@@ -23,14 +24,13 @@ export function Eyebrows({ variant }: { variant: EyebrowVariant }) {
       strokeWidth={3}
       strokeLinecap="round"
     >
-      {[-1, 1].map((side) => {
-        const x = 50 + side * geometry.eyeSpacing;
+      {eyeAnchors(EYE_STRATEGIES[eyeVariant], geometry).map(({ x, side }) => {
         const y = EYE_STRATEGIES[eyeVariant].browBaseline + lift;
         return (
           <path
             key={side}
             d={`M${x - 8} ${y} Q${x} ${y - 3} ${x + 8} ${y}`}
-            transform={`rotate(${-side * angle} ${x} ${y})`}
+            transform={`rotate(${-(side || 1) * angle} ${x} ${y})`}
           />
         );
       })}

@@ -10,6 +10,12 @@ import type {
 } from '../core/index';
 
 export type EyeVariant =
+  | 'eyelashes'
+  | 'heart'
+  | 'star'
+  | 'softLids'
+  | 'cyclops'
+  | 'spiral'
   | 'none'
   | 'round'
   | 'oval'

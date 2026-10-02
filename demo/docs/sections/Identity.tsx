@@ -25,6 +25,15 @@ export function Identity() {
           creá la tuya y pasala con <code>shape={'{miForma}'}</code>.
         </p>
       </div>
+      <h3>Variaciones según la forma</h3>
+      <p>
+        Las formas personalizadas de la demo también varían por nombre: el planeta cambia
+        sus anillos y bandas; el robot, proporciones, antena y detalles; el gato, tamaño y
+        dirección de las orejas; la flor, cantidad y forma de pétalos. La gota y la
+        tostada cambian sus proporciones; el fantasma, su contorno inferior; la nube, sus
+        lóbulos. El mismo nombre reproduce siempre la misma forma, y color permite fijar
+        el color.
+      </p>
     </section>
   );
 }

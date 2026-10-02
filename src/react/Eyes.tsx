@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { eyeAnchors } from './eyes/anchors';
 import { EYE_STRATEGIES } from './eyes/registry';
 import { useFace } from './FaceContext';
 import type { EyeVariant } from './types';
@@ -18,12 +19,12 @@ export function Eyes({ variant }: { variant: EyeVariant }) {
 
   return (
     <g data-faceshape-eyes="" data-eye-variant={selected} fill={face.color}>
-      {[-1, 1].map((side, index) => (
+      {eyeAnchors(strategy, face.geometry).map((anchor, index) => (
         <RenderEye
-          key={side}
+          key={anchor.side}
           face={face}
-          x={50 + side * face.geometry.eyeSpacing}
-          angle={-side * face.geometry.eyeAngle}
+          x={anchor.x}
+          angle={anchor.angle}
           index={index}
           id={id}
           dimensions={strategy.dimensions}

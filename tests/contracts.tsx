@@ -23,3 +23,10 @@ const face: FaceConfig = { eyes: 'bright', mouth: 'tongue', eyebrows: 'expressio
 <Character face={{ eyes: 'none', mouth: 'none', eyebrows: 'none' }} />;
 <Eyes variant="none" />;
 <Mouth variant="none" />;
+
+<Character face={{ eyes: 'cyclops', mouth: 'cat', eyebrows: 'soft' }} />;
+<Character face={{ eyes: 'eyelashes', mouth: 'none', eyebrows: 'none' }} />;
+<Eyes variant="heart" />;
+<Eyes variant="star" />;
+<Eyes variant="softLids" />;
+<Eyes variant="spiral" />;

@@ -15,7 +15,7 @@ Si sólo existe una app consumidora del paquete, no inventar APIs como registerE
 
 - Crear un archivo por estilo y un renderer separado cuando tenga geometría propia. Registrar la implementación en el registro tipado y agregar el nombre a su unión. Mantener lógica de estilo fuera de Eyes, Mouth y Eyebrows.
 - Reutilizar helpers para cálculos genuinamente comunes; no forzar todas las variantes al mismo path. Mantener los archivos legibles y formateados por el linter.
-- Para nuevos ojos unitarios/cíclope, comprobar el loop actual: Eyes renderiza dos instancias. No declarar soporte de un ojo central sin una estrategia explícita para esa topología y sus cejas, mirada y guiño. No hardcodear excepciones por nombre de variante.
+- Para nuevos ojos unitarios/cíclope, comprobar eyeAnchors: Eyes y Eyebrows comparten la topología; cyclops usa un anchor central y los otros estilos usan dos. No declarar soporte de un ojo central sin una estrategia explícita para esa topología y sus cejas, mirada y guiño. No hardcodear excepciones por nombre de variante.
 - El contrato siempre requiere ojos, boca y cejas explícitos. Conservar none en cada parte, independiente del cuerpo. En la demo listar “Sin…” primero sin convertirlo en selección inicial.
 
 ## Resolver expresión y movimiento

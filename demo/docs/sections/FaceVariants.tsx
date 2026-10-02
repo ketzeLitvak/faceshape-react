@@ -26,7 +26,10 @@ export function FaceVariants() {
         <code>cartoon</code> tiene blancos y pupilas; <code>bright</code> incluye brillo;{' '}
         <code>sly</code> dibuja párpados entrecerrados; <code>capsule</code> permite
         miradas autónomas. Los estilos de arco pueden abrirse cuando la expresión lo
-        requiere.
+        requiere. <code>eyelashes</code> agrega pestañas; <code>heart</code> y{' '}
+        <code>star</code> cambian las pupilas; <code>softLids</code> tiene párpados
+        suaves; <code>cyclops</code> usa un ojo y una ceja central, y <code>spiral</code>{' '}
+        dibuja espirales que también parpadean.
       </p>
       <h3>Bocas</h3>
       <div className="docs-tokens">
