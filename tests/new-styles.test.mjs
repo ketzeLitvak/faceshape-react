@@ -160,3 +160,99 @@ test('new eye clips remain unique across multiple characters', () => {
   const ids = [...svg.matchAll(/<clipPath id="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(new Set(ids).size, ids.length);
 });
+
+test('cat keeps a fixed circular head and face box while its ears vary and stay attached', () => {
+  const shape = CUSTOM_SHAPES.cat;
+  const heads = new Set();
+  const ears = new Set();
+  const expectedBox = shape.fromName('Ana').faceBox;
+  for (let index = 0; index < 100; index++) {
+    const name = `Gato ${index}`;
+    const definition = shape.fromName(name);
+    assert.deepEqual(definition.faceBox, expectedBox);
+    const svg = renderToStaticMarkup(definition.render({ color: '#123456' }));
+    heads.add(svg.match(/<circle data-cat-head=""[^>]+>/)[0]);
+    for (const match of svg.matchAll(
+      /data-cat-ear="" transform="translate\(([^ ]+) ([^)]+)\) rotate\(([^)]+)\)"[\s\S]*?<path d="([^"]+)"/g,
+    )) {
+      const [, x, y, angle, path] = match;
+      ears.add(`${angle}:${path}`);
+      const numbers = path.match(/-?[0-9]+(?:\.[0-9]+)?/g).map(Number);
+      const radians = (Number(angle) * Math.PI) / 180;
+      for (const localX of [numbers[0], numbers.at(-2)]) {
+        const localY = 3;
+        const worldX =
+          Number(x) + localX * Math.cos(radians) - localY * Math.sin(radians);
+        const worldY =
+          Number(y) + localX * Math.sin(radians) + localY * Math.cos(radians);
+        assert.ok(
+          Math.hypot(worldX - 50, worldY - 58) < 32,
+          'ear base must overlap the head',
+        );
+      }
+    }
+  }
+  assert.equal(heads.size, 1);
+  assert.ok(ears.size > 100);
+});
+
+test('robot names select zero, one or two antennas and optional modules and vents', () => {
+  const counts = new Set();
+  const modules = new Set();
+  const vents = new Set();
+  for (let index = 0; index < 100; index++) {
+    const definition = CUSTOM_SHAPES.robot.fromName(`Robot ${index}`);
+    const svg = renderToStaticMarkup(definition.render({ color: '#123456' }));
+    counts.add((svg.match(/data-robot-antenna/g) || []).length);
+    modules.add(svg.includes('data-robot-side-modules'));
+    vents.add(svg.includes('data-robot-vent'));
+  }
+  assert.deepEqual([...counts].sort(), [0, 1, 2]);
+  assert.equal(modules.size, 2);
+  assert.equal(vents.size, 2);
+});
+
+test('planet names independently select rings and zero, one or two moons outside the body', () => {
+  const combinations = new Set();
+  for (let index = 0; index < 100; index++) {
+    const definition = CUSTOM_SHAPES.planet.fromName(`Planeta ${index}`);
+    const svg = renderToStaticMarkup(definition.render({ color: '#123456' }));
+    const count = (svg.match(/data-planet-moon/g) || []).length;
+    combinations.add(`${svg.includes('data-planet-ring')}:${count}`);
+    const body = svg.match(/<circle cx="50" cy="50" r="([^"]+)"/);
+    for (const moon of svg.matchAll(
+      /data-planet-moon=""><circle cx="([^"]+)" cy="([^"]+)" r="([^"]+)"/g,
+    )) {
+      const [, x, y, radius] = moon.map(Number);
+      assert.ok(Math.hypot(x - 50, y - 50) - radius > Number(body[1]));
+      assert.ok(
+        x - radius > -6 && x + radius < 106 && y - radius > -6 && y + radius < 106,
+      );
+    }
+  }
+  assert.equal(combinations.size, 6);
+});
+
+test('eyelashes have two curved strokes only on each outer edge throughout blink', () => {
+  const config = { eyes: 'eyelashes', mouth: 'none', eyebrows: 'none' };
+  for (const blink of [1, 0.5, 0]) {
+    const svg = renderPose(config, {
+      geometry: EXPRESSIONS.neutral,
+      blink,
+      talk: 0,
+      look: { x: 0, y: 0 },
+      color: '#182b35',
+      eyeVariant: 'eyelashes',
+    });
+    const lashes = [...svg.matchAll(/data-eye-lashes="" d="([^"]+)"/g)];
+    assert.equal(lashes.length, 2);
+    for (const [index, match] of lashes.entries()) {
+      assert.equal((match[1].match(/M/g) || []).length, 2);
+      assert.equal((match[1].match(/Q/g) || []).length, 2);
+      const coordinates = [...match[1].matchAll(/[MQ](-?[0-9.]+)/g)].map((point) =>
+        Number(point[1]),
+      );
+      assert.ok(coordinates.every((x) => (index === 0 ? x < 26 : x > 74)));
+    }
+  }
+});

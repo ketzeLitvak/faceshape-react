@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { EyeLashes } from './LashDecoration';
 import type { EyeRenderProps } from './types';
 
 export function WhiteEyeFrame({
@@ -25,14 +26,7 @@ export function WhiteEyeFrame({
           strokeWidth={3}
           strokeLinecap="round"
         />
-        {lashes && (
-          <path
-            d={`M${x - rx} 36 l-3 -3 M${x + rx} 36 l3 -3`}
-            stroke={color}
-            strokeWidth={2.3}
-            strokeLinecap="round"
-          />
-        )}
+        {lashes && <EyeLashes x={x} rx={rx} height={0} index={index} color={color} />}
       </g>
     );
   }
@@ -61,15 +55,7 @@ export function WhiteEyeFrame({
           {pupil}
         </g>
       </g>
-      {lashes && (
-        <path
-          d={`M${x - rx * 0.85} ${36 - height * 0.5} l-4 -4 M${x + rx * 0.85} ${36 - height * 0.5} l4 -4 M${x - rx} ${36 - height * 0.12} l-4 -2 M${x + rx} ${36 - height * 0.12} l4 -2`}
-          fill="none"
-          stroke={color}
-          strokeWidth={2.3}
-          strokeLinecap="round"
-        />
-      )}
+      {lashes && <EyeLashes x={x} rx={rx} height={height} index={index} color={color} />}
       {softLids && (
         <path
           d={`M${x - rx} 36 C${x - rx} ${top} ${x + rx} ${top} ${x + rx} 36`}

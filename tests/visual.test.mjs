@@ -52,7 +52,10 @@ test('visual regression covers blink, wink, brows and expression transitions', a
       };
       const svg = renderPose(face, state, wink);
       const file = new URL(`${face.eyes}-${pose}.svg`, directory);
-      if (process.env.UPDATE_VISUALS === '1') {
+      if (
+        process.env.UPDATE_VISUALS === '1' &&
+        (!process.env.VISUAL_STYLE || process.env.VISUAL_STYLE === face.eyes)
+      ) {
         await writeFile(file, svg);
       }
       const expected = await readFile(file);

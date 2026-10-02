@@ -28,11 +28,12 @@ export function Identity() {
       <h3>Variaciones según la forma</h3>
       <p>
         Las formas personalizadas de la demo también varían por nombre: el planeta cambia
-        sus anillos y bandas; el robot, proporciones, antena y detalles; el gato, tamaño y
-        dirección de las orejas; la flor, cantidad y forma de pétalos. La gota y la
-        tostada cambian sus proporciones; el fantasma, su contorno inferior; la nube, sus
-        lóbulos. El mismo nombre reproduce siempre la misma forma, y color permite fijar
-        el color.
+        sus anillos, bandas y entre cero y dos lunas; el robot, proporciones, entre cero y
+        dos antenas y detalles como módulos laterales y ventilación; el gato conserva su
+        cabeza circular y varía tamaño e inclinación de las orejas; la flor, cantidad y
+        forma de pétalos. La gota y la tostada cambian sus proporciones; el fantasma, su
+        contorno inferior; la nube, sus lóbulos. El mismo nombre reproduce siempre la
+        misma forma, y color permite fijar el color.
       </p>
     </section>
   );
