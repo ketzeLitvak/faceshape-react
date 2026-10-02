@@ -1,6 +1,6 @@
 export { cat } from './cat';
 export { cloud } from './cloud';
-export { computer } from './computer';
+export { device } from './device';
 export { drop } from './drop';
 export { flower } from './flower';
 export { ghost } from './ghost';
@@ -13,7 +13,7 @@ export { toast } from './toast';
 
 import { cat } from './cat';
 import { cloud } from './cloud';
-import { computer } from './computer';
+import { device } from './device';
 import { drop } from './drop';
 import { flower } from './flower';
 import { ghost } from './ghost';
@@ -27,7 +27,7 @@ export const CUSTOM_SHAPES = {
   heart,
   shark,
   penguin,
-  computer,
+  device,
   cloud,
   ghost,
   cat,

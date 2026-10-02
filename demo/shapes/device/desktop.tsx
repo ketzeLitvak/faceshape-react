@@ -1,7 +1,7 @@
-import { type CustomShape, createNameRandom } from '../../src';
+import { type CustomShape, createNameRandom } from '../../../src';
 
-function computerFromName(name: string | number): CustomShape {
-  const random = createNameRandom(name, 'computer');
+export function desktopFromName(name: string | number): CustomShape {
+  const random = createNameRandom(name, 'device-desktop');
   const width = 64 + random() * 22;
   const height = 49 + random() * 15;
   const left = 50 - width / 2;
@@ -16,7 +16,7 @@ function computerFromName(name: string | number): CustomShape {
       height: (screen.height * 0.8) / 100,
     },
     render: ({ color }) => (
-      <g data-faceshape-computer="">
+      <g data-device-desktop="">
         <path d={`M44 ${top + height - 1} H56 L59 85 H41Z`} fill={color} />
         <rect x={left} y={top} width={width} height={height} rx={radius} fill={color} />
         <rect {...screen} rx={Math.max(2, radius - 3)} fill="#f5f0e5" />
@@ -30,8 +30,3 @@ function computerFromName(name: string | number): CustomShape {
     ),
   };
 }
-
-export const computer: CustomShape = {
-  ...computerFromName('default'),
-  fromName: computerFromName,
-};

@@ -3,13 +3,13 @@ import { test } from 'node:test';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import sharp from 'sharp';
-import { computer, penguin, shark } from '../.test-dist/helpers.mjs';
+import { device, penguin, shark } from '../.test-dist/helpers.mjs';
 import { Character, SHAPES } from '../dist/index.js';
 
 const face = { eyes: 'bright', mouth: 'tongue', eyebrows: 'expression' };
 
 test('custom silhouettes vary reproducibly with identity and preserve fixed colors', async () => {
-  for (const shape of [penguin, computer, shark]) {
+  for (const shape of [penguin, device, shark]) {
     const render = (name) =>
       renderToStaticMarkup(
         React.createElement(Character, {

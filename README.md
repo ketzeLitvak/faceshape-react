@@ -119,6 +119,8 @@ Para dibujar solamente la silueta, enviá `face={{ eyes: 'none', mouth: 'none', 
 
 ### Nuevas formas y ojos de la demo
 
-La demo incluye `cloud`, `ghost`, `cat`, `robot`, `planet`, `flower`, `drop` y `toast` como `CustomShape`, con un archivo por forma en `demo/shapes`. Son ejemplos personalizados, no nombres adicionales de `ShapeName`: importá/copiate su definición para usarlos. `name` varía proporciones y detalles propios (orejas, pétalos, anillos, antena, lóbulos) de forma determinista; `color` conserva prioridad.
+La demo incluye `cloud`, `ghost`, `cat`, `robot`, `planet`, `flower`, `drop` y `toast` como `CustomShape`, con un archivo por forma en `demo/shapes`. Son ejemplos personalizados, no nombres adicionales de `ShapeName`: importá/copiate su definición para usarlos. `name` varía proporciones y detalles propios (pétalos, anillos, antena, lóbulos); el gato conserva toda su geometría y sólo varía su color de forma determinista; `color` conserva prioridad.
 
 Los ojos públicos `eyelashes`, `heart`, `star`, `softLids`, `cyclops` y `spiral` se combinan con cualquier boca y cejas. Cíclope usa un único ojo y una ceja central; las otras variantes mantienen dos. Todos admiten parpadeo y mirada, respetan la expresión y pueden combinarse con partes `none`.
+
+La forma personalizada `device` (Dispositivo) reemplaza a la computadora de la demo: `name` elige escritorio, notebook, celular o tablet. Cada variante vive en un archivo separado y recalcula su `faceBox` según la pantalla. El fantasma combina perfiles ondulados, puntiagudos, con dos colas o una cola lateral y varía también sus lados e inclinación.

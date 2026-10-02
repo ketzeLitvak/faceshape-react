@@ -64,7 +64,7 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
                     heart: 'Corazón',
                     shark: 'Tiburón',
                     penguin: 'Pingüino',
-                    computer: 'Computadora',
+                    device: 'Dispositivo',
                     cloud: 'Nube',
                     ghost: 'Fantasma',
                     cat: 'Gato',

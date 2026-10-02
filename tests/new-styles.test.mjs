@@ -5,7 +5,17 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { CUSTOM_SHAPES, renderPose } from '../.test-dist/helpers.mjs';
 import { Character, EXPRESSIONS, getMotionCapabilities } from '../dist/index.js';
 
-const newShapes = ['cloud', 'ghost', 'cat', 'robot', 'planet', 'flower', 'drop', 'toast'];
+const newShapes = [
+  'device',
+  'cloud',
+  'ghost',
+  'cat',
+  'robot',
+  'planet',
+  'flower',
+  'drop',
+  'toast',
+];
 const newEyes = ['eyelashes', 'heart', 'star', 'softLids', 'cyclops', 'spiral'];
 const face = { eyes: 'bright', mouth: 'cat', eyebrows: 'expression' };
 const normalizeIds = (svg) => svg.replace(/_R[^_]+_/g, 'stable');
@@ -23,7 +33,11 @@ test('each new silhouette has deterministic geometry variation and respects fixe
         }),
       );
     assert.equal(body('Ana'), body('Ana'), name);
-    assert.notEqual(body('Ana'), body('Bruno'), name);
+    if (name === 'cat') {
+      assert.equal(body('Ana'), body('Bruno'));
+    } else {
+      assert.notEqual(body('Ana'), body('Bruno'), name);
+    }
     for (let index = 0; index < 50; index++) {
       const identity = `Personaje ${index}`;
       const box = shape.fromName(identity).faceBox;
@@ -161,39 +175,29 @@ test('new eye clips remain unique across multiple characters', () => {
   assert.equal(new Set(ids).size, ids.length);
 });
 
-test('cat keeps a fixed circular head and face box while its ears vary and stay attached', () => {
-  const shape = CUSTOM_SHAPES.cat;
-  const heads = new Set();
-  const ears = new Set();
-  const expectedBox = shape.fromName('Ana').faceBox;
-  for (let index = 0; index < 100; index++) {
-    const name = `Gato ${index}`;
-    const definition = shape.fromName(name);
-    assert.deepEqual(definition.faceBox, expectedBox);
-    const svg = renderToStaticMarkup(definition.render({ color: '#123456' }));
-    heads.add(svg.match(/<circle data-cat-head=""[^>]+>/)[0]);
-    for (const match of svg.matchAll(
-      /data-cat-ear="" transform="translate\(([^ ]+) ([^)]+)\) rotate\(([^)]+)\)"[\s\S]*?<path d="([^"]+)"/g,
-    )) {
-      const [, x, y, angle, path] = match;
-      ears.add(`${angle}:${path}`);
-      const numbers = path.match(/-?[0-9]+(?:\.[0-9]+)?/g).map(Number);
-      const radians = (Number(angle) * Math.PI) / 180;
-      for (const localX of [numbers[0], numbers.at(-2)]) {
-        const localY = 3;
-        const worldX =
-          Number(x) + localX * Math.cos(radians) - localY * Math.sin(radians);
-        const worldY =
-          Number(y) + localX * Math.sin(radians) + localY * Math.cos(radians);
-        assert.ok(
-          Math.hypot(worldX - 50, worldY - 58) < 32,
-          'ear base must overlap the head',
-        );
-      }
-    }
+test('cat has fixed circular geometry and symmetric attached ears; only its color changes', () => {
+  const render = (name, color) =>
+    renderToStaticMarkup(
+      React.createElement(Character, {
+        shape: CUSTOM_SHAPES.cat,
+        name,
+        color,
+        face: { eyes: 'none', mouth: 'none', eyebrows: 'none' },
+      }),
+    );
+  assert.equal(render('Ana', '#123456'), render('Bruno', '#123456'));
+  assert.notEqual(render('Ana'), render('Bruno'));
+  const svg = render('Ana', '#123456');
+  assert.match(svg, /data-cat-head="" cx="50" cy="58" r="32"/);
+  assert.equal((svg.match(/data-cat-ear/g) || []).length, 2);
+  for (const [x, y] of [
+    [22, 43],
+    [42, 36],
+    [78, 43],
+    [58, 36],
+  ]) {
+    assert.ok(Math.hypot(x - 50, y - 58) < 32);
   }
-  assert.equal(heads.size, 1);
-  assert.ok(ears.size > 100);
 });
 
 test('robot names select zero, one or two antennas and optional modules and vents', () => {
@@ -253,6 +257,81 @@ test('eyelashes have two curved strokes only on each outer edge throughout blink
         Number(point[1]),
       );
       assert.ok(coordinates.every((x) => (index === 0 ? x < 26 : x > 74)));
+    }
+  }
+});
+
+test('flower petals overlap their neighbors including five-petal flowers', () => {
+  let fivePetals = 0;
+  for (let index = 0; index < 100; index++) {
+    const svg = renderToStaticMarkup(
+      CUSTOM_SHAPES.flower.fromName(`Flor ${index}`).render({ color: '#123456' }),
+    );
+    const petals = [
+      ...svg.matchAll(/<ellipse[^>]*cy="([^"]+)" rx="([^"]+)" ry="([^"]+)"/g),
+    ];
+    if (petals.length === 5) {
+      fivePetals++;
+    }
+    const orbit = 50 - Number(petals[0][1]);
+    const halfWidth = Number(petals[0][2]);
+    assert.ok(halfWidth > orbit * Math.sin(Math.PI / petals.length));
+  }
+  assert.ok(fivePetals > 0);
+});
+
+test('planet surfaces have no decorative line paths', () => {
+  for (let index = 0; index < 50; index++) {
+    const svg = renderToStaticMarkup(
+      CUSTOM_SHAPES.planet.fromName(`Planeta ${index}`).render({ color: '#123456' }),
+    );
+    assert.doesNotMatch(svg, /<path/);
+  }
+});
+
+test('device identities cover all four form factors and ghost identities change contour topology', () => {
+  for (const [shape, expected] of [
+    ['device', ['desktop', 'notebook', 'phone', 'tablet']],
+    ['ghost', ['points', 'swirl', 'tails', 'waves']],
+  ]) {
+    const variants = new Map();
+    for (let index = 0; index < 100; index++) {
+      const name = `Modelo ${index}`;
+      const definition = CUSTOM_SHAPES[shape].fromName(name);
+      const svg = renderToStaticMarkup(definition.render({ color: '#123456' }));
+      assert.equal(
+        svg,
+        renderToStaticMarkup(
+          CUSTOM_SHAPES[shape].fromName(name).render({ color: '#123456' }),
+        ),
+      );
+      const kind = svg.match(new RegExp(`data-${shape}-kind="([^" ]+)"`))[1];
+      variants.set(kind, name);
+    }
+    assert.deepEqual([...variants.keys()].sort(), expected);
+    for (const name of variants.values()) {
+      for (const expression of Object.keys(EXPRESSIONS)) {
+        const svg = renderToStaticMarkup(
+          React.createElement(Character, {
+            shape: CUSTOM_SHAPES[shape],
+            name,
+            expression,
+            face,
+            color: '#123456',
+          }),
+        );
+        assert.doesNotMatch(svg, /NaN|Infinity|undefined/);
+        assert.match(svg, /#123456/);
+      }
+    }
+    if (shape === 'ghost') {
+      const commands = [...variants.values()].map((name) => {
+        const svg = renderToStaticMarkup(
+          CUSTOM_SHAPES.ghost.fromName(name).render({ color: '#123456' }),
+        );
+        return svg.match(/ d="([^"]+)"/)[1].replace(/[^A-Za-z]/g, '');
+      });
+      assert.equal(new Set(commands).size, 4, 'profiles vary their outline beyond scale');
     }
   }
 });

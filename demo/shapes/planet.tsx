@@ -20,11 +20,6 @@ function planetFromName(name: string | number): CustomShape {
       radius: 3 + random() * 2,
     };
   });
-  const stripes = Math.floor(random() * 4);
-  const bands = Array.from(
-    { length: stripes },
-    (_, index) => 50 - radius + 5 + index * 3,
-  );
   return {
     faceBox: centeredFaceBox(radius * 1.3, radius * 1.25),
     render: ({ color }) => (
@@ -44,16 +39,6 @@ function planetFromName(name: string | number): CustomShape {
           />
         )}
         <circle cx={50} cy={50} r={radius} fill={color} />
-        {bands.map((y) => (
-          <path
-            key={y}
-            d={`M${50 - radius * 0.55} ${y} Q50 ${y + 4} ${50 + radius * 0.55} ${y}`}
-            fill="none"
-            stroke="white"
-            strokeWidth={1.5}
-            opacity={0.3}
-          />
-        ))}
         {moons.map((moon) => (
           <g key={moon.x} data-planet-moon="">
             <circle cx={moon.x} cy={moon.y} r={moon.radius} fill={color} />

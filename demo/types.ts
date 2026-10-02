@@ -5,7 +5,7 @@ export type DemoShape =
   | 'heart'
   | 'shark'
   | 'penguin'
-  | 'computer'
+  | 'device'
   | 'cloud'
   | 'ghost'
   | 'cat'
