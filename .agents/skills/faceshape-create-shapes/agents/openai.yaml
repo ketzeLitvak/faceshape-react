@@ -1,0 +1,14 @@
+interface:
+  display_name: 'FaceShape: formas SVG'
+  short_description: Crear siluetas SVG centradas y deterministas
+  default_prompt: Usá $faceshape-create-shapes para agregar una forma SVG compatible
+    con FaceShape y validar su centro, rotación y variación por nombre.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

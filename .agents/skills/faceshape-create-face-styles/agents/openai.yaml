@@ -1,0 +1,14 @@
+interface:
+  display_name: 'FaceShape: ojos, bocas y cejas'
+  short_description: Crear rasgos SVG expresivos y combinables
+  default_prompt: Usá $faceshape-create-face-styles para crear un estilo de ojos,
+    boca o cejas compatible con todas las expresiones y animaciones de FaceShape.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
