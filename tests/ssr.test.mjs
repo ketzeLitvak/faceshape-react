@@ -241,3 +241,45 @@ test('happy cat mouth is closed with rosy cheeks and cannot talk', () => {
     true,
   );
 });
+
+test('eyes, mouths and brows can be hidden independently in every expression', () => {
+  for (const expression of Object.keys(EXPRESSIONS)) {
+    for (const noEyes of [true, false]) {
+      for (const noMouth of [true, false]) {
+        for (const noBrows of [true, false]) {
+          const face = {
+            eyes: noEyes ? 'none' : 'bright',
+            mouth: noMouth ? 'none' : 'tongue',
+            eyebrows: noBrows ? 'none' : 'soft',
+          };
+          const svg = render({
+            face,
+            expression,
+            motion: { blink: true, talking: true, lookAt: { x: 1, y: 0 } },
+          });
+          assert.equal(svg.includes('data-faceshape-eyes='), !noEyes);
+          assert.equal(svg.includes('data-faceshape-mouth='), !noMouth);
+          assert.equal(svg.includes('data-faceshape-eyebrows='), !noBrows);
+          assert.match(svg, /data-faceshape-shape/);
+          const capabilities = getMotionCapabilities(
+            face.eyes,
+            face.mouth,
+            EXPRESSIONS[expression],
+          );
+          assert.equal(capabilities.blink, !noEyes);
+          assert.equal(capabilities.lookAt, !noEyes);
+          assert.equal(capabilities.talking, !noMouth);
+          if (noMouth) {
+            assert.doesNotMatch(
+              svg,
+              /fs-mouth-|data-faceshape-mouth-cheeks|data-faceshape-shark-teeth/,
+            );
+          }
+          if (noEyes) {
+            assert.doesNotMatch(svg, /fs-eye-|data-eye-gaze/);
+          }
+        }
+      }
+    }
+  }
+});

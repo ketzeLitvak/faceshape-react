@@ -7,7 +7,11 @@ import { getFaceGaze } from './utils/faceGaze';
 export function Eyebrows({ variant }: { variant: EyebrowVariant }) {
   const { geometry, color, eyeVariant, look } = useFace();
   const gaze = getFaceGaze(eyeVariant, look, geometry.eyeOpen);
-  const { angle, lift, opacity } = BROW_STRATEGIES[variant](geometry);
+  const { angle, lift, opacity, hidden } = BROW_STRATEGIES[variant](geometry);
+
+  if (hidden) {
+    return null;
+  }
 
   return (
     <g

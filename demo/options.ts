@@ -1,6 +1,7 @@
 import type { EyebrowVariant, EyeVariant, MouthVariant } from '../src';
 
 export const EYE_OPTIONS: { value: EyeVariant; label: string }[] = [
+  { value: 'none', label: 'Sin ojos' },
   { value: 'dots', label: 'Ovalados simples' },
   { value: 'bright', label: 'Ovalados con brillo' },
   { value: 'joyful', label: 'Arcos sonrientes' },
@@ -11,6 +12,7 @@ export const EYE_OPTIONS: { value: EyeVariant; label: string }[] = [
 ];
 
 export const MOUTH_OPTIONS: { value: MouthVariant; label: string }[] = [
+  { value: 'none', label: 'Sin boca' },
   { value: 'beak', label: 'Pico' },
   { value: 'gentle', label: 'Sonrisa pequeña' },
   { value: 'tongue', label: 'Abierta con lengua' },
@@ -23,8 +25,8 @@ export const MOUTH_OPTIONS: { value: MouthVariant; label: string }[] = [
 ];
 
 export const BROW_OPTIONS: { value: EyebrowVariant; label: string }[] = [
-  { value: 'expression', label: 'Expresivas' },
   { value: 'none', label: 'Sin cejas' },
+  { value: 'expression', label: 'Expresivas' },
   { value: 'soft', label: 'Suaves' },
   { value: 'raised', label: 'Elevadas' },
   { value: 'angry', label: 'Inclinadas hacia dentro' },

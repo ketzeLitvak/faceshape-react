@@ -23,6 +23,10 @@ export function Mouth({ variant }: { variant: MouthVariant }) {
     !strategy.solidFill &&
     mouthGeometry.mouthOpen > 0.015;
 
+  if (strategy.hidden) {
+    return null;
+  }
+
   return (
     <g transform={gaze.mouth} data-faceshape-mouth="" data-mouth-variant={styleVariant}>
       {cheeks && (

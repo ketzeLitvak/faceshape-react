@@ -19,6 +19,7 @@ export interface EyeRenderProps {
 }
 
 export interface EyeStrategy {
+  hidden?: boolean;
   render: ComponentType<EyeRenderProps>;
   dimensions: EyeDimensions;
   isClosed: (openness: number) => boolean;

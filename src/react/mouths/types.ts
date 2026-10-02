@@ -10,6 +10,7 @@ export interface MouthShape {
 }
 
 export interface MouthStrategy {
+  hidden?: boolean;
   widthScale: number;
   lineOnly?: boolean;
   solidFill?: string;

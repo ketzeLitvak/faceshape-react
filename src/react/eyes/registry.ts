@@ -7,12 +7,14 @@ import { cuteEyes } from './cute';
 import { dotsEyes } from './dots';
 import { happyEyes } from './happy';
 import { joyfulEyes } from './joyful';
+import { noneEyes } from './none';
 import { ovalEyes } from './oval';
 import { roundEyes } from './round';
 import { slyEyes } from './sly';
 import type { EyeStrategy } from './types';
 
 export const EYE_STRATEGIES = {
+  none: noneEyes,
   round: roundEyes,
   oval: ovalEyes,
   cute: cuteEyes,

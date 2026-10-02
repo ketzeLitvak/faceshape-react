@@ -20,7 +20,7 @@ Biome formatea el proyecto y ordena imports. `npm run lint:fix` corrige automát
 
 ## Contrato explícito de cara
 
-`face` es obligatorio y debe incluir ojos, boca y cejas. No hay presets, `faceStyle`, variantes implícitas ni una cara predeterminada en la librería. TypeScript rechaza las caras incompletas; JavaScript recibe un error descriptivo. Usá `eyebrows: 'none'` para omitir las cejas de manera explícita.
+`face` es obligatorio y debe incluir ojos, boca y cejas. No hay presets, `faceStyle`, variantes implícitas ni una cara predeterminada en la librería. TypeScript rechaza las caras incompletas; JavaScript recibe un error descriptivo. Usá `none` en ojos, boca o cejas para ocultar cada parte de forma independiente, incluso las tres a la vez.
 
 ```tsx
 import { Character, type FaceConfig } from 'faceshape-react';
@@ -45,8 +45,8 @@ La demo comienza con ojos `bright`, boca `tongue` y cejas `expression`, enviados
 
 | Parte | Variantes |
 | --- | --- |
-| Ojos | `round`, `oval`, `cute`, `happy`, `closed`, `dots`, `bright`, `joyful`, `cartoon`, `sly`, `capsule` |
-| Boca | `beak`, `standard`, `wide`, `small`, `gentle`, `tongue`, `joyful`, `toothy`, `shark`, `smirk`, `cat` |
+| Ojos | `none`, `round`, `oval`, `cute`, `happy`, `closed`, `dots`, `bright`, `joyful`, `cartoon`, `sly`, `capsule` |
+| Boca | `none`, `beak`, `standard`, `wide`, `small`, `gentle`, `tongue`, `joyful`, `toothy`, `shark`, `smirk`, `cat` |
 | Cejas | `expression`, `none`, `soft`, `raised`, `angry`, `sad` |
 
 Cada ojo define sus dimensiones, blanco, brillo y comportamiento. Ninguna variante depende de un estilo global. Todas las bocas y ojos responden a la expresión. Las cejas `expression` siguen directamente la emoción; las demás variantes son elecciones explícitas de geometría.
@@ -112,3 +112,7 @@ El trazo `standard` conserva siempre una sola curva sin relleno: su ancho y curv
 El pico es la variante de boca `beak`, disponible para cualquier forma. En la demo se selecciona al elegir pingüino, y después se puede reemplazar por cualquier otra boca. La silueta no incluye el pico. Su contorno permanece constante, acompaña suavemente la mirada y no admite habla.
 
 En `happy`, la boca `cat` muestra una curva cerrada de dos lóbulos y cachetes rosados; el habla queda desactivada para esa pose. Los dientes `shark` siguen la curva superior de la boca, también en sorpresa y durante las transiciones.
+
+La demo incluye una página de documentación en `#docs`, con índice y enlaces directos a secciones como `#docs-custom` y `#docs-variation`. Sus ejemplos cubren instalación local, contratos, variantes, expresiones, movimientos, accesibilidad, SVG propios, generación por nombre y composición. El contenido vive en `demo/docs/sections/`, con una sección por archivo; los ejemplos y la navegación se mantienen por separado.
+
+Para dibujar solamente la silueta, enviá `face={{ eyes: 'none', mouth: 'none', eyebrows: 'none' }}`. Sin ojos se desactivan blink, glance y mirada; sin boca se desactiva habla. Los movimientos del cuerpo siguen disponibles.

@@ -12,6 +12,10 @@ export function Eyes({ variant }: { variant: EyeVariant }) {
   const id = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   const gaze = getFaceGaze(selected, face.look, face.geometry.eyeOpen);
 
+  if (strategy.hidden) {
+    return null;
+  }
+
   return (
     <g data-faceshape-eyes="" data-eye-variant={selected} fill={face.color}>
       {[-1, 1].map((side, index) => (

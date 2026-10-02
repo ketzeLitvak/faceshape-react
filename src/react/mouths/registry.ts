@@ -3,6 +3,7 @@ import { beakMouth } from './beak';
 import { catMouth } from './cat';
 import { gentleMouth } from './gentle';
 import { joyfulMouth } from './joyful';
+import { noneMouth } from './none';
 import { sharkMouth } from './shark';
 import { smallMouth } from './small';
 import { smirkMouth } from './smirk';
@@ -13,6 +14,7 @@ import type { MouthStrategy } from './types';
 import { wideMouth } from './wide';
 
 export const MOUTH_STRATEGIES = {
+  none: noneMouth,
   beak: beakMouth,
   standard: standardMouth,
   wide: wideMouth,

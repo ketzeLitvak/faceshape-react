@@ -10,6 +10,7 @@ import type {
 } from '../core/index';
 
 export type EyeVariant =
+  | 'none'
   | 'round'
   | 'oval'
   | 'cute'
@@ -23,6 +24,7 @@ export type EyeVariant =
   | 'capsule';
 
 export type MouthVariant =
+  | 'none'
   | 'beak'
   | 'standard'
   | 'wide'

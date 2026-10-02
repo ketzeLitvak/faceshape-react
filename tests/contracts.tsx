@@ -19,3 +19,7 @@ const face: FaceConfig = { eyes: 'bright', mouth: 'tongue', eyebrows: 'expressio
 <Eyebrows />;
 // @ts-expect-error Emotion-based mouth aliases have been removed.
 <Character face={{ ...face, mouth: 'frown' }} />;
+
+<Character face={{ eyes: 'none', mouth: 'none', eyebrows: 'none' }} />;
+<Eyes variant="none" />;
+<Mouth variant="none" />;

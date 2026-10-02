@@ -54,6 +54,7 @@ export function renderPose(face: FaceConfig, state: FaceState, wink = false) {
   );
 }
 
+export { Documentation } from '../demo/docs/Documentation';
+export { DOC_SECTIONS } from '../demo/docs/navigation';
 export { computer, heart, penguin, shark } from '../demo/shapes';
-
 export { sharkTeethPaths } from '../src/react/utils/sharkTeethGeometry';
