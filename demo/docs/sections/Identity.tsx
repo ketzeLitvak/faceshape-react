@@ -29,11 +29,11 @@ export function Identity() {
       <p>
         Las formas personalizadas de la demo también varían por nombre: el planeta cambia
         sus anillos y entre cero y dos lunas; el robot, proporciones, entre cero y dos
-        antenas y detalles como módulos laterales y ventilación; el gato conserva su
-        cabeza circular y orejas fijas: sólo cambia el color; la flor, cantidad y forma de
-        pétalos. Dispositivo elige entre escritorio, notebook, celular y tablet. La gota y
-        la tostada cambian sus proporciones; el fantasma combina ondas, puntas, dos colas
-        o una cola lateral, con distintas inclinaciones y lados; la nube, sus lóbulos. El
+        antenas y módulos laterales; el gato conserva su cabeza circular y orejas fijas:
+        sólo cambia el color; la flor, cantidad y forma de pétalos. Dispositivo elige
+        entre escritorio, notebook, celular y tablet. La gota y la tostada cambian sus
+        proporciones; el fantasma combina perfiles clásicos, anchos, de sábana, con gotas
+        o cola lateral, con distintas inclinaciones y lados; la nube, sus lóbulos. El
         mismo nombre reproduce siempre la misma forma, y color permite fijar el color.
       </p>
     </section>

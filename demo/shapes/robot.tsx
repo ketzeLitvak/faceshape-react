@@ -15,7 +15,6 @@ function robotFromName(name: string | number): CustomShape {
   const ear = 4 + random() * 6;
   const bolts = random() > 0.5;
   const sideModules = random() > 0.25;
-  const vent = random() > 0.5;
   const antennas = Array.from({ length: antennaCount }, (_, index) =>
     antennaCount === 1 ? antennaX : 42 + index * 16,
   );
@@ -54,13 +53,6 @@ function robotFromName(name: string | number): CustomShape {
           </g>
         )}
         <rect x={left} y={top} width={width} height={height} rx={radius} />
-        {vent && (
-          <g data-robot-vent="" stroke="white" strokeWidth={1.4} opacity={0.4}>
-            {[46, 50, 54].map((x) => (
-              <path key={x} d={`M${x} ${top + height - 9} v5`} />
-            ))}
-          </g>
-        )}
         {bolts &&
           [left + 7, left + width - 7].map((x) => (
             <circle

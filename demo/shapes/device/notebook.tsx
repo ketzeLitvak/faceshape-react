@@ -9,6 +9,28 @@ export function notebookFromName(name: string | number): CustomShape {
   const top = 14 + random() * 5;
   const bottom = top + height;
   const screen = { x: left + 5, y: top + 5, width: width - 10, height: height - 11 };
+  const backY = bottom - 1;
+  const frontY = 88;
+  const frontWidth = 92;
+  const convergence = 1 - width / frontWidth;
+  // A perspective projection shares one vanishing point across the base and keys.
+  const project = (x: number, depth: number) => {
+    const denominator = 1 - convergence * depth;
+    const span = width / denominator;
+    const y = backY + ((frontY - backY) * (1 - convergence) * depth) / denominator;
+    return `${50 + (x - 0.5) * span} ${y}`;
+  };
+  const panel = (x: number, y: number, w: number, h: number) =>
+    `M${project(x, y)} L${project(x + w, y)} L${project(x + w, y + h)} L${project(x, y + h)}Z`;
+  const keys = Array.from({ length: 24 }, (_, index) => ({
+    id: `key-${index}`,
+    path: panel(
+      0.12 + (index % 8) * 0.095,
+      0.15 + Math.floor(index / 8) * 0.14,
+      0.075,
+      0.1,
+    ),
+  }));
   return {
     faceBox: centeredFaceBox(
       screen.width * 0.76,
@@ -21,16 +43,15 @@ export function notebookFromName(name: string | number): CustomShape {
         <rect x={left} y={top} width={width} height={height} rx={5} fill={color} />
         <rect {...screen} rx={2} fill="#f5f0e5" />
         <circle cx={50} cy={top + 2.5} r={0.8} fill="#182b35" />
-        <path
-          d={`M${left} ${bottom - 1} H${left + width} L96 88 Q96 92 91 92 H9 Q4 92 4 88Z`}
-          fill={color}
-        />
-        <path
-          d={`M${left + 4} ${bottom + 4} H${left + width - 4} L84 82 H16Z`}
-          fill="white"
-          opacity={0.25}
-        />
-        <rect x={39} y={84} width={22} height={4} rx={1.5} fill="#182b35" opacity={0.2} />
+        <path data-device-deck="" d={panel(0, 0, 1, 1)} fill={color} />
+        <path d="M4 88 H96 Q96 92 91 92 H9 Q4 92 4 88Z" fill={color} />
+        <path d="M5 89 H95" stroke="#182b35" strokeWidth={0.6} opacity={0.15} />
+        <g data-device-keyboard="" fill="#182b35" opacity={0.22}>
+          {keys.map((key) => (
+            <path key={key.id} d={key.path} />
+          ))}
+          <path data-device-touchpad="" d={panel(0.36, 0.64, 0.28, 0.23)} />
+        </g>
       </g>
     ),
   };

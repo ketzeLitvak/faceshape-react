@@ -200,20 +200,18 @@ test('cat has fixed circular geometry and symmetric attached ears; only its colo
   }
 });
 
-test('robot names select zero, one or two antennas and optional modules and vents', () => {
+test('robot names select zero, one or two antennas and optional modules', () => {
   const counts = new Set();
   const modules = new Set();
-  const vents = new Set();
   for (let index = 0; index < 100; index++) {
     const definition = CUSTOM_SHAPES.robot.fromName(`Robot ${index}`);
     const svg = renderToStaticMarkup(definition.render({ color: '#123456' }));
     counts.add((svg.match(/data-robot-antenna/g) || []).length);
     modules.add(svg.includes('data-robot-side-modules'));
-    vents.add(svg.includes('data-robot-vent'));
+    assert.doesNotMatch(svg, /data-robot-vent/);
   }
   assert.deepEqual([...counts].sort(), [0, 1, 2]);
   assert.equal(modules.size, 2);
-  assert.equal(vents.size, 2);
 });
 
 test('planet names independently select rings and zero, one or two moons outside the body', () => {
@@ -292,7 +290,7 @@ test('planet surfaces have no decorative line paths', () => {
 test('device identities cover all four form factors and ghost identities change contour topology', () => {
   for (const [shape, expected] of [
     ['device', ['desktop', 'notebook', 'phone', 'tablet']],
-    ['ghost', ['points', 'swirl', 'tails', 'waves']],
+    ['ghost', ['classic', 'drips', 'sheet', 'tail', 'wide']],
   ]) {
     const variants = new Map();
     for (let index = 0; index < 100; index++) {
@@ -331,7 +329,58 @@ test('device identities cover all four form factors and ghost identities change 
         );
         return svg.match(/ d="([^"]+)"/)[1].replace(/[^A-Za-z]/g, '');
       });
-      assert.equal(new Set(commands).size, 4, 'profiles vary their outline beyond scale');
+      assert.equal(new Set(commands).size, 5, 'profiles vary their outline beyond scale');
     }
   }
+});
+
+test('notebook keys and touchpad widen toward the front of the same perspective plane', () => {
+  let checked = 0;
+  for (let index = 0; index < 100; index++) {
+    const svg = renderToStaticMarkup(
+      CUSTOM_SHAPES.device.fromName(`Modelo ${index}`).render({ color: '#123456' }),
+    );
+    if (!svg.includes('data-device-kind="notebook"')) {
+      continue;
+    }
+    const keyboard = svg.slice(svg.indexOf('data-device-keyboard'));
+    const panels = [...keyboard.matchAll(/ d="([^"]+)"/g)].map((match) =>
+      [...match[1].matchAll(/[ML](-?[\d.]+) (-?[\d.]+)/g)].map((point) => [
+        Number(point[1]),
+        Number(point[2]),
+      ]),
+    );
+    const deck = [
+      ...svg
+        .match(/data-device-deck="" d="([^"]+)"/)[1]
+        .matchAll(/[ML](-?[\d.]+) (-?[\d.]+)/g),
+    ].map((point) => [Number(point[1]), Number(point[2])]);
+    const backWidth = deck[1][0] - deck[0][0];
+    const frontWidth = deck[2][0] - deck[3][0];
+    const vanishingY =
+      deck[0][1] - ((deck[3][1] - deck[0][1]) * backWidth) / (frontWidth - backWidth);
+    assert.equal(panels.length, 25);
+    for (const [backLeft, backRight, frontRight, frontLeft] of panels) {
+      assert.ok(backLeft[1] === backRight[1] && frontLeft[1] === frontRight[1]);
+      assert.ok(frontLeft[1] > backLeft[1]);
+      for (const [back, front] of [
+        [backLeft, frontLeft],
+        [backRight, frontRight],
+      ]) {
+        const xAtVanishingPoint =
+          back[0] +
+          ((front[0] - back[0]) * (vanishingY - back[1])) / (front[1] - back[1]);
+        assert.ok(
+          Math.abs(xAtVanishingPoint - 50) < 1e-8,
+          'key edges share the deck vanishing point',
+        );
+      }
+      assert.ok(frontRight[0] - frontLeft[0] > backRight[0] - backLeft[0]);
+    }
+    const rearKey = panels[0];
+    const frontKey = panels[16];
+    assert.ok(frontKey[1][0] - frontKey[0][0] > rearKey[1][0] - rearKey[0][0]);
+    checked++;
+  }
+  assert.ok(checked > 0);
 });
