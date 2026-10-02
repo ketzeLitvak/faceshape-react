@@ -24,7 +24,7 @@ export function App() {
     <main>
       <header>
         <a href="#demo" className="brand">
-          <span className="brand-icon">◡</span> faceshape
+          <img className="brand-icon" src="./faceshape-icon.svg" alt="" /> faceshape
           <span className="version">0.1.0</span>
         </a>
         <nav className="app-nav" aria-label="Navegación principal">
