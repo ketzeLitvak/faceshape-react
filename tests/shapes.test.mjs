@@ -4,7 +4,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import sharp from 'sharp';
 import { computer, penguin, shark } from '../.test-dist/helpers.mjs';
-import { Character } from '../dist/index.js';
+import { Character, SHAPES } from '../dist/index.js';
 
 const face = { eyes: 'bright', mouth: 'tongue', eyebrows: 'expression' };
 
@@ -102,5 +102,45 @@ test('square and triangle names cover a full turn reproducibly', async () => {
       quadrants.add(Math.floor((angle + 180) / 90));
     }
     assert.equal(quadrants.size, 4);
+  }
+});
+
+test('triangle is equilateral with its centroid at the rotation origin', () => {
+  const numbers = SHAPES.triangle.path.match(/-?[0-9]+(?:\.[0-9]+)?/g).map(Number);
+  const vertices = [
+    [numbers[0], numbers[1]],
+    [numbers[2], numbers[3]],
+    [numbers[4], numbers[5]],
+  ];
+  const sides = vertices.map((point, index) => {
+    const next = vertices[(index + 1) % 3];
+    return Math.hypot(point[0] - next[0], point[1] - next[1]);
+  });
+  assert.ok(Math.max(...sides) - Math.min(...sides) < 1e-10);
+  for (const axis of [0, 1]) {
+    assert.ok(
+      Math.abs(vertices.reduce((sum, point) => sum + point[axis], 0) / 3 - 50) < 1e-10,
+    );
+  }
+});
+
+test('rotating shapes keep face centers fixed and fit the viewBox at every orientation', async () => {
+  const { resolveCharacterAppearance } = await import('../.test-dist/helpers.mjs');
+  for (const shape of ['square', 'triangle']) {
+    for (let index = 0; index < 100; index++) {
+      const definition = resolveCharacterAppearance({
+        shape,
+        identity: `Centered ${index}`,
+      }).definition;
+      const box = definition.faceBox;
+      assert.ok(Math.abs(box.x + box.width / 2 - 0.5) < 1e-10);
+      assert.ok(Math.abs(box.y + box.height / 2 - 0.5) < 1e-10);
+      const angle =
+        (Number(definition.transform.match(/rotate\(([^)]+)\)/)[1]) * Math.PI) / 180;
+      const scale = Number(definition.transform.match(/scale\(([^)]+)\)/)[1]);
+      assert.ok(
+        scale * (Math.abs(Math.cos(angle)) + Math.abs(Math.sin(angle))) <= 0.97 + 1e-10,
+      );
+    }
   }
 });

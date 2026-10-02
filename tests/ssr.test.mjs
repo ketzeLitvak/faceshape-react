@@ -330,3 +330,25 @@ test('sleepy mouths retain their style and closed resting mouths disable talking
   }
   assert.equal(new Set(paths).size, variants.length);
 });
+
+test('toothy mouth teeth follow its upper edge in surprise and expression transitions', async () => {
+  const { toothyTeethPath } = await import('../.test-dist/helpers.mjs');
+  for (let step = 0; step <= 10; step++) {
+    const amount = step / 10;
+    const geometry = {
+      ...EXPRESSIONS.surprised,
+      mouthCurve: EXPRESSIONS.happy.mouthCurve * (1 - amount),
+      mouthOpen: EXPRESSIONS.happy.mouthOpen * (1 - amount) + amount,
+    };
+    const values = toothyTeethPath(geometry)
+      .match(/-?[0-9]+(?:\.[0-9]+)?/g)
+      .map(Number);
+    const [left, leftY, center, controlY, right, rightY] = values;
+    const midpoint = (leftY + 2 * controlY + rightY) / 4;
+    const expected = geometry.mouthCurve > 0 ? 64 : 68 - geometry.mouthOpen * 7;
+    assert.ok(Math.abs(midpoint - expected) < 1e-10);
+    assert.equal(center, 50);
+    assert.ok(left < center && right > center);
+    assert.ok(values[7] > rightY);
+  }
+});

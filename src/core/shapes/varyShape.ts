@@ -8,8 +8,12 @@ export function varyShape(
   channel: string,
 ): ShapeDefinition {
   const random = createNameRandom(name, channel);
-  const scale = 0.72 + random() * 0.25;
+  const identityScale = 0.72 + random() * 0.25;
   const rotation = (random() * 2 - 1) * (shape.rotationRange ?? 0);
+  const radians = (rotation * Math.PI) / 180;
+  // A rotated 100 × 100 box needs this margin to stay inside the viewBox.
+  const rotationExtent = Math.abs(Math.cos(radians)) + Math.abs(Math.sin(radians));
+  const scale = identityScale / Math.max(1, rotationExtent);
   const box = shape.faceBox;
   return {
     ...shape,
