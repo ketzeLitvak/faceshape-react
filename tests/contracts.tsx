@@ -30,3 +30,29 @@ const face: FaceConfig = { eyes: 'bright', mouth: 'tongue', eyebrows: 'expressio
 <Eyes variant="star" />;
 <Eyes variant="softLids" />;
 <Eyes variant="spiral" />;
+
+import { registerEyeStyle, registerMouthStyle } from '../src';
+
+const customEye = registerEyeStyle('custom:typed-eye', {
+  supportsBlink: true,
+  supportsLookAt: false,
+  render: () => null,
+  dimensions: { rx: 10, ry: 10, whites: false, highlight: false },
+  isClosed: () => false,
+  gazeDistance: 0,
+  browBaseline: 10,
+  idleGlance: false,
+});
+const customMouth = registerMouthStyle('custom:typed-mouth', {
+  supportsTalking: false,
+  widthScale: 1,
+  shape: () => ({ path: 'M30 68 H70', bottom: 68, tongueHeight: 0 }),
+});
+<Character face={{ eyes: customEye, mouth: customMouth, eyebrows: 'none' }} />;
+// @ts-expect-error Extensions must use their own namespace.
+registerEyeStyle('bright', {});
+// @ts-expect-error Motion capabilities must be explicitly declared.
+registerMouthStyle('custom:incomplete', {
+  widthScale: 1,
+  shape: () => ({ path: 'M30 68 H70', bottom: 68, tongueHeight: 0 }),
+});

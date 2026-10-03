@@ -124,3 +124,17 @@ La demo incluye `cloud`, `ghost`, `cat`, `robot`, `planet`, `flower`, `drop` y `
 Los ojos públicos `eyelashes`, `heart`, `star`, `softLids`, `cyclops` y `spiral` se combinan con cualquier boca y cejas. Cíclope usa un único ojo y una ceja central; las otras variantes mantienen dos. Todos admiten parpadeo y mirada, respetan la expresión y pueden combinarse con partes `none`.
 
 La forma personalizada `device` (Dispositivo) reemplaza a la computadora de la demo: `name` elige escritorio, notebook, celular o tablet. Cada variante vive en un archivo separado y recalcula su `faceBox` según la pantalla. El fantasma combina perfiles clásicos, anchos, de sábana, con gotas o una cola lateral y varía también sus lados e inclinación.
+
+### Validar, guardar y compartir
+
+La pestaña **Validación** compara una forma con tres nombres, las seis expresiones y tamaños de 32, 48 y 160 px. Permite cambiar ojos, boca, cejas y fondo; incluye poses detenidas de blink, guiños, mirada y transiciones, además de una muestra animada.
+
+El playground permite guardar hasta 20 personajes en este navegador, fijar una referencia para comparar y copiar un enlace con la configuración completa. El enlace incluye nombre, forma, rasgos, expresión, color fijo y movimiento. Los guardados usan almacenamiento local; no se sincronizan entre equipos.
+
+### Extender ojos y bocas
+
+`registerEyeStyle('custom:mi-ojo', strategy)` y `registerMouthStyle('custom:mi-boca', strategy)` registran estilos públicos. Devuelven el nombre tipado para `face`. Registrá una vez en un módulo compartido entre servidor y cliente, antes de renderizar; los nombres duplicados y los intentos de reemplazar estilos incluidos se rechazan.
+
+Los ojos declaran `supportsBlink` y `supportsLookAt`, reciben `EyeRenderProps` y pueden definir sus propios anchors. Las bocas declaran `supportsTalking`, generan su contorno con la geometría de la expresión y pueden agregar decoración recortada por la abertura. La documentación de la demo incluye un ejemplo completo. Las extensiones siguen requiriendo las tres partes de `face`.
+
+Las utilidades públicas `quadraticValue`, `quadraticDerivative`, `centeredFaceBox`, `createPerspectivePlane` y `polygonPath` comparten los cálculos utilizados por las formas y los dientes de la librería.

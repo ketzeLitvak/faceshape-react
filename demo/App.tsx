@@ -5,6 +5,9 @@ import { PlaygroundControls } from './components/PlaygroundControls';
 import { Documentation } from './docs/Documentation';
 import { useDemoPage } from './hooks/useDemoPage';
 import { usePlayground } from './hooks/usePlayground';
+import { ValidationGallery } from './validation/ValidationGallery';
+import { CharacterWorkbench } from './workbench/CharacterWorkbench';
+import './workbench/workbench.css';
 import { buildSnippet } from './snippet';
 
 export function App() {
@@ -34,9 +37,14 @@ export function App() {
           <a href="#docs" aria-current={page === 'docs' ? 'page' : undefined}>
             Documentación
           </a>
+          <a href="#validation" aria-current={page === 'validation' ? 'page' : undefined}>
+            Validación
+          </a>
         </nav>
       </header>
-      {page === 'docs' ? (
+      {page === 'validation' ? (
+        <ValidationGallery face={face} />
+      ) : page === 'docs' ? (
         <Documentation />
       ) : (
         <>
@@ -64,6 +72,10 @@ export function App() {
             />
             <PlaygroundControls {...playground} />
           </section>
+          <CharacterWorkbench
+            configuration={playground.configuration}
+            loadConfiguration={playground.loadConfiguration}
+          />
           <section className="code-panel">
             <div>
               <div className="eyebrow">LA API</div>

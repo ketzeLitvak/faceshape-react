@@ -10,6 +10,7 @@ import type {
 } from '../core/index';
 
 export type EyeVariant =
+  | `custom:${string}`
   | 'eyelashes'
   | 'heart'
   | 'star'
@@ -30,6 +31,7 @@ export type EyeVariant =
   | 'capsule';
 
 export type MouthVariant =
+  | `custom:${string}`
   | 'none'
   | 'beak'
   | 'standard'

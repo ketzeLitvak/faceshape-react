@@ -26,6 +26,8 @@ export interface EyeAnchor {
 }
 
 export interface EyeStrategy {
+  supportsBlink?: boolean;
+  supportsLookAt?: boolean;
   anchors?: (geometry: FaceGeometry) => EyeAnchor[];
   hidden?: boolean;
   render: ComponentType<EyeRenderProps>;

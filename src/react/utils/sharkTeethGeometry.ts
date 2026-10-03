@@ -1,3 +1,4 @@
+import { quadraticDerivative, quadraticValue } from '../../core/drawing';
 import type { FaceGeometry } from '../../core/types';
 
 /** Trace each tooth base along the exact upper quadratic mouth contour. */
@@ -6,8 +7,8 @@ export function sharkTeethPaths(geometry: FaceGeometry): string[] {
   const smiling = curve > 0 && openness > 0.015;
   const baseline = smiling ? 64 : 68;
   const control = smiling ? 64 : 68 + curve * 13 - openness * 14;
-  const edge = (t: number) => baseline + 2 * t * (1 - t) * (control - baseline);
-  const derivative = (t: number) => 2 * (1 - 2 * t) * (control - baseline);
+  const edge = (t: number) => quadraticValue(baseline, control, baseline, t);
+  const derivative = (t: number) => quadraticDerivative(baseline, control, baseline, t);
   const depth = 8 * openness;
 
   return [-1, 0, 1].map((position) => {

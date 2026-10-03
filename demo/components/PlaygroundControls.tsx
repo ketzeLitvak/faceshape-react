@@ -38,6 +38,7 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
         NOMBRE
         <input
           aria-label="Nombre del personaje"
+          maxLength={120}
           value={name}
           onChange={(event) => setName(event.target.value)}
           placeholder="Elegí un nombre"

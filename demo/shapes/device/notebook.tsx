@@ -1,4 +1,9 @@
-import { type CustomShape, createNameRandom } from '../../../src';
+import {
+  type CustomShape,
+  createNameRandom,
+  createPerspectivePlane,
+  polygonPath,
+} from '../../../src';
 import { centeredFaceBox } from '../faceBox';
 
 export function notebookFromName(name: string | number): CustomShape {
@@ -9,19 +14,14 @@ export function notebookFromName(name: string | number): CustomShape {
   const top = 14 + random() * 5;
   const bottom = top + height;
   const screen = { x: left + 5, y: top + 5, width: width - 10, height: height - 11 };
-  const backY = bottom - 1;
-  const frontY = 88;
-  const frontWidth = 92;
-  const convergence = 1 - width / frontWidth;
-  // A perspective projection shares one vanishing point across the base and keys.
-  const project = (x: number, depth: number) => {
-    const denominator = 1 - convergence * depth;
-    const span = width / denominator;
-    const y = backY + ((frontY - backY) * (1 - convergence) * depth) / denominator;
-    return `${50 + (x - 0.5) * span} ${y}`;
-  };
+  const project = createPerspectivePlane(width, 92, bottom - 1, 88);
   const panel = (x: number, y: number, w: number, h: number) =>
-    `M${project(x, y)} L${project(x + w, y)} L${project(x + w, y + h)} L${project(x, y + h)}Z`;
+    polygonPath([
+      project(x, y),
+      project(x + w, y),
+      project(x + w, y + h),
+      project(x, y + h),
+    ]);
   const keys = Array.from({ length: 24 }, (_, index) => ({
     id: `key-${index}`,
     path: panel(

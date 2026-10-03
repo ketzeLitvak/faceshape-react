@@ -13,7 +13,7 @@ import { toothyMouth } from './toothy';
 import type { MouthStrategy } from './types';
 import { wideMouth } from './wide';
 
-export const MOUTH_STRATEGIES = {
+export const MOUTH_STRATEGIES: Record<string, MouthStrategy> = {
   none: noneMouth,
   beak: beakMouth,
   standard: standardMouth,
@@ -26,4 +26,4 @@ export const MOUTH_STRATEGIES = {
   shark: sharkMouth,
   smirk: smirkMouth,
   cat: catMouth,
-} satisfies Record<MouthVariant, MouthStrategy>;
+} satisfies Record<Exclude<MouthVariant, `custom:${string}`>, MouthStrategy>;

@@ -1,3 +1,4 @@
+export * from './drawing';
 export * from './expressions';
 export * from './geometry';
 export * from './identity';

@@ -19,7 +19,7 @@ import { spiralEyes } from './spiral';
 import { starEyes } from './star';
 import type { EyeStrategy } from './types';
 
-export const EYE_STRATEGIES = {
+export const EYE_STRATEGIES: Record<string, EyeStrategy> = {
   none: noneEyes,
   eyelashes: eyelashesEyes,
   heart: heartEyes,
@@ -39,4 +39,4 @@ export const EYE_STRATEGIES = {
   cartoon: cartoonEyes,
   sly: slyEyes,
   capsule: capsuleEyes,
-} satisfies Record<EyeVariant, EyeStrategy>;
+} satisfies Record<Exclude<EyeVariant, `custom:${string}`>, EyeStrategy>;

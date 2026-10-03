@@ -3,6 +3,7 @@ import { DOC_SECTIONS } from './navigation';
 import { APIReference } from './sections/APIReference';
 import { Composition } from './sections/Composition';
 import { CustomShapes } from './sections/CustomShapes';
+import { CustomStyles } from './sections/CustomStyles';
 import { Expressions } from './sections/Expressions';
 import { FaceVariants } from './sections/FaceVariants';
 import { GettingStarted } from './sections/GettingStarted';
@@ -59,6 +60,7 @@ export function Documentation() {
           <CustomShapes />
           <Variation />
           <Composition />
+          <CustomStyles />
           <UseCases />
           <APIReference />
           <Troubleshooting />

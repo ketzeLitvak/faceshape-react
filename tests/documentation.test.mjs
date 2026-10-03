@@ -10,7 +10,7 @@ test('documentation provides every navigation target, examples, and the complete
     assert.match(html, new RegExp(`id="${id}"`));
     assert.match(html, new RegExp(`href="#${id}"`));
   }
-  assert.equal((html.match(/>Copiar<\/button>/g) || []).length, 12);
+  assert.equal((html.match(/>Copiar<\/button>/g) || []).length, 13);
   for (const topic of [
     'faceBox',
     'fromName',
@@ -20,6 +20,8 @@ test('documentation provides every navigation target, examples, and the complete
     'reducedMotion',
     'beak',
     'cat',
+    'registerEyeStyle',
+    'registerMouthStyle',
   ]) {
     assert.ok(html.includes(topic), topic);
   }

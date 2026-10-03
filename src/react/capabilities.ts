@@ -9,10 +9,15 @@ export function getMotionCapabilities(
   mouth?: MouthVariant,
   geometry?: Partial<FaceGeometry>,
 ): MotionCapabilities {
-  const closed = EYE_STRATEGIES[eyes].isClosed(geometry?.eyeOpen ?? 1);
+  const eye = EYE_STRATEGIES[eyes];
+  const mouthStyle = mouth === undefined ? undefined : MOUTH_STRATEGIES[mouth];
+  if (!eye || (mouth !== undefined && !mouthStyle)) {
+    throw new Error('Unknown face style: register custom styles before rendering');
+  }
+  const closed = eye.isClosed(geometry?.eyeOpen ?? 1);
   return {
-    blink: !closed,
-    lookAt: !closed,
+    blink: !closed && eye.supportsBlink !== false,
+    lookAt: !closed && eye.supportsLookAt !== false,
     talking:
       mouth === undefined ||
       (!MOUTH_STRATEGIES[mouth].lineOnly &&

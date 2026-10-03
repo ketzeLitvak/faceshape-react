@@ -18,5 +18,9 @@ export function useDemoPage() {
     update();
     return () => window.removeEventListener('hashchange', update);
   }, []);
-  return hash.startsWith('#docs') ? 'docs' : 'demo';
+  return hash.startsWith('#docs')
+    ? 'docs'
+    : hash.startsWith('#validation')
+      ? 'validation'
+      : 'demo';
 }
