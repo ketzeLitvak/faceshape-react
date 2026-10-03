@@ -139,7 +139,7 @@ test('validation gallery includes all expressions, names, sizes and hidden parts
   for (const size of [32, 48, 160]) {
     assert.ok(html.includes(`width="${size}"`));
   }
-  for (const part of ['eyes', 'mouth', 'eyebrows']) {
-    assert.ok(html.includes(`Sin ${part}`));
-  }
+  assert.ok(html.includes('Partes ocultas'));
+  assert.ok(html.includes('no emite un resultado'));
+  assert.ok(html.includes('32 px'));
 });

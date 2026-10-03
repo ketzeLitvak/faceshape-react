@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { Character } from '../../src';
 import { resolveDemoShape } from '../shapes/resolveDemoShape';
-import {
-  configurationURL,
-  type PlaygroundConfiguration,
-  readSavedCharacters,
-  type SavedCharacter,
-} from './configuration';
+import { ConfigurationSummary, configurationDetails } from './ConfigurationSummary';
+import { configurationURL, type PlaygroundConfiguration } from './configuration';
+import { SavedCharacters } from './SavedCharacters';
 
 function Preview({ config }: { config: PlaygroundConfiguration }) {
   const shape = resolveDemoShape(config.shape);
@@ -31,30 +28,21 @@ export function CharacterWorkbench({
   configuration: PlaygroundConfiguration;
   loadConfiguration: (config: PlaygroundConfiguration) => void;
 }) {
-  const [saved, setSaved] = useState(readSavedCharacters);
   const [reference, setReference] = useState<PlaygroundConfiguration>();
   const [status, setStatus] = useState('');
   const [shareURL, setShareURL] = useState('');
-  const persist = (items: SavedCharacter[]) => {
-    try {
-      localStorage.setItem('faceshape:characters:v1', JSON.stringify(items));
-      setSaved(items);
-      setStatus('Guardado en este navegador.');
-    } catch {
-      setStatus(
-        'No se pudo guardar: el almacenamiento del navegador no está disponible.',
-      );
-    }
-  };
-  const save = () => {
-    if (saved.length >= 20) {
-      setStatus('Podés guardar hasta 20 personajes. Eliminá uno para agregar otro.');
-      return;
-    }
-    persist([
-      ...saved,
-      { id: crypto.randomUUID(), configuration: structuredClone(configuration) },
-    ]);
+  const changes = reference
+    ? Object.keys(configurationDetails(configuration)).filter((key) => {
+        const current = configurationDetails(configuration);
+        const original = configurationDetails(reference);
+        return (
+          current[key as keyof typeof current] !== original[key as keyof typeof original]
+        );
+      })
+    : [];
+  const takeReference = (config: PlaygroundConfiguration) => {
+    setReference(structuredClone(config));
+    setStatus('Referencia fijada. Cambiá los controles del playground para comparar.');
   };
   const share = async () => {
     const url = configurationURL(configuration, window.location.href);
@@ -68,20 +56,14 @@ export function CharacterWorkbench({
   };
   return (
     <section className="character-workbench">
-      <h2>Guardá y compará</h2>
+      <h2>Compará tus cambios</h2>
       <p>
-        Fijá una referencia y seguí editando tu personaje. Los guardados permanecen en
-        este navegador.
+        La referencia es una copia de tu configuración en este momento. Queda fija
+        mientras cambiás la forma, los rasgos o la expresión en el playground.
       </p>
       <div className="workbench-actions">
-        <button type="button" onClick={save}>
-          Guardar personaje
-        </button>
-        <button
-          type="button"
-          onClick={() => setReference(structuredClone(configuration))}
-        >
-          Fijar como referencia
+        <button type="button" onClick={() => takeReference(configuration)}>
+          {reference ? 'Reemplazar referencia con el actual' : 'Fijar como referencia'}
         </button>
         <button type="button" onClick={share}>
           Copiar enlace
@@ -92,6 +74,21 @@ export function CharacterWorkbench({
           </button>
         )}
       </div>
+      {!reference && (
+        <div className="workbench-guide">
+          <strong>Cómo comparar</strong>
+          <ol>
+            <li>Elegí un personaje en los controles de arriba.</li>
+            <li>Fijalo como referencia.</li>
+            <li>Seguí editando: la columna Actual mostrará tus cambios.</li>
+          </ol>
+          <p>
+            La referencia dura mientras seguís en esta vista. Se pierde al cerrar la
+            comparación, salir o recargar la página. Para conservar un personaje, usá
+            Guardar personaje.
+          </p>
+        </div>
+      )}
       <p role="status" className="workbench-status">
         {status}
       </p>
@@ -107,47 +104,41 @@ export function CharacterWorkbench({
         </label>
       )}
       {reference && (
-        <div className="comparison-grid">
-          <article>
-            <h3>Referencia · {reference.name}</h3>
-            <Preview config={reference} />
-            <button type="button" onClick={() => loadConfiguration(reference)}>
-              Cargar referencia
-            </button>
-          </article>
-          <article>
-            <h3>Actual · {configuration.name}</h3>
-            <Preview config={configuration} />
-          </article>
-        </div>
-      )}
-      {saved.length > 0 && (
-        <div className="saved-characters">
-          {saved.map((item) => (
-            <article key={item.id}>
-              <Preview config={item.configuration} />
-              <h3>{item.configuration.name || 'Sin nombre'}</h3>
-              <div className="workbench-actions">
-                <button
-                  type="button"
-                  onClick={() => loadConfiguration(item.configuration)}
-                >
-                  Cargar
-                </button>
-                <button type="button" onClick={() => setReference(item.configuration)}>
-                  Comparar
-                </button>
-                <button
-                  type="button"
-                  onClick={() => persist(saved.filter((value) => value.id !== item.id))}
-                >
-                  Eliminar
-                </button>
-              </div>
+        <>
+          <p className="comparison-description">
+            {changes.length
+              ? `Cambios frente a la referencia: ${changes.join(', ')}.`
+              : 'Todavía no hay diferencias. Cambiá los controles de arriba para probar otra combinación.'}{' '}
+            Las dos vistas están detenidas para comparar sus formas.
+          </p>
+          <div className="comparison-grid">
+            <article>
+              <h3>Referencia · {reference.name}</h3>
+              <p className="comparison-caption">
+                Copia fija · conserva la configuración que elegiste
+              </p>
+              <Preview config={reference} />
+              <ConfigurationSummary configuration={reference} />
+              <button type="button" onClick={() => loadConfiguration(reference)}>
+                Restaurar en el playground
+              </button>
             </article>
-          ))}
-        </div>
+            <article>
+              <h3>Actual · {configuration.name}</h3>
+              <p className="comparison-caption">
+                Se actualiza mientras editás el playground
+              </p>
+              <Preview config={configuration} />
+              <ConfigurationSummary configuration={configuration} reference={reference} />
+            </article>
+          </div>
+        </>
       )}
+      <SavedCharacters
+        configuration={configuration}
+        loadConfiguration={loadConfiguration}
+        compare={takeReference}
+      />
     </section>
   );
 }

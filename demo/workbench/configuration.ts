@@ -8,6 +8,8 @@ export interface PlaygroundConfiguration extends SnippetOptions {
 export interface SavedCharacter {
   id: string;
   configuration: PlaygroundConfiguration;
+  title?: string;
+  updatedAt?: string;
 }
 const motionKeys = ['idle', 'blink', 'bounce', 'shake', 'talking', 'glance'];
 const brows = ['none', 'expression', 'soft', 'raised', 'angry', 'sad'];
@@ -98,11 +100,28 @@ export function readSavedCharacters(): SavedCharacter[] {
     if (!Array.isArray(stored)) {
       return [];
     }
+    const ids = new Set<string>();
     return stored.slice(0, 20).flatMap((item) => {
       const configuration = parseConfiguration(item?.configuration);
-      return configuration && typeof item.id === 'string'
-        ? [{ id: item.id, configuration }]
-        : [];
+      if (!configuration || typeof item.id !== 'string' || ids.has(item.id)) {
+        return [];
+      }
+      ids.add(item.id);
+      return [
+        {
+          id: item.id,
+          configuration,
+          title:
+            typeof item.title === 'string'
+              ? item.title.slice(0, 80)
+              : configuration.name || 'Sin nombre',
+          updatedAt:
+            typeof item.updatedAt === 'string' &&
+            Number.isFinite(Date.parse(item.updatedAt))
+              ? item.updatedAt
+              : undefined,
+        },
+      ];
     });
   } catch {
     return [];

@@ -47,16 +47,20 @@ const poses: PreviewPose[] = [
 
 export function ValidationGallery({ face: initialFace }: { face: FaceConfig }) {
   const [face, setFace] = useState(initialFace);
+  const [view, setView] = useState<'expressions' | 'poses' | 'motion' | 'parts'>(
+    'expressions',
+  );
   const [shape, setShape] = useState<DemoShape>('cloud');
   const [dark, setDark] = useState(false);
   const [animated, setAnimated] = useState(false);
   const [phase, setPhase] = useState<ExpressionName>('happy');
   return (
     <section className="validation-page">
-      <h1>Validación visual</h1>
+      <h1>Inspección visual</h1>
       <p>
-        Compará nombres, tamaños y expresiones con los rasgos que elegiste en el
-        playground.
+        Explorá cómo se ve una combinación de forma y rasgos en distintos estados. Esta
+        galería ayuda a revisar el dibujo a simple vista: no emite un resultado de
+        aprobado o rechazado ni ejecuta los tests automáticos de la librería.
       </p>
       <div className="workbench-actions">
         {(
@@ -96,107 +100,167 @@ export function ValidationGallery({ face: initialFace }: { face: FaceConfig }) {
           />{' '}
           Fondo oscuro
         </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={animated}
-            onChange={(e) => setAnimated(e.target.checked)}
-          />{' '}
-          Blink y mirada
-        </label>
-      </div>
-      <div className={`validation-grid ${dark ? 'validation-dark' : ''}`}>
-        {names.map((name) =>
-          (Object.keys(EXPRESSIONS) as ExpressionName[]).map((expression) => (
-            <article key={`${name}-${expression}`}>
-              <span>
-                {name} · {expression}
-              </span>
-              <div className="validation-sizes">
-                {sizes.map((size) => (
-                  <Character
-                    key={size}
-                    shape={resolveDemoShape(shape)}
-                    name={name}
-                    expression={expression}
-                    face={face}
-                    size={size}
-                    reducedMotion={!animated}
-                    motion={{
-                      blink: animated,
-                      glance: animated,
-                      lookAt: animated ? 'cursor' : undefined,
-                    }}
-                  />
-                ))}
-              </div>
-            </article>
-          )),
+        {view === 'expressions' && (
+          <label>
+            <input
+              type="checkbox"
+              checked={animated}
+              onChange={(e) => setAnimated(e.target.checked)}
+            />{' '}
+            Animar las muestras
+          </label>
         )}
       </div>
-      <h2>Poses de inspección</h2>
-      <p>
-        Poses detenidas para inspeccionar contornos, brillos y cejas. En cíclope hay un
-        solo ojo.
-      </p>
-      <div className={`validation-grid ${dark ? 'validation-dark' : ''}`}>
-        {poses.map((pose) => (
-          <article key={pose.id}>
-            <span>{pose.label}</span>
-            <Character
-              shape={resolveDemoShape(shape)}
-              name="Ana"
-              face={face}
-              expression="neutral"
-              size={160}
-              reducedMotion
-            >
-              <PosePreview face={face} pose={pose} />
-            </Character>
-          </article>
-        ))}
-      </div>
-      <h2>Transiciones y movimiento</h2>
-      <p>
-        Cambiá la expresión para revisar la transición. El movimiento respeta la
-        preferencia del sistema.
-      </p>
-      <div className="workbench-actions">
-        {(Object.keys(EXPRESSIONS) as ExpressionName[]).map((expression) => (
+      <nav className="inspection-tabs" aria-label="Vista de inspección">
+        {(
+          [
+            { id: 'expressions', label: 'Expresiones y tamaños' },
+            { id: 'poses', label: 'Blink y mirada' },
+            { id: 'motion', label: 'Transiciones en vivo' },
+            { id: 'parts', label: 'Partes ocultas' },
+          ] as const
+        ).map((tab) => (
           <button
             type="button"
-            key={expression}
-            aria-pressed={phase === expression}
-            onClick={() => setPhase(expression)}
+            key={tab.id}
+            aria-pressed={view === tab.id}
+            onClick={() => setView(tab.id)}
           >
-            {expression}
+            {tab.label}
           </button>
         ))}
-      </div>
-      <Character
-        shape={resolveDemoShape(shape)}
-        face={face}
-        name="Transición"
-        expression={phase}
-        transition={{ duration: 1200 }}
-        size={220}
-        motion={{ blink: true, lookAt: 'cursor', talking: true }}
-      />
-      <h2>Partes ausentes</h2>
-      <div className="validation-hidden">
-        {(['eyes', 'mouth', 'eyebrows'] as const).map((part) => (
-          <article key={part}>
+      </nav>
+      {view === 'expressions' && (
+        <>
+          <h2>La misma identidad, seis expresiones</h2>
+          <p>
+            Dentro de cada grupo, el nombre mantiene la forma y el color. Revisá si las
+            expresiones se distinguen y si los rasgos se leen a 32, 48 y 160 px.
+          </p>
+          {names.map((name) => (
+            <section className="identity-samples" key={name}>
+              <h3>{name}</h3>
+              <p>
+                Variación por nombre · la configuración facial es la misma en todas las
+                muestras.
+              </p>
+              <div className={`validation-grid ${dark ? 'validation-dark' : ''}`}>
+                {(Object.keys(EXPRESSIONS) as ExpressionName[]).map((expression) => (
+                  <article key={expression}>
+                    <span>
+                      {name} · {expression}
+                    </span>
+                    <div className="validation-sizes">
+                      {sizes.map((size) => (
+                        <figure key={size}>
+                          <Character
+                            shape={resolveDemoShape(shape)}
+                            name={name}
+                            expression={expression}
+                            face={face}
+                            size={size}
+                            reducedMotion={!animated}
+                            motion={{
+                              blink: animated,
+                              glance: animated,
+                              lookAt: animated ? 'cursor' : undefined,
+                            }}
+                          />
+                          <figcaption>{size} px</figcaption>
+                        </figure>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+        </>
+      )}
+      {view === 'poses' && (
+        <>
+          <h2>Poses de inspección</h2>
+          <p>
+            Son instantes detenidos del parpadeo y la mirada, más dos puntos intermedios
+            entre expresiones. Revisá que los brillos acompañen al ojo, las cejas no dejen
+            huecos y la boca conserve su contorno. En cíclope, el guiño corresponde al
+            único ojo.
+          </p>
+          <div className={`validation-grid ${dark ? 'validation-dark' : ''}`}>
+            {poses.map((pose) => (
+              <article key={pose.id}>
+                <span>{pose.label}</span>
+                <Character
+                  shape={resolveDemoShape(shape)}
+                  name="Ana"
+                  face={face}
+                  expression="neutral"
+                  size={160}
+                  reducedMotion
+                >
+                  <PosePreview face={face} pose={pose} />
+                </Character>
+              </article>
+            ))}
+          </div>
+        </>
+      )}
+      {view === 'motion' && (
+        <>
+          <h2>Transiciones en vivo</h2>
+          <p>
+            Elegí una expresión y observá el recorrido hasta la siguiente. Revisá que no
+            aparezcan saltos, dientes flotantes o rasgos fuera de la forma. El movimiento
+            respeta la preferencia de movimiento reducido de tu sistema.
+          </p>
+          <div className="workbench-actions">
+            {(Object.keys(EXPRESSIONS) as ExpressionName[]).map((expression) => (
+              <button
+                type="button"
+                key={expression}
+                aria-pressed={phase === expression}
+                onClick={() => setPhase(expression)}
+              >
+                {expression}
+              </button>
+            ))}
+          </div>
+          <div className={`inspection-live ${dark ? 'validation-dark' : ''}`}>
             <Character
               shape={resolveDemoShape(shape)}
-              face={{ ...face, [part]: 'none' }}
-              name="Ana"
-              size={140}
-              reducedMotion
+              face={face}
+              name="Transición"
+              expression={phase}
+              transition={{ duration: 1200 }}
+              size={220}
+              motion={{ blink: true, lookAt: 'cursor', talking: true }}
             />
-            <span>Sin {part}</span>
-          </article>
-        ))}
-      </div>
+          </div>
+        </>
+      )}
+      {view === 'parts' && (
+        <>
+          <h2>Partes ocultas</h2>
+          <p>
+            Cada muestra oculta una parte. Revisá que tampoco queden brillos, cachetes u
+            otras decoraciones de ese rasgo.
+          </p>
+          <div className="validation-hidden">
+            {(['eyes', 'mouth', 'eyebrows'] as const).map((part) => (
+              <article key={part}>
+                <Character
+                  shape={resolveDemoShape(shape)}
+                  face={{ ...face, [part]: 'none' }}
+                  name="Ana"
+                  size={140}
+                  reducedMotion
+                />
+                <span>Sin {part}</span>
+              </article>
+            ))}
+          </div>
+        </>
+      )}
     </section>
   );
 }

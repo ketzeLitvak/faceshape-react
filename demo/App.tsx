@@ -38,7 +38,7 @@ export function App() {
             Documentación
           </a>
           <a href="#validation" aria-current={page === 'validation' ? 'page' : undefined}>
-            Validación
+            Inspección
           </a>
         </nav>
       </header>
