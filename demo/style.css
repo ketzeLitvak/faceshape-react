@@ -1,11 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 :root {
   font-family: "DM Sans", system-ui, sans-serif;
-  color: #e9e8ef;
-  background: #111216;
+  color: #f1eee7;
+  background: #191a18;
   font-synthesis: none;
-  --muted: #93939e;
-  --accent: #89d9c3;
+  --muted: #aaa99f;
+  --brand-primary: #388697;
+  --brand-secondary: #dab785;
+  --brand-charcoal: #353531;
+  --accent: #82c5d2;
+  --accent-border: #38869799;
+  --accent-surface: #38869724;
 }
 * {
   box-sizing: border-box;
@@ -66,6 +71,7 @@ header {
   position: relative;
 }
 .eyebrow {
+  --accent: var(--brand-secondary);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -100,10 +106,10 @@ h1 span {
   border: 1px solid #34343d;
   border-radius: 18px;
   overflow: hidden;
-  background: #191a20;
+  background: #242522;
 }
 .stage {
-  background: radial-gradient(ellipse at center, #263331 0%, #1a2324 42%, #191c22 75%);
+  background: radial-gradient(ellipse at center, #294348 0%, #202f31 42%, #20211f 75%);
   display: flex;
   flex-direction: column;
   min-height: 570px;
@@ -114,7 +120,7 @@ h1 span {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(#9abbaf22 1px, transparent 1px);
+  background-image: radial-gradient(#82c5d222 1px, transparent 1px);
   background-size: 20px 20px;
   pointer-events: none;
 }
@@ -124,7 +130,7 @@ h1 span {
   align-items: center;
   font-size: 9px;
   letter-spacing: 1.1px;
-  color: #b3c3be;
+  color: #c1cdcc;
   z-index: 1;
 }
 .live-dot {
@@ -165,7 +171,7 @@ h1 span {
   font:
     12px "Space Grotesk",
     sans-serif;
-  color: #b0c1bb;
+  color: #b9c9cb;
   position: relative;
   z-index: 1;
 }
@@ -179,7 +185,7 @@ h1 span {
 }
 .controls {
   padding: 28px 30px;
-  background: #1b1c23;
+  background: #272824;
   border-left: 1px solid #34343d;
 }
 .control-head {
@@ -228,8 +234,8 @@ legend,
 }
 .options button[aria-pressed="true"] {
   color: var(--accent);
-  border-color: #89d9c355;
-  background: #89d9c311;
+  border-color: var(--accent-border);
+  background: var(--accent-surface);
 }
 .options button:hover {
   background: #ffffff0a;
@@ -305,7 +311,7 @@ input[type="checkbox"] {
 .name-field input {
   border: 1px solid #363740;
   border-radius: 6px;
-  background: #16171c;
+  background: #20211e;
   color: #c9c7d3;
   font-size: 12px;
   padding: 9px 11px;
@@ -335,13 +341,13 @@ input[type="checkbox"] {
 pre {
   margin: 0;
   padding: 25px;
-  background: #191a20;
+  background: #242522;
   border: 1px solid #2c2d35;
   border-radius: 12px;
   overflow: auto;
   line-height: 1.9;
   font-size: 12px;
-  color: #a9daca;
+  color: var(--brand-secondary);
 }
 .gallery {
   padding: 48px 0;
@@ -376,7 +382,7 @@ pre {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #1b1c22;
+  background: #272824;
   border: 1px solid #2c2d35;
   border-radius: 11px;
   padding: 15px 0;
@@ -397,8 +403,8 @@ pre {
   align-items: center;
   justify-content: space-between;
   gap: 30px;
-  background: #201c26;
-  border: 1px solid #38303e;
+  background: #302a23;
+  border: 1px solid #504331;
   border-radius: 12px;
   padding: 28px 40px;
   margin-bottom: 45px;
@@ -414,7 +420,8 @@ pre {
   max-width: 430px;
 }
 .custom-example .eyebrow {
-  color: #f18da3;
+  --accent: var(--brand-secondary);
+  color: var(--brand-secondary);
 }
 footer {
   border-top: 1px solid #28292f;

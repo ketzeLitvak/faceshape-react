@@ -3,7 +3,7 @@
   border-radius: 20px;
   overflow: hidden;
   margin: 24px 0;
-  background: #17181e;
+  background: #242522;
 }
 .docs-chat-heading {
   display: flex;
@@ -37,7 +37,7 @@
   min-width: 0;
   padding: 14px 18px;
   border-radius: 4px 16px 16px;
-  background: #262832;
+  background: #30312c;
   overflow-wrap: anywhere;
 }
 .chat-bubble strong {
