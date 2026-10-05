@@ -129,7 +129,7 @@ La forma personalizada `device` (Dispositivo) reemplaza a la computadora de la d
 
 La pestaña **Inspección** permite revisar manualmente el dibujo, sin emitir un resultado de aprobación ni ejecutar los tests. Compara una forma con tres nombres, las seis expresiones y tamaños de 32, 48 y 160 px. Permite cambiar ojos, boca, cejas y fondo; incluye poses detenidas de blink, guiños, mirada y transiciones, además de una muestra animada.
 
-El playground permite guardar hasta 20 personajes con etiquetas independientes de su nombre, actualizar uno existente o crear una copia. La colección permite buscar, deshacer una eliminación y exportar/importar un respaldo JSON conservando los guardados anteriores. También permite fijar una referencia para comparar y copiar un enlace con la configuración completa. El enlace incluye nombre, forma, rasgos, expresión, color fijo y movimiento. Los guardados usan almacenamiento local; no se sincronizan entre equipos.
+El playground permite guardar hasta 20 personajes con etiquetas independientes de su nombre, actualizar uno existente o crear una copia. La colección permite buscar, deshacer una eliminación y exportar/importar un respaldo JSON conservando los guardados anteriores. Compartir y Guardar se abren desde botones junto al título del personaje; la colección tiene su propia pestaña. Exportar permite copiar o descargar un componente React completo, incluyendo una instantánea de la geometría de las formas personalizadas. También permite copiar un enlace con la configuración completa. El enlace incluye nombre, forma, rasgos, expresión, color fijo y movimiento. Los guardados usan almacenamiento local; no se sincronizan entre equipos.
 
 ### Extender ojos y bocas
 

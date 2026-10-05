@@ -51,36 +51,3 @@ export function configurationDetails(config: PlaygroundConfiguration) {
     Movimiento: `${config.reduced ? 'Pausado · ' : ''}${motion || 'Sin movimientos'}`,
   };
 }
-
-export function ConfigurationSummary({
-  configuration,
-  reference,
-}: {
-  configuration: PlaygroundConfiguration;
-  reference?: PlaygroundConfiguration;
-}) {
-  const values = configurationDetails(configuration);
-  const previous = reference && configurationDetails(reference);
-  return (
-    <dl className="configuration-summary">
-      {Object.entries(values).map(([key, value]) => (
-        <div
-          key={key}
-          className={
-            previous && previous[key as keyof typeof previous] !== value
-              ? 'configuration-changed'
-              : undefined
-          }
-        >
-          <dt>{key}</dt>
-          <dd>
-            {value}
-            {previous && previous[key as keyof typeof previous] !== value && (
-              <span className="change-label">Cambió</span>
-            )}
-          </dd>
-        </div>
-      ))}
-    </dl>
-  );
-}

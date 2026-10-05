@@ -1,3 +1,4 @@
+import { lazy, Suspense, useState } from 'react';
 import { CharacterStage } from './components/CharacterStage';
 import { CustomShapeExample } from './components/CustomShapeExample';
 import { ExpressionGallery } from './components/ExpressionGallery';
@@ -5,14 +6,26 @@ import { PlaygroundControls } from './components/PlaygroundControls';
 import { Documentation } from './docs/Documentation';
 import { useDemoPage } from './hooks/useDemoPage';
 import { usePlayground } from './hooks/usePlayground';
+import { SaveModal } from './modals/SaveModal';
+import { ShareModal } from './modals/ShareModal';
 import { ValidationGallery } from './validation/ValidationGallery';
-import { CharacterWorkbench } from './workbench/CharacterWorkbench';
+import { SavedCharacters } from './workbench/SavedCharacters';
+import { useSavedCharacters } from './workbench/useSavedCharacters';
 import './workbench/workbench.css';
 import { buildSnippet } from './snippet';
+
+const ExportModal = lazy(() =>
+  import('./modals/ExportModal').then((module) => ({ default: module.ExportModal })),
+);
 
 export function App() {
   const page = useDemoPage();
   const playground = usePlayground();
+  const collection = useSavedCharacters(
+    playground.configuration,
+    playground.loadConfiguration,
+  );
+  const [modal, setModal] = useState<'save' | 'share' | 'export'>();
   const { shape, expression, face, fixedColor, name, motion, reduced, selectedShape } =
     playground;
   const snippet = buildSnippet({
@@ -40,9 +53,14 @@ export function App() {
           <a href="#validation" aria-current={page === 'validation' ? 'page' : undefined}>
             Inspección
           </a>
+          <a href="#collection" aria-current={page === 'collection' ? 'page' : undefined}>
+            Colección
+          </a>
         </nav>
       </header>
-      {page === 'validation' ? (
+      {page === 'collection' ? (
+        <SavedCharacters collection={collection} />
+      ) : page === 'validation' ? (
         <ValidationGallery face={face} />
       ) : page === 'docs' ? (
         <Documentation />
@@ -70,12 +88,38 @@ export function App() {
               reduced={reduced}
               shape={shape}
             />
-            <PlaygroundControls {...playground} />
+            <PlaygroundControls
+              {...playground}
+              actions={
+                <div className="character-actions">
+                  <button
+                    type="button"
+                    aria-label="Compartir"
+                    onClick={() => setModal('share')}
+                  >
+                    <span aria-hidden="true">↗</span>
+                    <span className="action-label">Compartir</span>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Guardar"
+                    onClick={() => setModal('save')}
+                  >
+                    <span aria-hidden="true">＋</span>
+                    <span className="action-label">Guardar</span>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Exportar"
+                    onClick={() => setModal('export')}
+                  >
+                    <span aria-hidden="true">↓</span>
+                    <span className="action-label">Exportar</span>
+                  </button>
+                </div>
+              }
+            />
           </section>
-          <CharacterWorkbench
-            configuration={playground.configuration}
-            loadConfiguration={playground.loadConfiguration}
-          />
           <section className="code-panel">
             <div>
               <div className="eyebrow">LA API</div>
@@ -97,6 +141,27 @@ export function App() {
           <ExpressionGallery face={face} reduced={reduced} />
           <CustomShapeExample reduced={reduced} />
         </>
+      )}
+      {modal === 'save' && (
+        <SaveModal
+          collection={collection}
+          configuration={playground.configuration}
+          onClose={() => setModal(undefined)}
+        />
+      )}
+      {modal === 'share' && (
+        <ShareModal
+          configuration={playground.configuration}
+          onClose={() => setModal(undefined)}
+        />
+      )}
+      {modal === 'export' && (
+        <Suspense fallback={<p role="status">Preparando componente…</p>}>
+          <ExportModal
+            configuration={playground.configuration}
+            onClose={() => setModal(undefined)}
+          />
+        </Suspense>
       )}
       <footer>
         <span>faceshape · Primera versión funcional</span>

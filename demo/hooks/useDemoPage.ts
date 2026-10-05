@@ -20,7 +20,9 @@ export function useDemoPage() {
   }, []);
   return hash.startsWith('#docs')
     ? 'docs'
-    : hash.startsWith('#validation')
-      ? 'validation'
-      : 'demo';
+    : hash.startsWith('#collection')
+      ? 'collection'
+      : hash.startsWith('#validation')
+        ? 'validation'
+        : 'demo';
 }

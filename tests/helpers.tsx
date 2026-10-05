@@ -57,6 +57,7 @@ export function renderPose(face: FaceConfig, state: FaceState, wink = false) {
   );
 }
 
+export { buildComponentExport } from '../demo/componentExport';
 export { Documentation } from '../demo/docs/Documentation';
 export { DOC_SECTIONS } from '../demo/docs/navigation';
 export { CUSTOM_SHAPES, device, heart, penguin, shark } from '../demo/shapes';

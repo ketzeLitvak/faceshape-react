@@ -1,10 +1,13 @@
+import type { ReactNode } from 'react';
 import { EXPRESSIONS, type ExpressionName, SHAPES } from '../../src';
 import type { usePlayground } from '../hooks/usePlayground';
 import { BROW_OPTIONS, EYE_OPTIONS, MOUTH_OPTIONS } from '../options';
 import { CUSTOM_SHAPES } from '../shapes';
 import type { DemoShape } from '../types';
 
-export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
+export function PlaygroundControls(
+  props: ReturnType<typeof usePlayground> & { actions?: ReactNode },
+) {
   const {
     shape,
     setShape,
@@ -33,6 +36,7 @@ export function PlaygroundControls(props: ReturnType<typeof usePlayground>) {
     <aside className="controls">
       <div className="control-head">
         <h2>Tu personaje</h2>
+        {props.actions}
       </div>
       <label className="name-field">
         NOMBRE
