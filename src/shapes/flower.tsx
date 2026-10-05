@@ -1,4 +1,6 @@
-import { type CustomShape, createNameRandom } from '../../src';
+import { createNameRandom } from '../core/index';
+import type { CustomShape } from '../react/types';
+import { createNamedShape } from './createNamedShape';
 import { centeredFaceBox } from './faceBox';
 
 function flowerFromName(name: string | number): CustomShape {
@@ -35,7 +37,4 @@ function flowerFromName(name: string | number): CustomShape {
   };
 }
 
-export const flower: CustomShape = {
-  ...flowerFromName('default'),
-  fromName: flowerFromName,
-};
+export const flower: CustomShape = /* @__PURE__ */ createNamedShape(flowerFromName);

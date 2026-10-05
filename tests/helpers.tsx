@@ -60,7 +60,9 @@ export function renderPose(face: FaceConfig, state: FaceState, wink = false) {
 export { buildComponentExport } from '../demo/componentExport';
 export { Documentation } from '../demo/docs/Documentation';
 export { DOC_SECTIONS } from '../demo/docs/navigation';
-export { CUSTOM_SHAPES, device, heart, penguin, shark } from '../demo/shapes';
+export { renderPage, renderSocialImage } from '../demo/prerender';
+export { DOCS_PATH, PUBLIC_PAGES, SITE_PATH } from '../demo/seo';
+export { DEMO_SHAPES, device, heart, penguin, shark } from '../demo/shapes';
 export { ValidationGallery } from '../demo/validation/ValidationGallery';
 export { collectionJSON, parseCollection } from '../demo/workbench/collection';
 export {
@@ -68,5 +70,6 @@ export {
   parseConfiguration,
   readSavedCharacters,
 } from '../demo/workbench/configuration';
+export { useLookAt } from '../src/react/hooks/useLookAt';
 export { sharkTeethPaths } from '../src/react/utils/sharkTeethGeometry';
 export { toothyTeethPath } from '../src/react/utils/toothyTeethGeometry';

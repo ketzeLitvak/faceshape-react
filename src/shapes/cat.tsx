@@ -1,8 +1,9 @@
-import type { CustomShape } from '../../src';
+import type { CustomShape } from '../react/types';
+import { createNamedShape } from './createNamedShape';
 import { centeredFaceBox } from './faceBox';
 
 const catShape: CustomShape = {
-  faceBox: centeredFaceBox(42, 42, 50, 58),
+  faceBox: /* @__PURE__ */ centeredFaceBox(42, 42, 50, 58),
   render: ({ color }) => (
     <g data-faceshape-cat="" fill={color}>
       <path data-cat-ear="" d="M22 43 L24 19 Q24 17 26 19 L42 36Z" />
@@ -13,4 +14,7 @@ const catShape: CustomShape = {
   ),
 };
 
-export const cat: CustomShape = { ...catShape, fromName: () => catShape };
+export const cat: CustomShape = /* @__PURE__ */ createNamedShape(
+  () => catShape,
+  catShape,
+);

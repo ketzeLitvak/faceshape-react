@@ -1,4 +1,4 @@
-import { createNameRandom } from '../../src';
+import { createNameRandom } from '../core/index';
 
 export function shapeVariation(name: string | number, shape: string) {
   const random = createNameRandom(name, shape);

@@ -1,4 +1,5 @@
-import type { CustomShape } from '../../src';
+import type { CustomShape } from '../react/types';
+import { createNamedShape } from './createNamedShape';
 import { scaledFaceBox, shapeVariation } from './variation';
 
 const baseShark: CustomShape = {
@@ -38,4 +39,7 @@ function sharkFromName(name: string | number): CustomShape {
     ),
   };
 }
-export const shark: CustomShape = { ...baseShark, fromName: sharkFromName };
+export const shark: CustomShape = /* @__PURE__ */ createNamedShape(
+  sharkFromName,
+  baseShark,
+);

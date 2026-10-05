@@ -1,4 +1,6 @@
-import { type CustomShape, createNameRandom } from '../../src';
+import { createNameRandom } from '../core/index';
+import type { CustomShape } from '../react/types';
+import { createNamedShape } from './createNamedShape';
 import { classic } from './ghost/classic';
 import { drips } from './ghost/drips';
 import { sheet } from './ghost/sheet';
@@ -32,7 +34,4 @@ function ghostFromName(name: string | number): CustomShape {
   };
 }
 
-export const ghost: CustomShape = {
-  ...ghostFromName('default'),
-  fromName: ghostFromName,
-};
+export const ghost: CustomShape = /* @__PURE__ */ createNamedShape(ghostFromName);

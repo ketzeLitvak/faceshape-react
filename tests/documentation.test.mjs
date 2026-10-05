@@ -10,7 +10,7 @@ test('documentation provides every navigation target, examples, and the complete
     assert.match(html, new RegExp(`id="${id}"`));
     assert.match(html, new RegExp(`href="#${id}"`));
   }
-  assert.equal((html.match(/>Copiar<\/button>/g) || []).length, 13);
+  assert.equal((html.match(/>Copiar<\/button>/g) || []).length, 14);
   for (const topic of [
     'faceBox',
     'fromName',

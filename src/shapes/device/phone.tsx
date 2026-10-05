@@ -1,4 +1,5 @@
-import { type CustomShape, createNameRandom } from '../../../src';
+import { createNameRandom } from '../../core/index';
+import type { CustomShape } from '../../react/types';
 import { centeredFaceBox } from '../faceBox';
 
 export function phoneFromName(name: string | number): CustomShape {

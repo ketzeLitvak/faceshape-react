@@ -1,5 +1,5 @@
 import { EXPRESSIONS, getEyeStyleNames, getMouthStyleNames, SHAPES } from '../../src';
-import { CUSTOM_SHAPES } from '../shapes';
+import { DEMO_SHAPES } from '../shapes';
 import type { SnippetOptions } from '../types';
 
 export interface PlaygroundConfiguration extends SnippetOptions {
@@ -23,7 +23,7 @@ export function parseConfiguration(value: unknown): PlaygroundConfiguration | un
   const motion = v.motion as Record<string, unknown> | undefined;
   if (
     typeof v.shape !== 'string' ||
-    !Object.keys({ ...SHAPES, ...CUSTOM_SHAPES }).includes(v.shape) ||
+    !Object.keys({ ...SHAPES, ...DEMO_SHAPES }).includes(v.shape) ||
     typeof v.name !== 'string' ||
     v.name.length > 120 ||
     typeof v.expression !== 'string' ||
@@ -90,6 +90,7 @@ export function configurationURL(
 ): string {
   const url = new URL(currentURL);
   url.searchParams.set('character', JSON.stringify(config));
+  url.pathname = url.pathname.replace(/\/docs\/$/, '/');
   url.hash = 'demo';
   return url.toString();
 }

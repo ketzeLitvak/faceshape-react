@@ -134,7 +134,7 @@
 }
 .validation-sizes figcaption {
   font-size: 11px;
-  opacity: 0.7;
+  opacity: 1;
 }
 .inspection-live {
   display: grid;
@@ -340,4 +340,208 @@
   .validation-hidden {
     grid-template-columns: 1fr;
   }
+}
+/* Character actions share one icon system and keyboard-visible tooltips. */
+.icon-button-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+button.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border: 1px solid #78867f;
+  border-radius: 8px;
+  background: #30312c;
+  color: #f1eee7;
+}
+button.icon-button.copy-success {
+  border: 2px solid #89d9a7;
+  color: #89d9a7;
+}
+.button-tooltip {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 8px);
+  right: 0;
+  padding: 7px 10px;
+  color: #f1eee7;
+  background: #111210;
+  border: 1px solid #78867f;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  visibility: hidden;
+  pointer-events: none;
+}
+.icon-button-wrapper:hover .button-tooltip,
+.icon-button-wrapper:focus-within .button-tooltip {
+  visibility: visible;
+}
+.share-link-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+.share-link-row .modal-field {
+  flex: 1;
+  min-width: 0;
+}
+.share-link-row input {
+  height: 44px;
+}
+.collection-toolbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 24px 0;
+}
+.collection-search {
+  flex: 1;
+  max-width: 340px;
+  min-width: 180px;
+}
+.collection-tools {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-left: auto;
+}
+.collection-tools button,
+.collection-order select {
+  min-height: 44px;
+  padding: 10px 12px;
+  color: inherit;
+  background: #30312c;
+  border: 1px solid #78867f;
+  border-radius: 8px;
+  font: inherit;
+}
+.collection-order select {
+  display: block;
+  margin-top: 8px;
+}
+.saved-library .saved-characters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+}
+.saved-library .saved-characters article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+}
+.saved-characters article > svg {
+  align-self: center;
+}
+.saved-characters article h3 {
+  margin: 16px 0 0;
+}
+.saved-characters article time {
+  font-size: 12px;
+  color: var(--muted);
+}
+.saved-characters article .workbench-actions {
+  margin: auto 0 0;
+  padding-top: 20px;
+  gap: 8px;
+}
+.shape-group > :where(h3) {
+  font-size: 12px;
+  color: #c8c7be;
+  font-weight: 500;
+  margin: 14px 0 8px;
+}
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 16px;
+  z-index: 100;
+  transform: translateY(-150%);
+  background: #f1eee7;
+  color: #191a18;
+  padding: 12px;
+  border-radius: 8px;
+}
+.skip-link:focus {
+  transform: none;
+}
+#page-content:focus {
+  outline: none;
+}
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 3px solid #82c5d2;
+  outline-offset: 3px;
+}
+:where(button, input, select, textarea):disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+@media (pointer: coarse) {
+  .options button,
+  .workbench-actions button,
+  .switch-row,
+  .motions label {
+    min-height: 44px;
+  }
+}
+@media (max-width: 600px) {
+  .collection-toolbar {
+    flex-wrap: wrap;
+  }
+  .collection-search {
+    flex-basis: 100%;
+    max-width: none;
+  }
+  .collection-tools {
+    width: 100%;
+  }
+  .saved-library .saved-characters {
+    grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr));
+  }
+  .control-head {
+    gap: 6px;
+  }
+  .control-head h2 {
+    font-size: 17px;
+  }
+  .character-actions {
+    gap: 4px;
+  }
+  .character-actions button.icon-button {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 600px) {
+  .controls .control-head h2 {
+    font-size: 16px;
+    white-space: nowrap;
+    letter-spacing: -0.4px;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.modal-field input,
+.modal-field textarea,
+.saved-library input[type="search"] {
+  border-color: #78867f;
 }

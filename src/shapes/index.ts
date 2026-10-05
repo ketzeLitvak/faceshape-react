@@ -1,0 +1,12 @@
+export { cat } from './cat';
+export { cloud } from './cloud';
+export { device } from './device';
+export { drop } from './drop';
+export { flower } from './flower';
+export { ghost } from './ghost';
+export { heart } from './heart';
+export { penguin } from './penguin';
+export { planet } from './planet';
+export { robot } from './robot';
+export { shark } from './shark';
+export { toast } from './toast';

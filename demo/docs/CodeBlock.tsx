@@ -25,7 +25,8 @@ export function CodeBlock({
           Copiar
         </button>
       </div>
-      <pre>
+      {/* biome-ignore lint/a11y/useSemanticElements lint/a11y/noNoninteractiveTabindex: Scrollable code needs keyboard focus and an accessible region name. */}
+      <pre tabIndex={0} role="region" aria-label={label}>
         <code>{code}</code>
       </pre>
       <span className="docs-copy-status" aria-live="polite">

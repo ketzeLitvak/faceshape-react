@@ -1,4 +1,5 @@
-import { type CustomShape, createNameRandom } from '../../../src';
+import { createNameRandom } from '../../core/index';
+import type { CustomShape } from '../../react/types';
 
 export function desktopFromName(name: string | number): CustomShape {
   const random = createNameRandom(name, 'device-desktop');

@@ -178,7 +178,7 @@ h1 span {
 .stage-bottom {
   text-align: center;
   font-size: 10px;
-  color: #7d8987;
+  color: #b9c9cb;
   margin-top: 24px;
   position: relative;
   z-index: 1;
@@ -202,7 +202,7 @@ h1 span {
 .control-head > span {
   font-size: 8px;
   letter-spacing: 1px;
-  color: #686975;
+  color: #aaa99f;
 }
 fieldset {
   padding: 0;
@@ -429,7 +429,7 @@ footer {
   display: flex;
   justify-content: space-between;
   font-size: 10px;
-  color: #777782;
+  color: #aaa99f;
 }
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -505,4 +505,16 @@ footer {
 .name-field {
   margin-top: 0;
   margin-bottom: 21px;
+}
+
+.intro-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.intro-links a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }

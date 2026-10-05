@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { buildComponentExport } from '../componentExport';
-import { CUSTOM_SHAPES } from '../shapes';
+import { DEMO_SHAPES } from '../shapes';
 import type { PlaygroundConfiguration } from '../workbench/configuration';
 import { Modal } from './Modal';
 
@@ -38,7 +38,7 @@ export function ExportModal({
         Usalo en tu proyecto React con <code>faceshape-react</code> instalado. Incluye la
         cara completa, el color y los movimientos actuales.
       </p>
-      {configuration.shape in CUSTOM_SHAPES && (
+      {configuration.shape in DEMO_SHAPES && (
         <p className="save-hint">
           La silueta personalizada se incluye con la geometría de este nombre. Los ojos,
           la boca y las animaciones siguen funcionando.

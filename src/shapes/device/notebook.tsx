@@ -1,9 +1,5 @@
-import {
-  type CustomShape,
-  createNameRandom,
-  createPerspectivePlane,
-  polygonPath,
-} from '../../../src';
+import { createNameRandom, createPerspectivePlane, polygonPath } from '../../core/index';
+import type { CustomShape } from '../../react/types';
 import { centeredFaceBox } from '../faceBox';
 
 export function notebookFromName(name: string | number): CustomShape {

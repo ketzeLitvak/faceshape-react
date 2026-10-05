@@ -1,4 +1,6 @@
-import { type CustomShape, createNameRandom } from '../../src';
+import { createNameRandom } from '../core/index';
+import type { CustomShape } from '../react/types';
+import { createNamedShape } from './createNamedShape';
 import { centeredFaceBox } from './faceBox';
 
 function cloudFromName(name: string | number): CustomShape {
@@ -29,7 +31,4 @@ function cloudFromName(name: string | number): CustomShape {
   };
 }
 
-export const cloud: CustomShape = {
-  ...cloudFromName('default'),
-  fromName: cloudFromName,
-};
+export const cloud: CustomShape = /* @__PURE__ */ createNamedShape(cloudFromName);

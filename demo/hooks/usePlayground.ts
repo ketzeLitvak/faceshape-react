@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   colorFromName,
   type ExpressionName,
@@ -19,35 +19,28 @@ import {
 } from '../workbench/configuration';
 
 export function usePlayground() {
-  const [initial] = useState(readSharedConfiguration);
-  const [shape, setShapeState] = useState<DemoShape>(initial?.shape ?? 'shark');
-  const [eyes, setEyes] = useState<EyeVariant>(initial?.face.eyes ?? 'bright');
-  const [mouth, setMouth] = useState<MouthVariant>(initial?.face.mouth ?? 'tongue');
+  const [shape, setShapeState] = useState<DemoShape>('shark');
+  const [eyes, setEyes] = useState<EyeVariant>('bright');
+  const [mouth, setMouth] = useState<MouthVariant>('tongue');
   const setShape = (value: DemoShape) => {
     setShapeState(value);
     if (value === 'penguin') {
       setMouth('beak');
     }
   };
-  const [eyebrows, setEyebrows] = useState<EyebrowVariant>(
-    initial?.face.eyebrows ?? 'expression',
-  );
+  const [eyebrows, setEyebrows] = useState<EyebrowVariant>('expression');
   const face: FaceConfig = { eyes, mouth, eyebrows };
-  const [expression, setExpression] = useState<ExpressionName>(
-    initial?.expression ?? 'happy',
-  );
-  const [name, setName] = useState(initial?.name ?? 'Tiburoncito');
-  const [fixedColor, setFixedColor] = useState<string | undefined>(initial?.color);
+  const [expression, setExpression] = useState<ExpressionName>('happy');
+  const [name, setName] = useState('Tiburoncito');
+  const [fixedColor, setFixedColor] = useState<string | undefined>(undefined);
   const color = fixedColor ?? colorFromName(name);
-  const [reduced, setReduced] = useState(initial?.reduced ?? false);
+  const [reduced, setReduced] = useState(false);
   const motionDisabled = useReducedMotion(reduced);
-  const [requestedMotion, setMotion] = useState<MotionConfig>(
-    initial?.motion ?? {
-      idle: true,
-      blink: true,
-      lookAt: 'cursor',
-    },
-  );
+  const [requestedMotion, setMotion] = useState<MotionConfig>({
+    idle: true,
+    blink: true,
+    lookAt: 'cursor',
+  });
   const selectedShape = resolveDemoShape(shape);
   const capabilities = getMotionCapabilities(eyes, mouth, resolveExpression(expression));
   const motion: MotionConfig = {
@@ -71,7 +64,7 @@ export function usePlayground() {
     motion: requestedMotion,
     reduced,
   };
-  const loadConfiguration = (config: PlaygroundConfiguration) => {
+  const loadConfiguration = useCallback((config: PlaygroundConfiguration) => {
     setShapeState(config.shape);
     setEyes(config.face.eyes);
     setMouth(config.face.mouth);
@@ -81,7 +74,13 @@ export function usePlayground() {
     setFixedColor(config.color);
     setMotion(config.motion);
     setReduced(config.reduced);
-  };
+  }, []);
+  useEffect(() => {
+    const shared = readSharedConfiguration();
+    if (shared) {
+      loadConfiguration(shared);
+    }
+  }, [loadConfiguration]);
   return {
     configuration,
     loadConfiguration,

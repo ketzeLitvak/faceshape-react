@@ -6,6 +6,7 @@ for (const format of ['esm', 'cjs']) {
   for (const [name, entry] of Object.entries({
     index: 'src/index.ts',
     'core/index': 'src/core/index.ts',
+    'shapes/index': 'src/shapes/index.ts',
   })) {
     await build({
       entryPoints: { [name]: entry },

@@ -1,1 +1,0 @@
-export { centeredFaceBox } from '../../src';

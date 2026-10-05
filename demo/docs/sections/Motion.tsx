@@ -40,7 +40,9 @@ export function Motion() {
               <td>
                 <code>lookAt</code>
               </td>
-              <td>Sigue el cursor o mira coordenadas normalizadas de 0 a 1.</td>
+              <td>
+                Sigue el cursor o el toque, o mira coordenadas normalizadas de 0 a 1.
+              </td>
             </tr>
             <tr>
               <td>
@@ -57,6 +59,11 @@ export function Motion() {
           </tbody>
         </table>
       </div>
+      <p>
+        En móvil, <code>lookAt="cursor"</code> sigue el dedo mientras toca la pantalla. Al
+        soltar o empezar a desplazar la página, la mirada vuelve al centro. No bloquea el
+        scroll.
+      </p>
       <p>
         Los ojos blancos mueven sólo sus pupilas. En los demás, la boca acompaña una
         fracción del movimiento de ojos y cejas. El pico y el trazo simple no hablan;

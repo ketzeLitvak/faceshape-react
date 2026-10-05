@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { CUSTOM_SHAPES, renderPose } from '../.test-dist/helpers.mjs';
+import { DEMO_SHAPES, renderPose } from '../.test-dist/helpers.mjs';
 import { Character, EXPRESSIONS, getMotionCapabilities } from '../dist/index.js';
 
 const newShapes = [
@@ -22,7 +22,7 @@ const normalizeIds = (svg) => svg.replace(/_R[^_]+_/g, 'stable');
 
 test('each new silhouette has deterministic geometry variation and respects fixed color', () => {
   for (const name of newShapes) {
-    const shape = CUSTOM_SHAPES[name];
+    const shape = DEMO_SHAPES[name];
     const body = (identity) =>
       renderToStaticMarkup(
         React.createElement(Character, {
@@ -57,7 +57,7 @@ test('all new shapes and eyes support every expression and independent face part
       for (const expression of Object.keys(EXPRESSIONS)) {
         const svg = renderToStaticMarkup(
           React.createElement(Character, {
-            shape: CUSTOM_SHAPES[shape],
+            shape: DEMO_SHAPES[shape],
             name: 'Ana',
             face: { ...face, eyes },
             expression,
@@ -179,7 +179,7 @@ test('cat has fixed circular geometry and symmetric attached ears; only its colo
   const render = (name, color) =>
     renderToStaticMarkup(
       React.createElement(Character, {
-        shape: CUSTOM_SHAPES.cat,
+        shape: DEMO_SHAPES.cat,
         name,
         color,
         face: { eyes: 'none', mouth: 'none', eyebrows: 'none' },
@@ -204,7 +204,7 @@ test('robot names select zero, one or two antennas and optional modules', () => 
   const counts = new Set();
   const modules = new Set();
   for (let index = 0; index < 100; index++) {
-    const definition = CUSTOM_SHAPES.robot.fromName(`Robot ${index}`);
+    const definition = DEMO_SHAPES.robot.fromName(`Robot ${index}`);
     const svg = renderToStaticMarkup(definition.render({ color: '#123456' }));
     counts.add((svg.match(/data-robot-antenna/g) || []).length);
     modules.add(svg.includes('data-robot-side-modules'));
@@ -217,7 +217,7 @@ test('robot names select zero, one or two antennas and optional modules', () => 
 test('planet names independently select rings and zero, one or two moons outside the body', () => {
   const combinations = new Set();
   for (let index = 0; index < 100; index++) {
-    const definition = CUSTOM_SHAPES.planet.fromName(`Planeta ${index}`);
+    const definition = DEMO_SHAPES.planet.fromName(`Planeta ${index}`);
     const svg = renderToStaticMarkup(definition.render({ color: '#123456' }));
     const count = (svg.match(/data-planet-moon/g) || []).length;
     combinations.add(`${svg.includes('data-planet-ring')}:${count}`);
@@ -263,7 +263,7 @@ test('flower petals overlap their neighbors including five-petal flowers', () =>
   let fivePetals = 0;
   for (let index = 0; index < 100; index++) {
     const svg = renderToStaticMarkup(
-      CUSTOM_SHAPES.flower.fromName(`Flor ${index}`).render({ color: '#123456' }),
+      DEMO_SHAPES.flower.fromName(`Flor ${index}`).render({ color: '#123456' }),
     );
     const petals = [
       ...svg.matchAll(/<ellipse[^>]*cy="([^"]+)" rx="([^"]+)" ry="([^"]+)"/g),
@@ -281,7 +281,7 @@ test('flower petals overlap their neighbors including five-petal flowers', () =>
 test('planet surfaces have no decorative line paths', () => {
   for (let index = 0; index < 50; index++) {
     const svg = renderToStaticMarkup(
-      CUSTOM_SHAPES.planet.fromName(`Planeta ${index}`).render({ color: '#123456' }),
+      DEMO_SHAPES.planet.fromName(`Planeta ${index}`).render({ color: '#123456' }),
     );
     assert.doesNotMatch(svg, /<path/);
   }
@@ -295,12 +295,12 @@ test('device identities cover all four form factors and ghost identities change 
     const variants = new Map();
     for (let index = 0; index < 100; index++) {
       const name = `Modelo ${index}`;
-      const definition = CUSTOM_SHAPES[shape].fromName(name);
+      const definition = DEMO_SHAPES[shape].fromName(name);
       const svg = renderToStaticMarkup(definition.render({ color: '#123456' }));
       assert.equal(
         svg,
         renderToStaticMarkup(
-          CUSTOM_SHAPES[shape].fromName(name).render({ color: '#123456' }),
+          DEMO_SHAPES[shape].fromName(name).render({ color: '#123456' }),
         ),
       );
       const kind = svg.match(new RegExp(`data-${shape}-kind="([^" ]+)"`))[1];
@@ -311,7 +311,7 @@ test('device identities cover all four form factors and ghost identities change 
       for (const expression of Object.keys(EXPRESSIONS)) {
         const svg = renderToStaticMarkup(
           React.createElement(Character, {
-            shape: CUSTOM_SHAPES[shape],
+            shape: DEMO_SHAPES[shape],
             name,
             expression,
             face,
@@ -325,7 +325,7 @@ test('device identities cover all four form factors and ghost identities change 
     if (shape === 'ghost') {
       const commands = [...variants.values()].map((name) => {
         const svg = renderToStaticMarkup(
-          CUSTOM_SHAPES.ghost.fromName(name).render({ color: '#123456' }),
+          DEMO_SHAPES.ghost.fromName(name).render({ color: '#123456' }),
         );
         return svg.match(/ d="([^"]+)"/)[1].replace(/[^A-Za-z]/g, '');
       });
@@ -338,7 +338,7 @@ test('notebook keys and touchpad widen toward the front of the same perspective 
   let checked = 0;
   for (let index = 0; index < 100; index++) {
     const svg = renderToStaticMarkup(
-      CUSTOM_SHAPES.device.fromName(`Modelo ${index}`).render({ color: '#123456' }),
+      DEMO_SHAPES.device.fromName(`Modelo ${index}`).render({ color: '#123456' }),
     );
     if (!svg.includes('data-device-kind="notebook"')) {
       continue;

@@ -53,7 +53,7 @@ Cada ojo define sus dimensiones, blanco, brillo y comportamiento. Ninguna varian
 
 ## Formas, identidad y expresión
 
-`shape` admite `circle`, `blob`, `square`, `star` o una definición personalizada. Su valor inicial es `blob`. `name` determina la silueta del blob, sus rasgos y color de forma reproducible. `color` permite fijar el color sin perder la silueta determinada por el nombre. `seed` permanece como alias obsoleto para consumidores anteriores; `name` tiene precedencia.
+`shape` admite `circle`, `blob`, `square`, `star`, `triangle` o una definición de forma importada o personalizada. Su valor inicial es `blob`. `name` determina la silueta del blob, sus rasgos y color de forma reproducible. `color` permite fijar el color sin perder la silueta determinada por el nombre. `seed` permanece como alias obsoleto para consumidores anteriores; `name` tiene precedencia.
 
 `expression` admite `neutral`, `happy`, `sad`, `angry`, `surprised`, `sleepy` o geometría personalizada con `defineExpression`. La expresión inicial es `neutral`; esto no selecciona ninguna variante de cara. Los parámetros explícitos de una expresión personalizada tienen precedencia sobre los rasgos generados por el nombre.
 
@@ -89,7 +89,7 @@ Las formas personalizadas también admiten `render: ({ color }) => ReactNode` pa
 - `src/react/AnimatedFace.tsx`: estado de animación y contexto de la cara. Sus actualizaciones no renderizan la silueta nuevamente.
 - `src/react/animation/`: funciones puras para blink, boca, mirada y transición.
 - `src/react/eyes/`, `mouths/`, `eyebrows/`: tipos, un archivo por variante y registros de estrategias.
-- `src/core/shapes/` y `demo/shapes/`: un archivo por silueta.
+- `src/core/shapes/` y `src/shapes/`: un archivo por silueta.
 
 Las pruebas controlan tiempos exactos, límites geométricos, prioridades de configuración, contratos TypeScript y composición. La regresión visual rasteriza SVG con Sharp y compara píxeles de 28 referencias: cuatro combinaciones de cara en siete estados, incluidos medio blink, cierre, guiño y transición con cejas. El guiño se ejercita como pose asimétrica de los renderizadores, no como una opción nueva de movimiento público.
 
@@ -119,17 +119,30 @@ Para dibujar solamente la silueta, enviá `face={{ eyes: 'none', mouth: 'none', 
 
 ### Nuevas formas y ojos de la demo
 
-La demo incluye `cloud`, `ghost`, `cat`, `robot`, `planet`, `flower`, `drop` y `toast` como `CustomShape`, con un archivo por forma en `demo/shapes`. Son ejemplos personalizados, no nombres adicionales de `ShapeName`: importá/copiate su definición para usarlos. `name` varía proporciones y detalles propios (pétalos, anillos, antena, lóbulos); el gato conserva toda su geometría y sólo varía su color de forma determinista; `color` conserva prioridad.
+El módulo `faceshape-react/shapes` exporta `heart`, `shark`, `penguin`, `device`, `cloud`, `ghost`, `cat`, `robot`, `planet`, `flower`, `drop` y `toast`. Son definiciones de forma compatibles con `CustomShape`; no agregan nombres a `ShapeName`. La demo usa estas mismas implementaciones, con un archivo por forma en `src/shapes`. `name` varía proporciones y detalles propios; el gato conserva su geometría y sólo varía su color. `color` conserva prioridad.
+
+```tsx
+import { Character } from 'faceshape-react';
+import { planet } from 'faceshape-react/shapes';
+
+<Character
+  shape={planet}
+  name="Saturno"
+  face={{ eyes: 'bright', mouth: 'standard', eyebrows: 'none' }}
+/>
+```
+
+Importá sólo las formas que usás; el módulo permite tree shaking. El ejemplo de gema en la demo muestra cómo crear una silueta propia sin modificar la librería.
 
 Los ojos públicos `eyelashes`, `heart`, `star`, `softLids`, `cyclops` y `spiral` se combinan con cualquier boca y cejas. Cíclope usa un único ojo y una ceja central; las otras variantes mantienen dos. Todos admiten parpadeo y mirada, respetan la expresión y pueden combinarse con partes `none`.
 
-La forma personalizada `device` (Dispositivo) reemplaza a la computadora de la demo: `name` elige escritorio, notebook, celular o tablet. Cada variante vive en un archivo separado y recalcula su `faceBox` según la pantalla. El fantasma combina perfiles clásicos, anchos, de sábana, con gotas o una cola lateral y varía también sus lados e inclinación.
+La forma `device` (Dispositivo) reemplaza a la computadora de la demo: `name` elige escritorio, notebook, celular o tablet. Cada variante vive en un archivo separado y recalcula su `faceBox` según la pantalla. El fantasma combina perfiles clásicos, anchos, de sábana, con gotas o una cola lateral y varía también sus lados e inclinación.
 
 ### Validar, guardar y compartir
 
 La pestaña **Inspección** permite revisar manualmente el dibujo, sin emitir un resultado de aprobación ni ejecutar los tests. Compara una forma con tres nombres, las seis expresiones y tamaños de 32, 48 y 160 px. Permite cambiar ojos, boca, cejas y fondo; incluye poses detenidas de blink, guiños, mirada y transiciones, además de una muestra animada.
 
-El playground permite guardar hasta 20 personajes con etiquetas independientes de su nombre, actualizar uno existente o crear una copia. La colección permite buscar, deshacer una eliminación y exportar/importar un respaldo JSON conservando los guardados anteriores. Compartir y Guardar se abren desde botones junto al título del personaje; la colección tiene su propia pestaña. Exportar permite copiar o descargar un componente React completo, incluyendo una instantánea de la geometría de las formas personalizadas. También permite copiar un enlace con la configuración completa. El enlace incluye nombre, forma, rasgos, expresión, color fijo y movimiento. Los guardados usan almacenamiento local; no se sincronizan entre equipos.
+El playground permite guardar hasta 20 personajes con etiquetas independientes de su nombre, actualizar uno existente o crear una copia. La colección permite buscar, deshacer una eliminación y exportar/importar un respaldo JSON conservando los guardados anteriores. Compartir y Guardar se abren desde botones junto al título del personaje; la colección tiene su propia pestaña. Exportar permite copiar o descargar un componente React completo, importando la forma desde `faceshape-react/shapes` para conservar su variación por nombre. También permite copiar un enlace con la configuración completa. El enlace incluye nombre, forma, rasgos, expresión, color fijo y movimiento. Los guardados usan almacenamiento local; no se sincronizan entre equipos.
 
 ### Extender ojos y bocas
 
@@ -138,3 +151,11 @@ El playground permite guardar hasta 20 personajes con etiquetas independientes d
 Los ojos declaran `supportsBlink` y `supportsLookAt`, reciben `EyeRenderProps` y pueden definir sus propios anchors. Las bocas declaran `supportsTalking`, generan su contorno con la geometría de la expresión y pueden agregar decoración recortada por la abertura. La documentación de la demo incluye un ejemplo completo. Las extensiones siguen requiriendo las tres partes de `face`.
 
 Las utilidades públicas `quadraticValue`, `quadraticDerivative`, `centeredFaceBox`, `createPerspectivePlane` y `polygonPath` comparten los cálculos utilizados por las formas y los dientes de la librería.
+
+### SEO de la demo
+
+`npm run demo:build` genera HTML completo para el playground (`/faceshape-react/`) y la documentación (`/faceshape-react/docs/`). React hidrata ese contenido y mantiene la configuración al navegar entre ambas páginas. Los enlaces anteriores con `#docs` y `#docs-*` siguen funcionando.
+
+Cada página pública incluye título, descripción, canonical y metadatos Open Graph/Twitter. El build también genera `social-preview.png` (1200 × 630) y `sitemap.xml`, con las dos páginas públicas. Las URLs compartidas con `?character=...` usan la canonical del playground. Colección e Inspección permanecen como herramientas del cliente.
+
+La URL pública y los metadatos se definen en `demo/seo.ts`; el prefijo del despliegue está en `vite.config.ts`. Al cambiar de dominio o ruta, actualizá también los metadatos de `index.html`. En GitHub Pages de un proyecto, el archivo `robots.txt` efectivo pertenece a la raíz del dominio, por lo que no se genera uno dentro de esta carpeta.

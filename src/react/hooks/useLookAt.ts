@@ -40,12 +40,28 @@ export function useLookAt(
         });
       }
     };
-    const reset = () => setCursor({ x: 0, y: 0 });
+    const reset = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      latest = { x: 0, y: 0 };
+      setCursor(latest);
+    };
+    const endTouch = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') {
+        reset();
+      }
+    };
+    window.addEventListener('pointerdown', update, { passive: true });
     window.addEventListener('pointermove', update, { passive: true });
+    window.addEventListener('pointerup', endTouch);
+    window.addEventListener('pointercancel', reset);
     window.addEventListener('blur', reset);
     return () => {
       cancelAnimationFrame(raf);
+      window.removeEventListener('pointerdown', update);
       window.removeEventListener('pointermove', update);
+      window.removeEventListener('pointerup', endTouch);
+      window.removeEventListener('pointercancel', reset);
       window.removeEventListener('blur', reset);
     };
   }, [cursorMode, reduced, svgRef]);

@@ -1,4 +1,5 @@
 import { Character } from '../../src';
+import { SITE_PATH } from '../seo';
 import { DOC_SECTIONS } from './navigation';
 import { APIReference } from './sections/APIReference';
 import { Composition } from './sections/Composition';
@@ -28,7 +29,7 @@ export function Documentation() {
             Elegí sus rasgos, dale un nombre y animá su expresión. Acá encontrás el
             contrato completo, ejemplos y formas de extenderlo.
           </p>
-          <a className="docs-cta" href="#demo">
+          <a className="docs-cta" href={SITE_PATH}>
             Probar en el playground ↗
           </a>
         </div>
@@ -64,7 +65,7 @@ export function Documentation() {
           <UseCases />
           <APIReference />
           <Troubleshooting />
-          <a className="docs-cta" href="#demo">
+          <a className="docs-cta" href={SITE_PATH}>
             Volver a probar combinaciones ↗
           </a>
         </article>

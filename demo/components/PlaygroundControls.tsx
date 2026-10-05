@@ -1,9 +1,13 @@
 import type { ReactNode } from 'react';
-import { EXPRESSIONS, type ExpressionName, SHAPES } from '../../src';
+import { EXPRESSIONS, type ExpressionName } from '../../src';
 import type { usePlayground } from '../hooks/usePlayground';
-import { BROW_OPTIONS, EYE_OPTIONS, MOUTH_OPTIONS } from '../options';
-import { CUSTOM_SHAPES } from '../shapes';
-import type { DemoShape } from '../types';
+import {
+  BROW_OPTIONS,
+  EYE_OPTIONS,
+  MOUTH_OPTIONS,
+  SHAPE_GROUPS,
+  SHAPE_LABELS,
+} from '../options';
 
 export function PlaygroundControls(
   props: ReturnType<typeof usePlayground> & { actions?: ReactNode },
@@ -50,40 +54,23 @@ export function PlaygroundControls(
       </label>
       <fieldset>
         <legend>FORMA</legend>
-        <div className="options">
-          {([...Object.keys(SHAPES), ...Object.keys(CUSTOM_SHAPES)] as DemoShape[]).map(
-            (value) => (
-              <button
-                type="button"
-                key={value}
-                aria-pressed={shape === value}
-                onClick={() => setShape(value)}
-              >
-                {
-                  {
-                    circle: 'Círculo',
-                    blob: 'Blob',
-                    square: 'Cuadrado',
-                    star: 'Estrella',
-                    triangle: 'Triángulo',
-                    heart: 'Corazón',
-                    shark: 'Tiburón',
-                    penguin: 'Pingüino',
-                    device: 'Dispositivo',
-                    cloud: 'Nube',
-                    ghost: 'Fantasma',
-                    cat: 'Gato',
-                    robot: 'Robot',
-                    planet: 'Planeta',
-                    flower: 'Flor',
-                    drop: 'Gota',
-                    toast: 'Tostada',
-                  }[value]
-                }
-              </button>
-            ),
-          )}
-        </div>
+        {SHAPE_GROUPS.map((group) => (
+          <div className="shape-group" key={group.label}>
+            <h3>{group.label}</h3>
+            <div className="options">
+              {group.shapes.map((value) => (
+                <button
+                  type="button"
+                  key={value}
+                  aria-pressed={shape === value}
+                  onClick={() => setShape(value)}
+                >
+                  {SHAPE_LABELS[value]}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
       </fieldset>
       <fieldset>
         <legend>OJOS</legend>
@@ -183,9 +170,9 @@ export function PlaygroundControls(
         <label
           className={`switch-row ${!capabilities.lookAt || motionDisabled ? 'motion-unavailable' : ''}`}
         >
-          <span>Seguir el cursor</span>
+          <span>Seguir cursor o toque</span>
           <input
-            aria-label="Seguir el cursor"
+            aria-label="Seguir cursor o toque"
             type="checkbox"
             checked={motion.lookAt === 'cursor'}
             disabled={!capabilities.lookAt || motionDisabled}

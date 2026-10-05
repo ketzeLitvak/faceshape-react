@@ -1,4 +1,6 @@
-import { type CustomShape, createNameRandom } from '../../src';
+import { createNameRandom } from '../core/index';
+import type { CustomShape } from '../react/types';
+import { createNamedShape } from './createNamedShape';
 import { centeredFaceBox } from './faceBox';
 
 function robotFromName(name: string | number): CustomShape {
@@ -69,7 +71,4 @@ function robotFromName(name: string | number): CustomShape {
   };
 }
 
-export const robot: CustomShape = {
-  ...robotFromName('default'),
-  fromName: robotFromName,
-};
+export const robot: CustomShape = /* @__PURE__ */ createNamedShape(robotFromName);

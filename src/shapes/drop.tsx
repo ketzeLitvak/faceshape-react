@@ -1,4 +1,6 @@
-import { type CustomShape, createNameRandom } from '../../src';
+import { createNameRandom } from '../core/index';
+import type { CustomShape } from '../react/types';
+import { createNamedShape } from './createNamedShape';
 import { centeredFaceBox } from './faceBox';
 
 function dropFromName(name: string | number): CustomShape {
@@ -13,4 +15,4 @@ function dropFromName(name: string | number): CustomShape {
   };
 }
 
-export const drop: CustomShape = { ...dropFromName('default'), fromName: dropFromName };
+export const drop: CustomShape = /* @__PURE__ */ createNamedShape(dropFromName);

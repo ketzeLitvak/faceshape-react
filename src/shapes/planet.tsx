@@ -1,4 +1,6 @@
-import { type CustomShape, createNameRandom } from '../../src';
+import { createNameRandom } from '../core/index';
+import type { CustomShape } from '../react/types';
+import { createNamedShape } from './createNamedShape';
 import { centeredFaceBox } from './faceBox';
 
 function planetFromName(name: string | number): CustomShape {
@@ -56,7 +58,4 @@ function planetFromName(name: string | number): CustomShape {
   };
 }
 
-export const planet: CustomShape = {
-  ...planetFromName('default'),
-  fromName: planetFromName,
-};
+export const planet: CustomShape = /* @__PURE__ */ createNamedShape(planetFromName);

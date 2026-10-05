@@ -72,6 +72,26 @@ export function useSavedCharacters(
     window.location.hash = 'demo';
     setStatus('Personaje cargado. Podés actualizarlo o guardar una copia.');
   };
+  const rename = (item: SavedCharacter, value: string) => {
+    const nextTitle = value.trim().slice(0, 80);
+    if (!nextTitle) {
+      setStatus('Ingresá una etiqueta para el personaje.');
+      return false;
+    }
+    const renamed = { ...item, title: nextTitle, updatedAt: new Date().toISOString() };
+    if (
+      !persist(
+        items.map((entry) => (entry.id === item.id ? renamed : entry)),
+        'Personaje renombrado.',
+      )
+    ) {
+      return false;
+    }
+    if (selectedId === item.id) {
+      setTitle(nextTitle);
+    }
+    return true;
+  };
   const remove = (item: SavedCharacter) => {
     if (
       persist(
@@ -164,6 +184,7 @@ export function useSavedCharacters(
     save,
     load,
     remove,
+    rename,
     undo,
     exportCollection,
     importCollection,

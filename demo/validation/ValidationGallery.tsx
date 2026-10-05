@@ -9,14 +9,14 @@ import {
   SHAPES,
 } from '../../src';
 import { BROW_OPTIONS, EYE_OPTIONS, MOUTH_OPTIONS } from '../options';
-import { CUSTOM_SHAPES } from '../shapes';
+import { DEMO_SHAPES } from '../shapes';
 import { resolveDemoShape } from '../shapes/resolveDemoShape';
 import type { DemoShape } from '../types';
 import { PosePreview, type PreviewPose } from './PosePreview';
 
 const names = ['Ana', 'Bruno', 'Cielo'];
 const sizes = [32, 48, 160];
-const shapes = { ...SHAPES, ...CUSTOM_SHAPES };
+const shapes = { ...SHAPES, ...DEMO_SHAPES };
 
 const poses: PreviewPose[] = [
   { id: 'open', label: 'Abiertos', blink: 1 },

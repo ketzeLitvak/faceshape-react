@@ -1,1 +1,1 @@
-export default { base: './', build: { outDir: 'demo-dist' } };
+export default { base: '/faceshape-react/', build: { outDir: 'demo-dist' } };

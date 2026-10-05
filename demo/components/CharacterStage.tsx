@@ -22,7 +22,7 @@ export function CharacterStage({
     <div className="stage">
       <div className="stage-top">
         <span className="live-dot" />
-        PLAYGROUND EN VIVO<span className="stage-hint">Mové el cursor ↗</span>
+        PLAYGROUND EN VIVO<span className="stage-hint">Mové el cursor o tocá ↗</span>
       </div>
       <div className="character-wrap" data-testid="hero">
         <Character

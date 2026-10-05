@@ -1,4 +1,6 @@
-import { type CustomShape, createNameRandom } from '../../src';
+import { createNameRandom } from '../core/index';
+import type { CustomShape } from '../react/types';
+import { createNamedShape } from './createNamedShape';
 import { desktopFromName } from './device/desktop';
 import { notebookFromName } from './device/notebook';
 import { phoneFromName } from './device/phone';
@@ -25,7 +27,4 @@ function deviceFromName(name: string | number): CustomShape {
   };
 }
 
-export const device: CustomShape = {
-  ...deviceFromName('default'),
-  fromName: deviceFromName,
-};
+export const device: CustomShape = /* @__PURE__ */ createNamedShape(deviceFromName);

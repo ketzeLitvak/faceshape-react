@@ -1,4 +1,5 @@
-import type { CustomShape } from '../../src';
+import type { CustomShape } from '../react/types';
+import { createNamedShape } from './createNamedShape';
 import { scaledFaceBox, shapeVariation } from './variation';
 
 function penguinFromName(name: string | number): CustomShape {
@@ -35,7 +36,4 @@ function penguinFromName(name: string | number): CustomShape {
   };
 }
 
-export const penguin: CustomShape = {
-  ...penguinFromName('default'),
-  fromName: penguinFromName,
-};
+export const penguin: CustomShape = /* @__PURE__ */ createNamedShape(penguinFromName);

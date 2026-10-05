@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { IconButton } from '../components/IconButton';
 import {
   configurationURL,
   type PlaygroundConfiguration,
@@ -14,10 +15,16 @@ export function ShareModal({
 }) {
   const [url] = useState(() => configurationURL(configuration, window.location.href));
   const [status, setStatus] = useState('');
+  const [copied, setCopied] = useState(false);
+  const timeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+  useEffect(() => () => clearTimeout(timeout.current), []);
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      setStatus('Enlace copiado.');
+      setStatus('');
+      setCopied(true);
+      clearTimeout(timeout.current);
+      timeout.current = setTimeout(() => setCopied(false), 2000);
     } catch {
       setStatus('Seleccioná y copiá el enlace del campo.');
     }
@@ -28,15 +35,16 @@ export function ShareModal({
         El enlace abre esta combinación de nombre, forma, rasgos, expresión, color y
         movimiento. No hace falta guardar el personaje para compartirlo.
       </p>
-      <label className="modal-field">
-        Enlace del personaje
-        <input value={url} readOnly onFocus={(event) => event.target.select()} />
-      </label>
-      <div className="workbench-actions">
-        <button type="button" onClick={copy}>
-          Copiar enlace
-        </button>
+      <div className="share-link-row">
+        <label className="modal-field">
+          Enlace del personaje
+          <input value={url} readOnly onFocus={(event) => event.target.select()} />
+        </label>
+        <IconButton icon="copy" label="Copiar enlace" onClick={copy} success={copied} />
       </div>
+      <span className="sr-only" role="status">
+        {copied ? 'Enlace copiado.' : ''}
+      </span>
       <p role="status" className="workbench-status">
         {status}
       </p>

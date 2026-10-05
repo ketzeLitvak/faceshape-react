@@ -16,6 +16,11 @@
       "types": "./dist/core/index.d.ts",
       "import": "./dist/core/index.js",
       "require": "./dist/core/index.cjs"
+    },
+    "./shapes": {
+      "types": "./dist/shapes/index.d.ts",
+      "import": "./dist/shapes/index.js",
+      "require": "./dist/shapes/index.cjs"
     }
   },
   "files": [
@@ -28,7 +33,7 @@
     "typecheck": "tsc --noEmit && tsc -p tsconfig.demo.json && tsc -p tsconfig.tests.json",
     "test": "npm run build && node tests/build-helpers.mjs && node --test tests/*.test.mjs",
     "dev": "vite --host 0.0.0.0",
-    "demo:build": "vite build",
+    "demo:build": "vite build && node demo/build-seo.mjs",
     "prepack": "npm run build",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",

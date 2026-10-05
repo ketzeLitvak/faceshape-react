@@ -5,6 +5,18 @@ export function CustomShapes() {
   return (
     <section id="docs-custom">
       <h2>Agregar una forma personalizada</h2>
+      <p>
+        Para las formas incluidas, importá su definición desde{' '}
+        <code>faceshape-react/shapes</code>. Se usa el mismo <code>Character</code>; el
+        nombre sigue variando la forma y el color.
+      </p>
+      <CodeBlock
+        code={`import { Character } from 'faceshape-react';
+import { planet } from 'faceshape-react/shapes';
+
+<Character shape={planet} name="Saturno"
+  face={{ eyes: 'bright', mouth: 'standard', eyebrows: 'none' }} />`}
+      />
       <h3>1. Un único contorno SVG</h3>
       <p>
         Definí el path y la zona donde entra la cara. <code>defineShape</code> valida el

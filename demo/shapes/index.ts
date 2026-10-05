@@ -1,39 +1,4 @@
-export { cat } from './cat';
-export { cloud } from './cloud';
-export { device } from './device';
-export { drop } from './drop';
-export { flower } from './flower';
-export { ghost } from './ghost';
-export { heart } from './heart';
-export { penguin } from './penguin';
-export { planet } from './planet';
-export { robot } from './robot';
-export { shark } from './shark';
-export { toast } from './toast';
+import * as shapes from '../../src/shapes';
 
-import { cat } from './cat';
-import { cloud } from './cloud';
-import { device } from './device';
-import { drop } from './drop';
-import { flower } from './flower';
-import { ghost } from './ghost';
-import { heart } from './heart';
-import { penguin } from './penguin';
-import { planet } from './planet';
-import { robot } from './robot';
-import { shark } from './shark';
-import { toast } from './toast';
-export const CUSTOM_SHAPES = {
-  heart,
-  shark,
-  penguin,
-  device,
-  cloud,
-  ghost,
-  cat,
-  robot,
-  planet,
-  flower,
-  drop,
-  toast,
-};
+export * from '../../src/shapes';
+export const DEMO_SHAPES = shapes;
