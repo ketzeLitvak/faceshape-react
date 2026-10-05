@@ -1,6 +1,7 @@
 import { useId } from 'react';
 
 const paths = {
+  shuffle: 'M3 6h3l12 12h3m-4-4 4 4-4 4M3 18h3l4-4m4-4 4-4h3m-4-4 4 4-4 4',
   share: 'M12 16V3m-5 5 5-5 5 5M5 13v7h14v-7',
   save: 'M5 3h12l3 3v15H4V3h1m3 0v6h8V3M8 21v-7h8v7',
   export: 'M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4',

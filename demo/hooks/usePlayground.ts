@@ -11,6 +11,10 @@ import {
   resolveExpression,
 } from '../../src';
 import { useReducedMotion } from '../../src/react/hooks/useReducedMotion';
+import {
+  initialPlaygroundConfiguration,
+  randomCharacterName,
+} from '../playgroundDefaults';
 import { resolveDemoShape } from '../shapes/resolveDemoShape';
 import type { DemoShape } from '../types';
 import {
@@ -19,28 +23,25 @@ import {
 } from '../workbench/configuration';
 
 export function usePlayground() {
-  const [shape, setShapeState] = useState<DemoShape>('shark');
-  const [eyes, setEyes] = useState<EyeVariant>('bright');
-  const [mouth, setMouth] = useState<MouthVariant>('tongue');
+  const [initial] = useState(initialPlaygroundConfiguration);
+  const [shape, setShapeState] = useState<DemoShape>(initial.shape);
+  const [eyes, setEyes] = useState<EyeVariant>(initial.face.eyes);
+  const [mouth, setMouth] = useState<MouthVariant>(initial.face.mouth);
   const setShape = (value: DemoShape) => {
     setShapeState(value);
     if (value === 'penguin') {
       setMouth('beak');
     }
   };
-  const [eyebrows, setEyebrows] = useState<EyebrowVariant>('expression');
+  const [eyebrows, setEyebrows] = useState<EyebrowVariant>(initial.face.eyebrows);
   const face: FaceConfig = { eyes, mouth, eyebrows };
-  const [expression, setExpression] = useState<ExpressionName>('happy');
-  const [name, setName] = useState('Tiburoncito');
-  const [fixedColor, setFixedColor] = useState<string | undefined>(undefined);
+  const [expression, setExpression] = useState<ExpressionName>(initial.expression);
+  const [name, setName] = useState(initial.name);
+  const [fixedColor, setFixedColor] = useState<string | undefined>(initial.color);
   const color = fixedColor ?? colorFromName(name);
-  const [reduced, setReduced] = useState(false);
+  const [reduced, setReduced] = useState(initial.reduced);
   const motionDisabled = useReducedMotion(reduced);
-  const [requestedMotion, setMotion] = useState<MotionConfig>({
-    idle: true,
-    blink: true,
-    lookAt: 'cursor',
-  });
+  const [requestedMotion, setMotion] = useState<MotionConfig>(initial.motion);
   const selectedShape = resolveDemoShape(shape);
   const capabilities = getMotionCapabilities(eyes, mouth, resolveExpression(expression));
   const motion: MotionConfig = {
@@ -83,6 +84,8 @@ export function usePlayground() {
   }, [loadConfiguration]);
   return {
     configuration,
+    reset: () => loadConfiguration(initialPlaygroundConfiguration()),
+    randomizeName: () => setName((value) => randomCharacterName(value)),
     loadConfiguration,
     shape,
     setShape,

@@ -1,0 +1,140 @@
+.playground {
+  overflow: visible;
+  align-items: start;
+}
+.playground .stage {
+  position: sticky;
+  top: 16px;
+  min-height: 480px;
+  height: min(570px, calc(100dvh - 32px));
+  border-radius: 18px 0 0 18px;
+}
+.playground .controls {
+  border-radius: 0 18px 18px 0;
+  min-width: 0;
+}
+.control-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #526065;
+}
+.control-tabs button {
+  flex: 1;
+  min-height: 44px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #78867f;
+  background: #30312c;
+  color: #f1eee7;
+  font: inherit;
+}
+.control-tabs button[aria-selected="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-surface);
+}
+.name-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.name-field .name-input-row input {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  height: 44px;
+}
+.editor-footer {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #526065;
+}
+.editor-footer button {
+  min-height: 44px;
+  border: 1px solid #78867f;
+  color: #f1eee7;
+  background: #30312c;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font: inherit;
+}
+.editor-footer p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+@media (max-width: 800px) {
+  .playground {
+    display: block;
+  }
+  .playground .stage {
+    top: 0;
+    height: 114px;
+    min-height: 114px;
+    padding: 12px 16px;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    border-radius: 18px 18px 0 0;
+    z-index: 5;
+    background: #203234;
+    border-bottom: 1px solid #78867f;
+  }
+  .stage .stage-top,
+  .stage .stage-bottom {
+    display: none;
+  }
+  .stage .character-wrap {
+    flex: 0 0 90px;
+  }
+  .stage .character-wrap svg {
+    width: 90px;
+    height: 90px;
+  }
+  .stage .character-wrap::after {
+    display: none;
+  }
+  .stage .character-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 14px;
+  }
+  .stage .character-meta span:nth-child(2) {
+    display: none;
+  }
+  .playground .controls {
+    border-radius: 0 0 18px 18px;
+    padding: 24px 16px;
+  }
+  .controls :where(button, input, fieldset) {
+    scroll-margin-top: 130px;
+  }
+  .controls :where([role="tab"], [role="tabpanel"]) {
+    scroll-margin-top: 130px;
+  }
+}
+@media (max-height: 600px) and (min-width: 801px) {
+  .playground .stage {
+    min-height: 320px;
+    height: calc(100dvh - 32px);
+  }
+  .stage .character-wrap svg {
+    max-height: 220px;
+  }
+}
+
+@media (max-width: 800px) {
+  .stage .character-meta span:first-child {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}

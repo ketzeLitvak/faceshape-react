@@ -38,7 +38,7 @@ export function CharacterStage({
         />
       </div>
       <div className="character-meta">
-        <span>{name || shape}</span>
+        <span title={name || shape}>{name || shape}</span>
         <span>·</span>
         <span>{expression}</span>
       </div>

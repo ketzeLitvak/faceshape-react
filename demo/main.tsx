@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { App } from './App';
 import './style.css';
+import './components/playground.css';
 
 const root = document.getElementById('root');
 if (!root) {
