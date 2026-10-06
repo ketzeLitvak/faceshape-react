@@ -29,6 +29,20 @@
   color: #f1eee7;
   border: 1px solid #526065;
 }
+.validation-grid .inspection-pose {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+.inspection-pose > svg {
+  display: block;
+  flex-shrink: 0;
+}
+.inspection-pose > span {
+  line-height: 1.5;
+}
 .validation-sizes {
   display: flex;
   align-items: center;
@@ -380,6 +394,10 @@ button.icon-button.copy-success {
   border: 1px solid #78867f;
   border-radius: 6px;
   font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: none;
   white-space: nowrap;
   visibility: hidden;
   pointer-events: none;

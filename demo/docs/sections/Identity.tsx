@@ -20,9 +20,9 @@ export function Identity() {
       <div className="docs-note">
         <strong>Formas de la demo</strong>
         <p>
-          Corazón, tiburón, pingüino y computadora son ejemplos personalizados. No son
-          nombres de formas integradas en la API: importá su definición desde la demo o
-          creá la tuya y pasala con <code>shape={'{miForma}'}</code>.
+          Corazón, tiburón, pingüino, dispositivo y las demás formas adicionales están en
+          <code>faceshape-react/shapes</code>. Importá su definición y pasala con
+          <code>shape={'{miForma}'}</code>; no son nombres de formas integradas en la API.
         </p>
       </div>
       <h3>Variaciones según la forma</h3>

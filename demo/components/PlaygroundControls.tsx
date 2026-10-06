@@ -76,8 +76,7 @@ export function PlaygroundControls(
           ))}
         </div>
       </fieldset>
-      <section className="face-controls" aria-labelledby="face-controls-title">
-        <h3 id="face-controls-title">Rasgos</h3>
+      <section className="face-controls" aria-label="Rasgos del personaje">
         <fieldset>
           <legend>OJOS</legend>
           <div className="options">

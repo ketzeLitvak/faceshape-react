@@ -14,6 +14,7 @@ import { resolveDemoShape } from '../shapes/resolveDemoShape';
 import type { DemoShape } from '../types';
 import { InspectionTabs, type InspectionView } from './InspectionTabs';
 import { PosePreview, type PreviewPose } from './PosePreview';
+import { ShapeVariants } from './ShapeVariants';
 
 const names = ['Ana', 'Bruno', 'Cielo'];
 const sizes = [32, 48, 160];
@@ -121,6 +122,7 @@ export function ValidationGallery({ face: initialFace }: { face: FaceConfig }) {
         // biome-ignore lint/a11y/noNoninteractiveTabindex: Static tab panels need a keyboard entry point.
         tabIndex={0}
       >
+        {view === 'variants' && <ShapeVariants shape={shape} face={face} dark={dark} />}
         {view === 'expressions' && (
           <>
             <h2>La misma identidad, seis expresiones</h2>
@@ -179,8 +181,7 @@ export function ValidationGallery({ face: initialFace }: { face: FaceConfig }) {
             </p>
             <div className={`validation-grid ${dark ? 'validation-dark' : ''}`}>
               {poses.map((pose) => (
-                <article key={pose.id}>
-                  <span>{pose.label}</span>
+                <article className="inspection-pose" key={pose.id}>
                   <Character
                     shape={resolveDemoShape(shape)}
                     name="Ana"
@@ -191,6 +192,7 @@ export function ValidationGallery({ face: initialFace }: { face: FaceConfig }) {
                   >
                     <PosePreview face={face} pose={pose} />
                   </Character>
+                  <span>{pose.label}</span>
                 </article>
               ))}
             </div>

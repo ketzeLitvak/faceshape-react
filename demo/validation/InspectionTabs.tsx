@@ -3,6 +3,7 @@ const tabs = [
   { id: 'poses', label: 'Blink y mirada' },
   { id: 'motion', label: 'Transiciones en vivo' },
   { id: 'parts', label: 'Partes ocultas' },
+  { id: 'variants', label: 'Variantes de la forma' },
 ] as const;
 
 export type InspectionView = (typeof tabs)[number]['id'];

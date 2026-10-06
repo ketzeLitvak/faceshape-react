@@ -131,11 +131,6 @@
 .controls > fieldset > legend + * {
   clear: both;
 }
-.controls .face-controls h3 {
-  margin: 0 0 24px;
-  font-size: 16px;
-  font-weight: 500;
-}
 .controls .face-controls fieldset {
   margin-bottom: 28px;
 }

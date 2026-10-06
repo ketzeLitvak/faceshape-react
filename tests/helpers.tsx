@@ -65,7 +65,9 @@ export { initialPlaygroundConfiguration } from '../demo/playgroundDefaults';
 export { renderPage, renderSocialImage } from '../demo/prerender';
 export { DOCS_PATH, PUBLIC_PAGES, SITE_PATH } from '../demo/seo';
 export { DEMO_SHAPES, device, heart, penguin, shark } from '../demo/shapes';
+export { ShapeVariants } from '../demo/validation/ShapeVariants';
 export { ValidationGallery } from '../demo/validation/ValidationGallery';
+export { VARIANT_EXAMPLES } from '../demo/validation/variantExamples';
 export { collectionJSON, parseCollection } from '../demo/workbench/collection';
 export {
   configurationURL,

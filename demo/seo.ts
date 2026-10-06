@@ -10,9 +10,9 @@ export const PUBLIC_PAGES = {
     canonical: SITE_URL,
   },
   docs: {
-    title: 'Documentación de faceshape-react — API y ejemplos para React',
+    title: 'faceshape-react documentation — React API and examples',
     description:
-      'Aprendé a usar faceshape-react: instalación, formas SVG, expresiones, animaciones, variación por nombre y componentes personalizados. Incluye ejemplos y casos de uso.',
+      'Learn to use faceshape-react: installation, SVG shapes, expressions, animations, name-based variation and custom components. Includes examples and use cases.',
     canonical: `${SITE_URL}docs/`,
   },
 };

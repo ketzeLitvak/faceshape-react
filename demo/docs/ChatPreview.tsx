@@ -1,5 +1,6 @@
 import { Character, type ExpressionName } from '../../src';
 import './chat-preview.css';
+import { useDocsLanguage } from './language';
 
 const messages: { id: string; name: string; text: string; expression: ExpressionName }[] =
   [
@@ -24,14 +25,27 @@ const messages: { id: string; name: string; text: string; expression: Expression
   ];
 
 export function ChatPreview() {
+  const isEnglish = useDocsLanguage() === 'en';
+  const translations = [
+    'Hi! Can we use these characters in the chat?',
+    'Yes, each person keeps their avatar by name.',
+    'Great! Mine can change its expression too.',
+  ];
   return (
-    <figure className="docs-chat" aria-label="Ejemplo de conversación con avatares">
+    <figure
+      className="docs-chat"
+      aria-label={
+        isEnglish
+          ? 'Example conversation with avatars'
+          : 'Ejemplo de conversación con avatares'
+      }
+    >
       <div className="docs-chat-heading">
-        <strong>Equipo creativo</strong>
-        <span>Vista de ejemplo</span>
+        <strong>{isEnglish ? 'Creative team' : 'Equipo creativo'}</strong>
+        <span>{isEnglish ? 'Example preview' : 'Vista de ejemplo'}</span>
       </div>
       <ol className="chat-messages">
-        {messages.map((message) => (
+        {messages.map((message, index) => (
           <li className="chat-message" key={message.id}>
             <Character
               name={message.name}
@@ -42,7 +56,7 @@ export function ChatPreview() {
             />
             <div className="chat-bubble">
               <strong>{message.name}</strong>
-              <p>{message.text}</p>
+              <p>{isEnglish ? translations[index] : message.text}</p>
             </div>
           </li>
         ))}
