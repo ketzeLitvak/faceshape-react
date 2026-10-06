@@ -5,8 +5,10 @@ import { ExpressionGallery } from './components/ExpressionGallery';
 import { IconButton } from './components/IconButton';
 import { PlaygroundControls } from './components/PlaygroundControls';
 import { Documentation } from './docs/Documentation';
+import { useDocumentationLanguage } from './docs/language';
 import { useDemoPage } from './hooks/useDemoPage';
 import { usePlayground } from './hooks/usePlayground';
+import { LanguageModal } from './modals/LanguageModal';
 import { SaveModal } from './modals/SaveModal';
 import { ShareModal } from './modals/ShareModal';
 import { DOCS_PATH, SITE_PATH } from './seo';
@@ -23,12 +25,13 @@ const ExportModal = lazy(() =>
 
 export function App({ initialPage = 'demo' }: { initialPage?: 'demo' | 'docs' }) {
   const page = useDemoPage(initialPage);
+  const { language, selectLanguage } = useDocumentationLanguage();
   const playground = usePlayground();
   const collection = useSavedCharacters(
     playground.configuration,
     playground.loadConfiguration,
   );
-  const [modal, setModal] = useState<'save' | 'share' | 'export'>();
+  const [modal, setModal] = useState<'save' | 'share' | 'export' | 'language'>();
   const { shape, expression, face, fixedColor, name, motion, reduced, selectedShape } =
     playground;
   const snippet = buildSnippet({
@@ -86,15 +89,29 @@ export function App({ initialPage = 'demo' }: { initialPage?: 'demo' | 'docs' })
               <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.15-1.11-1.46-1.11-1.46-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.83c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
             </svg>
           </a>
+          <IconButton
+            icon="language"
+            label={
+              language === 'en' ? 'Documentation language' : 'Idioma de la documentación'
+            }
+            onClick={() => setModal('language')}
+          />
         </nav>
       </header>
+      {modal === 'language' && (
+        <LanguageModal
+          language={language}
+          onSelect={selectLanguage}
+          onClose={() => setModal(undefined)}
+        />
+      )}
       <div id="page-content" tabIndex={-1}>
         {page === 'collection' ? (
           <SavedCharacters collection={collection} />
         ) : page === 'validation' ? (
           <ValidationGallery face={face} />
         ) : page === 'docs' ? (
-          <Documentation />
+          <Documentation language={language} />
         ) : (
           <>
             <section className="intro">

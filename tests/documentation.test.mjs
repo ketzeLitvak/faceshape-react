@@ -2,7 +2,11 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { DOC_SECTIONS, Documentation } from '../.test-dist/helpers.mjs';
+import {
+  DOC_SECTIONS,
+  Documentation,
+  useDocumentationLanguage,
+} from '../.test-dist/helpers.mjs';
 
 test('documentation provides every navigation target, examples, and the complete face contract', () => {
   const html = renderToStaticMarkup(React.createElement(Documentation));
@@ -61,12 +65,26 @@ test('language selector switches every section and preserves the preference', as
     addEventListener() {},
     removeEventListener() {},
   });
+  function LanguageProbe() {
+    const { language, selectLanguage } = useDocumentationLanguage();
+    return React.createElement(
+      React.Fragment,
+      null,
+      React.createElement(
+        'select',
+        { value: language, onChange: (event) => selectLanguage(event.target.value) },
+        React.createElement('option', { value: 'en' }, 'English'),
+        React.createElement('option', { value: 'es' }, 'Español'),
+      ),
+      React.createElement(Documentation, { language }),
+    );
+  }
   const root = createRoot(document.getElementById('root'));
   try {
-    await act(() => root.render(React.createElement(Documentation)));
+    await act(() => root.render(React.createElement(LanguageProbe)));
     assert.equal(document.querySelector('.documentation').lang, 'en');
     assert.match(document.body.textContent, /Getting started/);
-    const select = document.querySelector('.docs-language-row select');
+    const select = document.querySelector('select');
     await act(() => {
       select.value = 'es';
       select.dispatchEvent(new window.Event('change', { bubbles: true }));
@@ -80,7 +98,7 @@ test('language selector switches every section and preserves the preference', as
     assert.match(document.body.textContent, /Copiar/);
     assert.equal(localStorage.getItem('faceshape-docs-language'), 'es');
     await act(() => root.render(null));
-    await act(() => root.render(React.createElement(Documentation)));
+    await act(() => root.render(React.createElement(LanguageProbe)));
     assert.equal(document.querySelector('.documentation').lang, 'es');
     await act(() => root.unmount());
   } finally {

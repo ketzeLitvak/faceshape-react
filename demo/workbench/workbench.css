@@ -207,7 +207,8 @@
   header .app-nav {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) 44px;
+    grid-template-columns: repeat(4, minmax(70px, 1fr)) repeat(2, 44px);
+    overflow-x: auto;
     gap: 0;
   }
   header .app-nav a {
@@ -308,7 +309,8 @@
 }
 @media (max-width: 600px) {
   header .app-nav {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) 44px;
+    grid-template-columns: repeat(4, minmax(70px, 1fr)) repeat(2, 44px);
+    overflow-x: auto;
   }
   header .app-nav a {
     font-size: 10px;
@@ -562,4 +564,29 @@ button.icon-button.copy-success {
 .modal-field textarea,
 .saved-library input[type="search"] {
   border-color: #78867f;
+}
+
+.app-nav button.icon-button {
+  border: 0;
+  background: transparent;
+  color: #b8bac4;
+}
+.language-options {
+  display: grid;
+  gap: 12px;
+}
+.language-options button {
+  padding: 14px 16px;
+  min-height: 48px;
+  text-align: left;
+  border-radius: 8px;
+  border: 1px solid #78867f;
+  background: #30312c;
+  color: #f1eee7;
+  font: inherit;
+}
+.language-options button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-surface);
+  color: var(--accent);
 }

@@ -1,6 +1,8 @@
 import { useId } from 'react';
 
 const paths = {
+  language:
+    'M3 5h12M9 3v2M5 5c0 6 5 10 9 11M13 5c0 6-5 10-9 11M14 21l4-10 4 10M15.5 17h5',
   shuffle:
     'M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4ZM8 8h.01M16 8h.01M12 12h.01M8 16h.01M16 16h.01',
   reset: 'M3 11a9 9 0 1 1 2.6 7.4M3 4v7h7',
