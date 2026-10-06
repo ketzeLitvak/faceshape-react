@@ -7,5 +7,5 @@ await build({
   loader: { '.css': 'empty' },
   platform: 'node',
   format: 'esm',
-  external: ['react', 'react/jsx-runtime', 'react-dom/server'],
+  external: ['react', 'react/jsx-runtime', 'react-dom', 'react-dom/server'],
 });

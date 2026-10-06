@@ -590,3 +590,25 @@ button.icon-button.copy-success {
   background: var(--accent-surface);
   color: var(--accent);
 }
+
+.language-picker {
+  display: inline-flex;
+}
+.language-popover {
+  position: fixed;
+  z-index: 100;
+  width: 200px;
+  padding: 8px;
+  gap: 4px;
+  background: #242522;
+  border: 1px solid #78867f;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px #0006;
+}
+.language-popover button {
+  border-color: transparent;
+  background: transparent;
+}
+.language-popover button:hover {
+  background: var(--accent-surface);
+}

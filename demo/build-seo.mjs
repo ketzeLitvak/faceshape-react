@@ -10,7 +10,7 @@ await build({
   platform: 'node',
   format: 'esm',
   loader: { '.css': 'empty' },
-  external: ['react', 'react/jsx-runtime', 'react-dom/server'],
+  external: ['react', 'react/jsx-runtime', 'react-dom', 'react-dom/server'],
 });
 await build({
   entryPoints: ['demo/seo.ts'],

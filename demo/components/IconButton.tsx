@@ -18,11 +18,13 @@ export function IconButton({
   label,
   onClick,
   success = false,
+  popup,
 }: {
   icon: keyof typeof paths;
   label: string;
   onClick: () => void;
   success?: boolean;
+  popup?: { expanded: boolean; controls: string };
 }) {
   const id = useId();
   return (
@@ -32,6 +34,9 @@ export function IconButton({
         className={`icon-button${success ? ' copy-success' : ''}`}
         aria-label={label}
         aria-describedby={id}
+        aria-expanded={popup?.expanded}
+        aria-controls={popup?.controls}
+        aria-haspopup={popup ? 'dialog' : undefined}
         onClick={onClick}
       >
         <svg
