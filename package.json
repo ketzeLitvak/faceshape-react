@@ -2,6 +2,15 @@
   "name": "faceshape-react",
   "version": "0.1.0",
   "description": "Composable animated SVG characters for React",
+  "author": "Ezequiel Litvak",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ketzeLitvak/faceshape-react.git"
+  },
+  "homepage": "https://ketzelitvak.github.io/faceshape-react/",
+  "bugs": {
+    "url": "https://github.com/ketzeLitvak/faceshape-react/issues"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -64,5 +73,5 @@
     "animation",
     "character"
   ],
-  "license": "UNLICENSED"
+  "license": "MIT"
 }

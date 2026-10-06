@@ -103,7 +103,7 @@ Después de revisar un cambio visual intencional, actualizá las referencias con
 - `grin` pasa a llamarse `wide`.
 - Los consumidores deben elegir explícitamente si quieren cejas expresivas, de una geometría concreta o `none`.
 
-El paquete no fue publicado en npm. Su nombre es provisional y su licencia está pendiente (`UNLICENSED`).
+El paquete todavía no fue publicado en npm. Se distribuye bajo la [licencia MIT](./LICENSE).
 
 Una forma personalizada puede implementar `fromName: (name) => CustomShape` para resolver sus proporciones y su `faceBox` de forma determinista. Se resuelve junto con la apariencia y no se recalcula por cada frame. `createNameRandom(name, 'canal')` permite variaciones independientes por forma.
 
