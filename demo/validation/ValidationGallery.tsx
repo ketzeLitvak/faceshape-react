@@ -92,6 +92,8 @@ export function ValidationGallery({ face: initialFace }: { face: FaceConfig }) {
             ))}
           </select>
         </label>
+      </div>
+      <div className="inspection-options">
         <label>
           <input
             type="checkbox"
