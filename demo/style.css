@@ -507,14 +507,12 @@ footer {
   margin-bottom: 21px;
 }
 
-.intro-links {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-.intro-links a {
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 4px;
+header .app-nav .github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
 }
