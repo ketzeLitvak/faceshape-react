@@ -17,11 +17,18 @@
   line-height: 1.7;
 }
 .docs-cta {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  min-height: 44px;
   color: var(--accent);
   text-decoration: none;
   font-weight: 600;
   margin-top: 12px;
+}
+.docs-cta svg {
+  flex-shrink: 0;
 }
 .docs-layout {
   display: grid;

@@ -30,7 +30,20 @@ export function Documentation() {
             contrato completo, ejemplos y formas de extenderlo.
           </p>
           <a className="docs-cta" href={SITE_PATH}>
-            Probar en el playground ↗
+            Probar en el playground
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M7 17 17 7M7 7h10v10" />
+            </svg>
           </a>
         </div>
         <Character
@@ -66,7 +79,20 @@ export function Documentation() {
           <APIReference />
           <Troubleshooting />
           <a className="docs-cta" href={SITE_PATH}>
-            Volver a probar combinaciones ↗
+            Volver a probar combinaciones
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M7 17 17 7M7 7h10v10" />
+            </svg>
           </a>
         </article>
       </div>
