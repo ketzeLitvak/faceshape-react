@@ -60,7 +60,7 @@ export function SavedCharacters({
         navegador.
       </p>
       <div className="collection-toolbar">
-        <label className="collection-search">
+        <label className="collection-search form-field">
           Buscar guardados{' '}
           <input
             type="search"
@@ -70,7 +70,7 @@ export function SavedCharacters({
           />
         </label>
         <div className="collection-tools">
-          <label className="collection-order">
+          <label className="collection-order form-field">
             Ordenar
             <select value={sort} onChange={(event) => setSort(event.target.value)}>
               <option value="recent">Última modificación</option>

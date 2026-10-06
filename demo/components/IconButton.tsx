@@ -2,7 +2,7 @@ import { useId } from 'react';
 
 const paths = {
   shuffle:
-    'M3 7h3c4 0 8 10 12 10h3M17 13l4 4-4 4M3 17h3c1.5 0 3-1.5 4.5-3.5M13.5 10.5C15 8.5 16.5 7 18 7h3M17 3l4 4-4 4',
+    'M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4ZM8 8h.01M16 8h.01M12 12h.01M8 16h.01M16 16h.01',
   reset: 'M3 11a9 9 0 1 1 2.6 7.4M3 4v7h7',
   share: 'M12 16V3m-5 5 5-5 5 5M5 13v7h14v-7',
   save: 'M5 3h12l3 3v15H4V3h1m3 0v6h8V3M8 21v-7h8v7',

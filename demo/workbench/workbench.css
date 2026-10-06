@@ -95,23 +95,29 @@
 }
 .inspection-tabs {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 4px;
+  overflow-x: auto;
   margin: 28px 0;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #383b36;
+  border-bottom: 1px solid #526065;
 }
 .inspection-tabs button {
-  padding: 10px 14px;
-  background: #242522;
-  border: 1px solid #526065;
-  color: inherit;
-  border-radius: 8px;
+  flex-shrink: 0;
+  min-height: 48px;
+  padding: 12px 16px;
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  color: var(--muted);
+  border-radius: 0;
+  font: inherit;
+  font-size: 14px;
 }
-.inspection-tabs button[aria-pressed="true"] {
-  background: var(--accent-surface);
-  border-color: var(--accent);
+.inspection-tabs button[aria-selected="true"] {
+  border-bottom-color: var(--accent);
   color: var(--accent);
+}
+.inspection-tabs button:hover {
+  background: var(--accent-surface);
 }
 .identity-samples {
   margin: 32px 0;

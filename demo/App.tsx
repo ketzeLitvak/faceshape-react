@@ -14,6 +14,7 @@ import { ValidationGallery } from './validation/ValidationGallery';
 import { SavedCharacters } from './workbench/SavedCharacters';
 import { useSavedCharacters } from './workbench/useSavedCharacters';
 import './workbench/workbench.css';
+import './components/form-fields.css';
 import { buildSnippet } from './snippet';
 
 const ExportModal = lazy(() =>
