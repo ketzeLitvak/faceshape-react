@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { DEMO_SHAPES, ShapeVariants, VARIANT_EXAMPLES } from '../.test-dist/helpers.mjs';
 import { Character } from '../dist/index.js';
 
-const expected = { planet: 6, robot: 20, device: 4, ghost: 5, flower: 5 };
+const expected = { planet: 6, robot: 20, device: 4, ghost: 5, flower: 5, shark: 3 };
 test('variant names cover structural categories using production renderers', () => {
   for (const [shape, count] of Object.entries(expected)) {
     const signatures = new Set();

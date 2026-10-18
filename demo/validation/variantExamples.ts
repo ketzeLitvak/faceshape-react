@@ -5,6 +5,11 @@ import type { DemoShape } from '../types';
 export const VARIANT_EXAMPLES: Partial<
   Record<DemoShape, { name: string; label: string }[]>
 > = {
+  shark: [
+    { name: 'Variante 5', label: 'Clásico' },
+    { name: 'Variante 1', label: 'Redondeado' },
+    { name: 'Variante 3', label: 'Martillo' },
+  ],
   planet: [
     {
       name: 'Variante 5',
