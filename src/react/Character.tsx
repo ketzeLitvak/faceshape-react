@@ -78,6 +78,7 @@ export const Character = forwardRef<SVGSVGElement, CharacterProps>(function Char
             )}
             <g transform={transform}>
               <AnimatedFace
+                layout={'faceLayout' in definition ? definition.faceLayout : undefined}
                 geometry={geometry}
                 face={face}
                 motion={motion}

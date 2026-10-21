@@ -5,7 +5,7 @@ export function initialPlaygroundConfiguration(): PlaygroundConfiguration {
     shape: 'shark',
     name: 'Tiburoncito',
     expression: 'happy',
-    face: { eyes: 'bright', mouth: 'tongue', eyebrows: 'expression' },
+    face: { eyes: 'dots', mouth: 'standard', eyebrows: 'none' },
     motion: { idle: true, blink: true, lookAt: 'cursor' },
     reduced: false,
   };

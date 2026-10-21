@@ -3,10 +3,11 @@ import { useFace } from './FaceContext';
 import { MOUTH_STRATEGIES } from './mouths/registry';
 import type { MouthVariant } from './types';
 import { getFaceGaze } from './utils/faceGaze';
+import { mouthPlacement } from './utils/facePlacement';
 import { resolveMouthGeometry } from './utils/mouthGeometry';
 
 export function Mouth({ variant }: { variant: MouthVariant }) {
-  const { geometry, talk, color, eyeVariant, look } = useFace();
+  const { geometry, talk, color, eyeVariant, look, layout } = useFace();
   const gaze = getFaceGaze(eyeVariant, look, geometry.eyeOpen);
   const mouthId = `fs-mouth-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const styleVariant = variant;
@@ -28,7 +29,11 @@ export function Mouth({ variant }: { variant: MouthVariant }) {
   }
 
   return (
-    <g transform={gaze.mouth} data-faceshape-mouth="" data-mouth-variant={styleVariant}>
+    <g
+      transform={mouthPlacement(layout, gaze.mouth)}
+      data-faceshape-mouth=""
+      data-mouth-variant={styleVariant}
+    >
       {cheeks && (
         <g data-faceshape-mouth-cheeks="" fill="#f69bad">
           <ellipse cx={16} cy={57} rx={8} ry={4.5} />

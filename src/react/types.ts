@@ -70,8 +70,15 @@ export interface FaceConfig {
   eyebrows: EyebrowVariant;
 }
 
+/** Placement inside the shape's faceBox, in its local 0..100 coordinates. */
+export interface FaceLayout {
+  eyes?: { spacing: number; y: number; scale: number };
+  mouth?: { y: number; scale: number };
+}
+
 export interface CustomShape extends Omit<ShapeDefinition, 'path'> {
   path?: string;
+  faceLayout?: FaceLayout;
   /** Resolve identity-dependent geometry once, before rendering. */
   fromName?: (name: string | number) => CustomShape;
   /** SVG nodes only, e.g. paths. Do not return a nested svg with a different coordinate space. */
@@ -102,6 +109,7 @@ export type CharacterProps = Omit<SVGProps<SVGSVGElement>, 'children' | 'color'>
 };
 
 export interface FaceState {
+  layout?: FaceLayout;
   geometry: FaceGeometry;
   blink: number;
   talk: number;
@@ -136,6 +144,7 @@ export interface MotionCapabilities {
 }
 
 export interface AnimatedFaceProps {
+  layout?: FaceLayout;
   geometry: FaceGeometry;
   face: FaceConfig;
   motion: MotionConfig;

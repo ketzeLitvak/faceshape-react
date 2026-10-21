@@ -41,6 +41,16 @@ export function CustomShapes() {
         nested <code>svg</code> with another viewBox. The <code>faceBox</code> prop on{' '}
         <code>Character</code> overrides the definition.
       </p>
+      <h3>Place eyes and mouth independently</h3>
+      <p>
+        Use <code>faceLayout</code> on a shape definition for layouts such as the
+        hammerhead. Inside <code>faceBox</code>, local coordinates run from 0 to 100:{' '}
+        <code>eyes: {'{ spacing, y, scale }'}</code> controls eye spacing from the center,
+        height and the scale of eyes and brows; <code>mouth: {'{ y, scale }'}</code>{' '}
+        places the mouth independently. This does not select facial styles: all parts
+        remain interchangeable and support <code>none</code>. Return this layout from{' '}
+        <code>fromName</code> too.
+      </p>
     </section>
   );
 }

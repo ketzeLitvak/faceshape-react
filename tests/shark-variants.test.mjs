@@ -22,7 +22,8 @@ test('shark identities cover four silhouettes with species-appropriate fins and 
     assert.ok((svg.match(/fill="#123456"/g) ?? []).length >= 3);
     const box = definition.faceBox;
     assert.equal(box.x + box.width / 2, 0.5);
-    assert.ok(box.y > 0.2 && box.y + box.height < 0.75);
+    assert.ok(box.y > 0 && box.y + box.height < 1);
+    assert.ok(definition.faceLayout.eyes.y < definition.faceLayout.mouth.y);
     assert.doesNotMatch(svg, /NaN|undefined/);
   }
   assert.deepEqual([...kinds].sort(), ['baby', 'classic', 'hammerhead', 'rounded']);

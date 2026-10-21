@@ -7,6 +7,7 @@ import {
   varyShape,
 } from '../../core/index';
 import type { AppearanceOptions } from './types';
+import { validateFaceLayout } from './validateFaceLayout';
 
 export function resolveCharacterAppearance({
   shape,
@@ -36,6 +37,7 @@ export function resolveCharacterAppearance({
     throw new Error('Custom shape needs path or render');
   }
 
+  validateFaceLayout('faceLayout' in definition ? definition.faceLayout : undefined);
   const viewBox = definition.viewBox ?? '0 0 100 100';
   const [x, y, width, height] = parseViewBox(viewBox);
   return {

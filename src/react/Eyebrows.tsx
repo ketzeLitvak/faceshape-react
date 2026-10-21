@@ -4,9 +4,10 @@ import { EYE_STRATEGIES } from './eyes/registry';
 import { useFace } from './FaceContext';
 import type { EyebrowVariant } from './types';
 import { getFaceGaze } from './utils/faceGaze';
+import { eyePlacement } from './utils/facePlacement';
 
 export function Eyebrows({ variant }: { variant: EyebrowVariant }) {
-  const { geometry, color, eyeVariant, look } = useFace();
+  const { geometry, color, eyeVariant, look, layout } = useFace();
   const gaze = getFaceGaze(eyeVariant, look, geometry.eyeOpen);
   const { angle, lift, opacity, hidden } = BROW_STRATEGIES[variant](geometry);
 
@@ -16,7 +17,7 @@ export function Eyebrows({ variant }: { variant: EyebrowVariant }) {
 
   return (
     <g
-      transform={gaze.eyebrows}
+      transform={layout?.eyes ? undefined : gaze.eyebrows}
       data-faceshape-eyebrows=""
       opacity={opacity}
       fill="none"
@@ -27,11 +28,17 @@ export function Eyebrows({ variant }: { variant: EyebrowVariant }) {
       {eyeAnchors(EYE_STRATEGIES[eyeVariant], geometry).map(({ x, side }) => {
         const y = EYE_STRATEGIES[eyeVariant].browBaseline + lift;
         return (
-          <path
+          <g
             key={side}
-            d={`M${x - 8} ${y} Q${x} ${y - 3} ${x + 8} ${y}`}
-            transform={`rotate(${-(side || 1) * angle} ${x} ${y})`}
-          />
+            transform={
+              layout?.eyes ? `${eyePlacement(layout, x)} ${gaze.eyebrows}` : undefined
+            }
+          >
+            <path
+              d={`M${x - 8} ${y} Q${x} ${y - 3} ${x + 8} ${y}`}
+              transform={`rotate(${-(side || 1) * angle} ${x} ${y})`}
+            />
+          </g>
         );
       })}
     </g>

@@ -8,6 +8,7 @@ import { useLookAt } from './hooks/useLookAt';
 import type { AnimatedFaceProps } from './types';
 
 export function AnimatedFace({
+  layout,
   geometry,
   face,
   motion,
@@ -38,6 +39,10 @@ export function AnimatedFace({
   );
   const state = {
     ...frame,
+    layout,
+    geometry: layout?.eyes
+      ? { ...frame.geometry, eyeSpacing: layout.eyes.spacing }
+      : frame.geometry,
     look: {
       x: clamp(directLook.x + frame.gaze.x, -1, 1),
       y: clamp(directLook.y + frame.gaze.y, -1, 1),

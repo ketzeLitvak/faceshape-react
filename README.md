@@ -41,7 +41,7 @@ const face: FaceConfig = {
 />
 ```
 
-La demo comienza con ojos `bright`, boca `tongue` y cejas `expression`, enviados explícitamente. Los chips permiten cambiar las tres partes. La galería usa el mismo conjunto elegido.
+La demo comienza con ojos `dots` (ovalados simples), boca `standard` (trazo simple) y cejas `none`, enviados explícitamente. Los chips permiten cambiar las tres partes. La galería usa el mismo conjunto elegido.
 
 | Parte | Variantes |
 | --- | --- |
@@ -161,3 +161,5 @@ Cada página pública incluye título, descripción, canonical y metadatos Open 
 La URL pública y los metadatos se definen en `demo/seo.ts`; el prefijo del despliegue está en `vite.config.ts`. Al cambiar de dominio o ruta, actualizá también los metadatos de `index.html`. En GitHub Pages de un proyecto, el archivo `robots.txt` efectivo pertenece a la raíz del dominio, por lo que no se genera uno dentro de esta carpeta.
 
 `fish` combina pez payaso, globo, ángel, dorado, betta y cuatro tiburones (clásico, redondeado, martillo y bebé). `shark` conserva únicamente los cuatro tiburones. El nombre selecciona el perfil y sus proporciones; los rasgos siguen siendo intercambiables.
+
+Las formas pueden definir `faceLayout` dentro de su `faceBox` (coordenadas locales 0–100): `eyes: { spacing, y, scale }` coloca y dimensiona los ojos y las cejas; `mouth: { y, scale }` coloca la boca de manera independiente. En el martillo los ojos quedan en los extremos de la cabeza y la boca, en el centro. Todos los estilos y movimientos respetan estas posiciones.

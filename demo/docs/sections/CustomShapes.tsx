@@ -44,6 +44,16 @@ import { planet } from 'faceshape-react/shapes';
         anidado con otro viewBox. La prop <code>faceBox</code> de <code>Character</code>{' '}
         permite reemplazar la caja de la definición.
       </p>
+      <h3>Ubicar ojos y boca por separado</h3>
+      <p>
+        Usá <code>faceLayout</code> en la definición para siluetas con una cara especial,
+        como el martillo. Dentro de <code>faceBox</code>, las coordenadas locales van de 0
+        a 100: <code>eyes: {'{ spacing, y, scale }'}</code> define la separación desde el
+        centro, altura y escala de ojos y cejas; <code>mouth: {'{ y, scale }'}</code>{' '}
+        ubica la boca independientemente. No fija un estilo facial: ojos, boca y cejas
+        siguen siendo intercambiables y admiten <code>none</code>. Devolvé también este
+        layout desde <code>fromName</code>.
+      </p>
     </section>
   );
 }

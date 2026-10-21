@@ -84,3 +84,56 @@ test('fish markings use body clips with unique IDs across sizes and instances', 
     assert.equal((svg.match(/data-fish-marking=""/g) ?? []).length, 10);
   }
 });
+
+test('reference facial slots put hammerhead eyes on its head and keep mouth independent', () => {
+  const hammerhead = fish.fromName('Variante 8');
+  const { eyes, mouth } = hammerhead.faceLayout;
+  assert.ok(eyes.spacing >= 40, 'hammerhead eyes belong near the outer head tips');
+  assert.ok(
+    eyes.y < mouth.y && mouth.y < 40,
+    'mouth belongs below head, not halfway down body',
+  );
+  const classic = fish.fromName('Variante 7').faceLayout;
+  assert.ok(classic.eyes.spacing < eyes.spacing / 2);
+  for (const { name } of VARIANT_EXAMPLES.fish) {
+    const shape = fish.fromName(name);
+    assert.deepEqual(shape.faceLayout, fish.fromName(name).faceLayout);
+    const { eyes, mouth } = shape.faceLayout;
+    assert.ok(eyes.y < mouth.y);
+    assert.ok(eyes.scale > 0 && mouth.scale > 0);
+    for (const expression of ['happy', 'sad', 'surprised', 'sleepy']) {
+      const html = renderToStaticMarkup(
+        React.createElement(Character, {
+          name,
+          shape: fish,
+          expression,
+          reducedMotion: true,
+          face: { eyes: 'dots', mouth: 'standard', eyebrows: 'none' },
+        }),
+      );
+      assert.match(html, /data-mouth-variant="standard"/);
+      assert.doesNotMatch(html, /data-eye-highlight|data-faceshape-eyebrows/);
+      assert.match(html, /fill="none"/);
+    }
+  }
+});
+
+test('invalid shape facial placement is rejected before drawing', () => {
+  const base = fish.fromName('Variante 8');
+  for (const eyes of [
+    { spacing: NaN, y: 25, scale: 0.5 },
+    { spacing: 42, y: 125, scale: 0.5 },
+    { spacing: 42, y: 25, scale: 0 },
+  ]) {
+    assert.throws(
+      () =>
+        renderToStaticMarkup(
+          React.createElement(Character, {
+            shape: { ...base, faceLayout: { eyes } },
+            face: { eyes: 'dots', mouth: 'standard', eyebrows: 'none' },
+          }),
+        ),
+      /faceLayout/,
+    );
+  }
+});

@@ -29,6 +29,7 @@ function fishFromName(name: string | number): CustomShape {
   const profile = profiles[Math.floor(random() * profiles.length)];
   const { width, height } = shapeVariation(name, 'fish');
   return {
+    faceLayout: profile.faceLayout,
     faceBox: scaledFaceBox(profile.faceBox, width, height),
     render: ({ color }) => (
       <g

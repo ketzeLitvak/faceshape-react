@@ -10,6 +10,7 @@ function sharkFromName(name: string | number): CustomShape {
   const profile = sharkProfiles[Math.floor(random() * sharkProfiles.length)];
   const { width, height } = shapeVariation(name, 'shark');
   return {
+    faceLayout: profile.faceLayout,
     faceBox: scaledFaceBox(profile.faceBox, width, height),
     render: ({ color }) => (
       <g transform={`translate(50 50) scale(${width} ${height}) translate(-50 -50)`}>
