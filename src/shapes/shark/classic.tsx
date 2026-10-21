@@ -13,7 +13,7 @@ export const classic: CustomShape = {
         fill={color}
       />
       <path
-        d="M40 24 Q48 7 59 4 Q63 3 62 12 L62 26Z M75 30 Q79 22 84 20 Q87 20 86 25 L82 37Z"
+        d="M40 24 Q48 7 59 4 Q63 3 62 12 L62 26Z M68 41 C72 29 78 22 83 21 Q87 20 85 27 L79 47Z"
         fill={color}
       />
       <path

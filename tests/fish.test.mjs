@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
+import sharp from 'sharp';
 import { VARIANT_EXAMPLES } from '../.test-dist/helpers.mjs';
 import { Character } from '../dist/index.js';
 import { fish } from '../dist/shapes/index.js';
@@ -135,5 +136,37 @@ test('invalid shape facial placement is rejected before drawing', () => {
         ),
       /faceLayout/,
     );
+  }
+});
+
+test('betta lower right fin has no transparent seam where the fan meets its lower lobe', async () => {
+  const name = 'Variante 1';
+  const definition = fish.fromName(name);
+  const scaleX = definition.faceBox.width / 0.9;
+  const scaleY = definition.faceBox.height;
+  for (const size of [160, 500]) {
+    const svg = renderToStaticMarkup(
+      React.createElement(Character, {
+        shape: fish,
+        name,
+        size,
+        reducedMotion: true,
+        face: { eyes: 'none', mouth: 'none', eyebrows: 'none' },
+      }),
+    );
+    const { data, info } = await sharp(Buffer.from(svg))
+      .ensureAlpha()
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    for (let y = 73; y <= 85; y += 2) {
+      for (let x = 58; x <= 68; x += 2) {
+        const px = Math.round(((50 + (x - 50) * scaleX + 6) / 112) * size);
+        const py = Math.round(((50 + (y - 50) * scaleY + 6) / 112) * size);
+        assert.ok(
+          data[(py * info.width + px) * 4 + 3] > 245,
+          `transparent fin seam at ${x}, ${y}, size ${size}`,
+        );
+      }
+    }
   }
 });
