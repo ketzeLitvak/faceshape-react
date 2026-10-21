@@ -5,13 +5,17 @@ export const classic: CustomShape = {
   faceBox: { x: 0.24, y: 0.265, width: 0.52, height: 0.46 },
   render: ({ color }) => (
     <g data-faceshape-shark="" data-shark-kind="classic">
+      <path
+        d="M43 84 Q30 91 30 97 Q39 100 50 93 Q61 100 70 97 Q70 91 57 84Z"
+        fill={color}
+      />
       <path d="M40 20 Q46 7 53 3 Q56 1 57 6 L61 23Z" fill={color} />
       <path
         d="M18 54 Q8 61 3 74 Q0 83 6 82 L24 78Z M82 54 Q92 61 97 74 Q100 83 94 82 L76 78Z"
         fill={color}
       />
       <path
-        d="M50 18 C73 18 87 39 87 60 C87 75 81 83 75 88 L75 94 Q72 100 65 99 Q59 99 58 94 L42 94 Q41 99 34 99 Q27 100 25 94 L25 88 C18 81 13 73 13 60 C13 39 27 18 50 18Z"
+        d="M50 18 C73 18 87 39 87 60 C87 75 81 83 75 88 Q62 97 50 94 Q38 97 25 88 C18 81 13 73 13 60 C13 39 27 18 50 18Z"
         fill={color}
       />
       <path

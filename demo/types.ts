@@ -3,6 +3,7 @@ import type { ExpressionName, FaceConfig, MotionConfig, ShapeName } from '../src
 export type DemoShape =
   | ShapeName
   | 'heart'
+  | 'fish'
   | 'shark'
   | 'penguin'
   | 'device'

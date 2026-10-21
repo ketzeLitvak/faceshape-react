@@ -6,7 +6,15 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { DEMO_SHAPES, ShapeVariants, VARIANT_EXAMPLES } from '../.test-dist/helpers.mjs';
 import { Character } from '../dist/index.js';
 
-const expected = { planet: 6, robot: 20, device: 4, ghost: 5, flower: 5, shark: 3 };
+const expected = {
+  planet: 6,
+  robot: 20,
+  device: 4,
+  ghost: 5,
+  flower: 5,
+  shark: 4,
+  fish: 9,
+};
 test('variant names cover structural categories using production renderers', () => {
   for (const [shape, count] of Object.entries(expected)) {
     const signatures = new Set();
@@ -39,8 +47,18 @@ test('variant names cover structural categories using production renderers', () 
         signature = doc.querySelectorAll('[data-faceshape-flower] > ellipse').length;
       } else {
         signature = doc
-          .querySelector(`[data-${shape}-kind]`)
-          .getAttribute(`data-${shape}-kind`);
+          .querySelector(
+            shape === 'fish'
+              ? '[data-fish-kind], [data-shark-kind]'
+              : `[data-${shape}-kind]`,
+          )
+          .getAttribute(
+            shape === 'fish'
+              ? doc.querySelector('[data-fish-kind]')
+                ? 'data-fish-kind'
+                : 'data-shark-kind'
+              : `data-${shape}-kind`,
+          );
       }
       signatures.add(signature);
       dom.window.close();

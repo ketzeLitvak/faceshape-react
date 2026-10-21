@@ -119,7 +119,7 @@ Para dibujar solamente la silueta, enviá `face={{ eyes: 'none', mouth: 'none', 
 
 ### Nuevas formas y ojos de la demo
 
-El módulo `faceshape-react/shapes` exporta `heart`, `shark`, `penguin`, `device`, `cloud`, `ghost`, `cat`, `robot`, `planet`, `flower`, `drop` y `toast`. Son definiciones de forma compatibles con `CustomShape`; no agregan nombres a `ShapeName`. La demo usa estas mismas implementaciones, con un archivo por forma en `src/shapes`. `name` varía proporciones y detalles propios; el gato conserva su geometría y sólo varía su color. `color` conserva prioridad.
+El módulo `faceshape-react/shapes` exporta `heart`, `fish`, `shark`, `penguin`, `device`, `cloud`, `ghost`, `cat`, `robot`, `planet`, `flower`, `drop` y `toast`. Son definiciones de forma compatibles con `CustomShape`; no agregan nombres a `ShapeName`. La demo usa estas mismas implementaciones, con un archivo por forma en `src/shapes`. `name` varía proporciones y detalles propios; el gato conserva su geometría y sólo varía su color. `color` conserva prioridad.
 
 ```tsx
 import { Character } from 'faceshape-react';
@@ -159,3 +159,5 @@ Las utilidades públicas `quadraticValue`, `quadraticDerivative`, `centeredFaceB
 Cada página pública incluye título, descripción, canonical y metadatos Open Graph/Twitter. El build también genera `social-preview.png` (1200 × 630) y `sitemap.xml`, con las dos páginas públicas. Las URLs compartidas con `?character=...` usan la canonical del playground. Colección e Inspección permanecen como herramientas del cliente.
 
 La URL pública y los metadatos se definen en `demo/seo.ts`; el prefijo del despliegue está en `vite.config.ts`. Al cambiar de dominio o ruta, actualizá también los metadatos de `index.html`. En GitHub Pages de un proyecto, el archivo `robots.txt` efectivo pertenece a la raíz del dominio, por lo que no se genera uno dentro de esta carpeta.
+
+`fish` combina pez payaso, globo, ángel, dorado, betta y cuatro tiburones (clásico, redondeado, martillo y bebé). `shark` conserva únicamente los cuatro tiburones. El nombre selecciona el perfil y sus proporciones; los rasgos siguen siendo intercambiables.

@@ -20,7 +20,8 @@ export function Identity() {
       <div className="docs-note">
         <strong>Formas de la demo</strong>
         <p>
-          Corazón, tiburón, pingüino, dispositivo y las demás formas adicionales están en
+          Corazón, pez, tiburón, pingüino, dispositivo y las demás formas adicionales
+          están en
           <code>faceshape-react/shapes</code>. Importá su definición y pasala con
           <code>shape={'{miForma}'}</code>; no son nombres de formas integradas en la API.
         </p>
@@ -31,10 +32,12 @@ export function Identity() {
         sus anillos y entre cero y dos lunas; el robot, proporciones, entre cero y dos
         antenas y módulos laterales; el gato conserva su cabeza circular y orejas fijas:
         sólo cambia el color; la flor, cantidad y forma de pétalos. Dispositivo elige
-        entre escritorio, notebook, celular y tablet. La gota y la tostada cambian sus
-        proporciones; el fantasma combina perfiles clásicos, anchos, de sábana, con gotas
-        o cola lateral, con distintas inclinaciones y lados; la nube, sus lóbulos. El
-        mismo nombre reproduce siempre la misma forma, y color permite fijar el color.
+        entre escritorio, notebook, celular y tablet. Pez combina cinco especies y cuatro
+        tiburones; tiburón conserva sólo esos cuatro perfiles. La gota y la tostada
+        cambian sus proporciones; el fantasma combina perfiles clásicos, anchos, de
+        sábana, con gotas o cola lateral, con distintas inclinaciones y lados; la nube,
+        sus lóbulos. El mismo nombre reproduce siempre la misma forma, y color permite
+        fijar el color.
       </p>
     </section>
   );

@@ -44,7 +44,7 @@ export const SHAPE_GROUPS = [
     label: 'Geométricas',
     shapes: ['circle', 'blob', 'square', 'triangle', 'star', 'heart'],
   },
-  { label: 'Animales', shapes: ['shark', 'penguin', 'cat'] },
+  { label: 'Animales', shapes: ['fish', 'shark', 'penguin', 'cat'] },
   {
     label: 'Objetos y naturaleza',
     shapes: ['device', 'robot', 'planet', 'cloud', 'ghost', 'flower', 'drop', 'toast'],
@@ -57,6 +57,7 @@ export const SHAPE_LABELS: Record<string, string> = {
   triangle: 'Triángulo',
   star: 'Estrella',
   heart: 'Corazón',
+  fish: 'Pez',
   shark: 'Tiburón',
   penguin: 'Pingüino',
   cat: 'Gato',

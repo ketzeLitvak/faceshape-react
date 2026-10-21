@@ -5,10 +5,22 @@ import type { DemoShape } from '../types';
 export const VARIANT_EXAMPLES: Partial<
   Record<DemoShape, { name: string; label: string }[]>
 > = {
+  fish: [
+    { name: 'Variante 1', label: 'Pez betta' },
+    { name: 'Variante 2', label: 'Pez ángel' },
+    { name: 'Variante 3', label: 'Pez globo' },
+    { name: 'Variante 7', label: 'Tiburón clásico' },
+    { name: 'Variante 8', label: 'Tiburón martillo' },
+    { name: 'Variante 13', label: 'Pez dorado' },
+    { name: 'Variante 15', label: 'Tiburón redondeado' },
+    { name: 'Variante 17', label: 'Tiburón bebé' },
+    { name: 'Variante 22', label: 'Pez payaso' },
+  ],
   shark: [
-    { name: 'Variante 5', label: 'Clásico' },
-    { name: 'Variante 1', label: 'Redondeado' },
-    { name: 'Variante 3', label: 'Martillo' },
+    { name: 'Variante 1', label: 'Tiburón martillo' },
+    { name: 'Variante 2', label: 'Tiburón redondeado' },
+    { name: 'Variante 3', label: 'Tiburón bebé' },
+    { name: 'Variante 5', label: 'Tiburón clásico' },
   ],
   planet: [
     {

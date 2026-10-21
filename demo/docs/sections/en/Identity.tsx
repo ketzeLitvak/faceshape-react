@@ -10,6 +10,11 @@ export function Identity() {
         The same name and shape reproduce the same result. You do not need to save random
         values.
       </p>
+      <p>
+        <code>fish</code> combines five fish species and four shark silhouettes.{' '}
+        <code>shark</code> selects only sharks. Both vary deterministically by name and
+        support a fixed color.
+      </p>
       <CodeBlock code={identityExample} />
       <p>
         Setting <code>color</code> keeps silhouette variation. Blobs change their outline;
@@ -20,7 +25,7 @@ export function Identity() {
       <div className="docs-note">
         <strong>Additional library shapes</strong>
         <p>
-          Import heart, shark, penguin, device and the other additional shapes from{' '}
+          Import heart, fish, shark, penguin, device and the other additional shapes from{' '}
           <code>faceshape-react/shapes</code>. Pass the definition to{' '}
           <code>Character</code> using <code>shape</code>. These are library definitions,
           not built-in string names.

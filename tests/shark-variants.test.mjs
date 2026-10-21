@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Character } from '../dist/index.js';
 import { shark } from '../dist/shapes/index.js';
 
-test('shark identities cover three silhouettes with one dorsal fin and stable geometry', () => {
+test('shark identities cover four silhouettes with species-appropriate fins and stable geometry', () => {
   const kinds = new Set();
   for (let i = 0; i < 100; i++) {
     const name = `Shark ${i}`;
@@ -17,18 +17,19 @@ test('shark identities cover three silhouettes with one dorsal fin and stable ge
     );
     const svg = render();
     kinds.add(svg.match(/data-shark-kind="([^"]+)/)[1]);
-    assert.equal((svg.match(/<path/g) ?? []).length, 4);
-    assert.equal((svg.match(/fill="#123456"/g) ?? []).length, 3);
+    const kind = svg.match(/data-shark-kind="([^"]+)/)[1];
+    assert.equal((svg.match(/<path/g) ?? []).length, kind === 'classic' ? 5 : 4);
+    assert.ok((svg.match(/fill="#123456"/g) ?? []).length >= 3);
     const box = definition.faceBox;
     assert.equal(box.x + box.width / 2, 0.5);
     assert.ok(box.y > 0.2 && box.y + box.height < 0.75);
     assert.doesNotMatch(svg, /NaN|undefined/);
   }
-  assert.deepEqual([...kinds].sort(), ['classic', 'hammerhead', 'rounded']);
+  assert.deepEqual([...kinds].sort(), ['baby', 'classic', 'hammerhead', 'rounded']);
 });
 
 test('each shark silhouette supports every expression and missing facial features', () => {
-  for (const name of ['Variante 1', 'Variante 3', 'Variante 5']) {
+  for (const name of ['Variante 1', 'Variante 2', 'Variante 3', 'Variante 5']) {
     for (const expression of [
       'neutral',
       'happy',

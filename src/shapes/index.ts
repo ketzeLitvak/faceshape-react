@@ -2,6 +2,7 @@ export { cat } from './cat';
 export { cloud } from './cloud';
 export { device } from './device';
 export { drop } from './drop';
+export { fish } from './fish';
 export { flower } from './flower';
 export { ghost } from './ghost';
 export { heart } from './heart';
