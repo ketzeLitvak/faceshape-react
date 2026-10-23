@@ -7,4 +7,5 @@ export * from './math';
 export * from './random';
 export * from './shapes';
 export { varyShape } from './shapes/varyShape';
+export { textColorFromName } from './textColorFromName';
 export * from './types';

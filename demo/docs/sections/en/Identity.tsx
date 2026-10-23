@@ -41,6 +41,16 @@ export function Identity() {
         always reproduces the same appearance; <code>color</code> overrides automatic
         color.
       </p>
+      <h3>Readable text colors</h3>
+      <p>
+        Import <code>textColorFromName</code> from <code>faceshape-react/core</code> and
+        call <code>textColorFromName('Ketze', '#ffffff')</code>. It keeps the name color
+        when contrast is sufficient; otherwise it lightens or darkens it to reach 4.5:1
+        against that background. It accepts opaque <code>#RGB</code> or{' '}
+        <code>#RRGGBB</code> backgrounds and returns a hex color.{' '}
+        <code>colorFromName</code> and the character color stay unchanged. Recompute the
+        text color when the theme changes its background.
+      </p>
     </section>
   );
 }

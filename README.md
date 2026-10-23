@@ -163,3 +163,18 @@ La URL pública y los metadatos se definen en `demo/seo.ts`; el prefijo del desp
 `fish` combina pez payaso, globo, ángel, dorado, betta y cuatro tiburones (clásico, redondeado, martillo y bebé). `shark` conserva únicamente los cuatro tiburones. El nombre selecciona el perfil y sus proporciones; los rasgos siguen siendo intercambiables.
 
 Las formas pueden definir `faceLayout` dentro de su `faceBox` (coordenadas locales 0–100): `eyes: { spacing, y, scale }` coloca y dimensiona los ojos y las cejas; `mouth: { y, scale }` coloca la boca de manera independiente. En el martillo los ojos quedan en los extremos de la cabeza y la boca, en el centro. Todos los estilos y movimientos respetan estas posiciones.
+
+### Color de texto según el fondo
+
+```tsx
+import { colorFromName, textColorFromName } from 'faceshape-react/core';
+
+const name = 'Ketze';
+const background = '#ffffff';
+const bodyColor = colorFromName(name);
+const textColor = textColorFromName(name, background);
+
+<span style={{ backgroundColor: background, color: textColor }}>{name}</span>
+```
+
+`textColorFromName(name, background)` conserva el color del nombre si alcanza un contraste de 4.5:1; en caso contrario, lo mezcla con negro o blanco hasta alcanzar ese contraste, eligiendo el menor ajuste de los dos. Es determinista, devuelve `#rrggbb` y admite fondos opacos `#RGB` o `#RRGGBB`. Otros formatos, transparencia y variables CSS se rechazan: usá el color de fondo efectivo. No modifica `colorFromName` ni los colores del personaje.

@@ -39,6 +39,15 @@ export function Identity() {
         sus lóbulos. El mismo nombre reproduce siempre la misma forma, y color permite
         fijar el color.
       </p>
+      <h3>Color de texto legible</h3>
+      <p>
+        Importá <code>textColorFromName</code> desde <code>faceshape-react/core</code> y
+        usá <code>textColorFromName('Ketze', '#ffffff')</code>. Conserva el color del
+        nombre si tiene suficiente contraste; si no, lo aclara u oscurece para alcanzar
+        4.5:1 con ese fondo. Acepta fondos opacos <code>#RGB</code> o <code>#RRGGBB</code>{' '}
+        y devuelve un hexadecimal. <code>colorFromName</code> y el color del personaje no
+        cambian. Si el tema cambia el fondo, volvé a calcular el color del texto.
+      </p>
     </section>
   );
 }
